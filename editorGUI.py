@@ -144,6 +144,23 @@ class mainWindow(QtGui.QMainWindow):
 
 			self._imageLabel.adjustSize();
 
+	def zoomInMap(self):
+		self.scaleImage(1.25);
+
+	def zoomOutMap(self):
+		self.scaleImage(0.75);
+
+	def scaleImage(self, factor):
+		self._scaleFactor *= factor;
+		self._imageLabel.resize(self._scaleFactor * self._imageLabel.pixmap().size())
+
+		self.adjustScrollBar(self._scrollArea.horizontalScrollBar(), factor);
+		self.adjustScrollBar(self._scrollArea.verticalScrollBar(), factor);
+
+
+	def adjustScrollBar(self, scrollBar, factor):
+		value = factor * scrollBar.value() + ((factor - 1) * scrollBar.pageStep()/2)
+		scrollBar.setValue(value)
 
 class menu(QtGui.QMenuBar):
 	"""
@@ -168,7 +185,24 @@ class menu(QtGui.QMenuBar):
 		exitAction.setStatusTip('Exit application')
 		exitAction.triggered.connect(QtGui.qApp.quit)
 
+		# zoom in action
+		zoominAction = QtGui.QAction('Zoom &in', window)
+		zoominAction.setShortcut('Ctrl++')
+		zoominAction.setStatusTip('Zoom in')
+		zoominAction.triggered.connect(window.zoomInMap)
+
+		# zoom out action
+		zoomoutAction = QtGui.QAction('Zoom o&ut', window)
+		zoomoutAction.setShortcut('Ctrl+-')
+		zoomoutAction.setStatusTip('Zoom out')
+		zoomoutAction.triggered.connect(window.zoomOutMap)
+
 		fileMenu = self.addMenu('&File')
+		mapMenu = self.addMenu('&Map')
+
 		fileMenu.addAction(openAction)
 		fileMenu.addAction(exitAction)
+
+		mapMenu.addAction(zoominAction)
+		mapMenu.addAction(zoomoutAction)
 
