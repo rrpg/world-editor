@@ -143,6 +143,7 @@ class mainWindow(QtGui.QMainWindow):
 
 			self._imageLabel.adjustSize();
 
+
 class menu(QtGui.QMenuBar):
 	"""
 	Class to create the window's menu.
