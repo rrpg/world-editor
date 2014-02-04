@@ -138,8 +138,8 @@ class mainWindow(QtGui.QMainWindow):
 			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 			return;
 
-		self._mapPixmap = QtGui.QPixmap.fromImage(image)
-		self._imageScene.addPixmap(self._mapPixmap)
+		mapPixmap = QtGui.QPixmap.fromImage(image)
+		self._imageScene.addPixmap(mapPixmap)
 		self._scaleFactor = 1.0
 
 		self._zoominAction.setEnabled(True)
