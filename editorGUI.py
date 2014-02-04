@@ -109,9 +109,6 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
-		#~self._imageScene.setBackgroundRole(QtGui.QPalette.Base)
-		#~self._imageScene.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
-		#~self._imageScene.setScaledContents(True)
 
 		self.setCentralWidget(self._imageView)
 
