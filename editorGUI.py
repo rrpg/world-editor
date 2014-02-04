@@ -51,7 +51,7 @@ class mainWindow(QtGui.QMainWindow):
 	"""
 
 	_instance = None
-	_imageLabel = None
+	_imageScene = None
 	_scrollArea = None
 	_scaleFactor = 1.0
 
@@ -106,16 +106,18 @@ class mainWindow(QtGui.QMainWindow):
 		The window elements are created here (table, button...)
 		"""
 
-		self._imageLabel = QtGui.QLabel()
-		self._imageLabel.setBackgroundRole(QtGui.QPalette.Base)
-		self._imageLabel.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
-		self._imageLabel.setScaledContents(True)
+		self._imageScene = QtGui.QGraphicsScene()
+		self._imageView = QtGui.QGraphicsView()
+		self._imageView.setScene(self._imageScene)
+		#~self._imageScene.setBackgroundRole(QtGui.QPalette.Base)
+		#~self._imageScene.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
+		#~self._imageScene.setScaledContents(True)
 
 		self._scrollArea = QtGui.QScrollArea();
 		self._scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
-		self._scrollArea.setWidget(self._imageLabel)
+		self._scrollArea.setWidget(self._imageView)
 
-		self.setCentralWidget(self._scrollArea)
+		self.setCentralWidget(self._imageView)
 
 	def displayMessage(self, text):
 		"""
@@ -143,13 +145,13 @@ class mainWindow(QtGui.QMainWindow):
 			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 			return;
 
-		self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
+		self._imageScene.addPixmap(QtGui.QPixmap.fromImage(image))
 		self._scaleFactor = 1.0
 
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 
-		self._imageLabel.adjustSize();
+		#~self._imageScene.adjustSize();
 
 	def zoomInMap(self):
 		self.scaleImage(1.25);
@@ -159,7 +161,8 @@ class mainWindow(QtGui.QMainWindow):
 
 	def scaleImage(self, factor):
 		self._scaleFactor *= factor;
-		self._imageLabel.resize(self._scaleFactor * self._imageLabel.pixmap().size())
+		#~self._imageScene.resize(self._scaleFactor * self._imageScene.size(), QtCore.Qt.ImageConversionFlags(QtCore.Qt.FastTransformation))
+		self._imageView.scale(self._scaleFactor * self._imageView.size().width(), self._scaleFactor * self._imageView.size().height())
 
 		self.adjustScrollBar(self._scrollArea.horizontalScrollBar(), factor);
 		self.adjustScrollBar(self._scrollArea.verticalScrollBar(), factor);
