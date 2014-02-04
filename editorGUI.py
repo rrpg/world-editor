@@ -162,8 +162,8 @@ class mainWindow(QtGui.QMainWindow):
 		transform.scale(self._scaleFactor, self._scaleFactor);
 		self._imageView.setTransform(transform);
 
-		self._zoominAction.setEnabled(self._scaleFactor < 3.0);
-		self._zoomoutAction.setEnabled(self._scaleFactor > 0.333);
+		self._zoominAction.setEnabled(self._scaleFactor < 30.0);
+		self._zoomoutAction.setEnabled(self._scaleFactor > 0.75);
 
 
 class menu(QtGui.QMenuBar):
