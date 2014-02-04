@@ -146,6 +146,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
 		self._scaleFactor = 1.0
 
+		self._zoominAction.setEnabled(True)
+		self._zoomoutAction.setEnabled(True)
+
 		self._imageLabel.adjustSize();
 
 	def zoomInMap(self):
@@ -161,6 +164,8 @@ class mainWindow(QtGui.QMainWindow):
 		self.adjustScrollBar(self._scrollArea.horizontalScrollBar(), factor);
 		self.adjustScrollBar(self._scrollArea.verticalScrollBar(), factor);
 
+		self._zoominAction.setEnabled(self._scaleFactor < 3.0);
+		self._zoomoutAction.setEnabled(self._scaleFactor > 0.333);
 
 	def adjustScrollBar(self, scrollBar, factor):
 		value = factor * scrollBar.value() + ((factor - 1) * scrollBar.pageStep()/2)
@@ -200,6 +205,9 @@ class menu(QtGui.QMenuBar):
 		window._zoomoutAction.setShortcut('Ctrl+-')
 		window._zoomoutAction.setStatusTip('Zoom out')
 		window._zoomoutAction.triggered.connect(window.zoomOutMap)
+
+		window._zoominAction.setEnabled(False)
+		window._zoomoutAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
