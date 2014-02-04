@@ -98,7 +98,17 @@ class mainWindow(QtGui.QMainWindow):
 		Method which create the UI
 		The window elements are created here (table, button...)
 		"""
-		pass
+
+		imageLabel = QtGui.QLabel()
+		imageLabel.setBackgroundRole(QtGui.QPalette.Base)
+		imageLabel.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
+		imageLabel.setScaledContents(True)
+
+		scrollArea = QtGui.QScrollArea();
+		scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
+		scrollArea.setWidget(imageLabel)
+
+		self.setCentralWidget(scrollArea)
 
 	def displayMessage(self, text):
 		"""
