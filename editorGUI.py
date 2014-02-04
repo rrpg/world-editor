@@ -52,6 +52,7 @@ class mainWindow(QtGui.QMainWindow):
 
 	_instance = None
 	_imageLabel = None
+	_scrollArea = None
 	_scaleFactor = 1.0
 
 
@@ -107,11 +108,11 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageLabel.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
 		self._imageLabel.setScaledContents(True)
 
-		scrollArea = QtGui.QScrollArea();
-		scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
-		scrollArea.setWidget(self._imageLabel)
+		self._scrollArea = QtGui.QScrollArea();
+		self._scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
+		self._scrollArea.setWidget(self._imageLabel)
 
-		self.setCentralWidget(scrollArea)
+		self.setCentralWidget(self._scrollArea)
 
 	def displayMessage(self, text):
 		"""
