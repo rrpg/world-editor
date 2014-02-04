@@ -52,6 +52,8 @@ class mainWindow(QtGui.QMainWindow):
 
 	_instance = None
 	_imageLabel = None
+	_scaleFactor = 1.0
+
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
@@ -126,6 +128,19 @@ class mainWindow(QtGui.QMainWindow):
 		#~ self.setWidth()
 		self.setWindowTitle('World editor')
 
+	def openMap(self):
+		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath())
+
+		if fileName is not None:
+			image = QtGui.QImage(fileName)
+			if image is None:
+				QtGui.QMessageBox.information(self, "Image Viewer", "Cannot load %s." % (fileName))
+				return;
+
+			self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
+			self._scaleFactor = 1.0
+
+			self._imageLabel.adjustSize();
 
 class menu(QtGui.QMenuBar):
 	"""
@@ -138,12 +153,19 @@ class menu(QtGui.QMenuBar):
 		"""
 		super(menu, self).__init__(window)
 
-		#exit action
+		# open action
+		openAction = QtGui.QAction('&Open...', window)
+		openAction.setShortcut('Ctrl+O')
+		openAction.setStatusTip('Open map')
+		openAction.triggered.connect(window.openMap)
+
+		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
 		exitAction.setShortcut('Ctrl+Q')
 		exitAction.setStatusTip('Exit application')
 		exitAction.triggered.connect(QtGui.qApp.quit)
 
 		fileMenu = self.addMenu('&File')
+		fileMenu.addAction(openAction)
 		fileMenu.addAction(exitAction)
 
