@@ -139,7 +139,8 @@ class mainWindow(QtGui.QMainWindow):
 			return;
 
 		mapPixmap = QtGui.QPixmap.fromImage(image)
-		self._imageScene.addPixmap(mapPixmap)
+		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
+		mapPixmap.mousePressEvent = self.pixelSelect
 		self._scaleFactor = 1.0
 
 		self._zoominAction.setEnabled(True)
@@ -161,6 +162,10 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._zoominAction.setEnabled(self._scaleFactor < 30.0);
 		self._zoomoutAction.setEnabled(self._scaleFactor > 0.75);
+
+	def pixelSelect(self, event):
+		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
+		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
 
 class menu(QtGui.QMenuBar):
