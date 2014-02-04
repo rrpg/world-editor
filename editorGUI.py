@@ -133,8 +133,9 @@ class mainWindow(QtGui.QMainWindow):
 
 		if fileName is not None:
 			image = QtGui.QImage(fileName)
-			if image is None:
-				QtGui.QMessageBox.information(self, "Image Viewer", "Cannot load %s." % (fileName))
+
+			if image is None or image.format() == QtGui.QImage.Format_Invalid:
+				QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 				return;
 
 			self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
