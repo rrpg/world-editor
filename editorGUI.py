@@ -51,6 +51,7 @@ class mainWindow(QtGui.QMainWindow):
 	"""
 
 	_instance = None
+	_imageLabel = None
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
@@ -99,14 +100,14 @@ class mainWindow(QtGui.QMainWindow):
 		The window elements are created here (table, button...)
 		"""
 
-		imageLabel = QtGui.QLabel()
-		imageLabel.setBackgroundRole(QtGui.QPalette.Base)
-		imageLabel.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
-		imageLabel.setScaledContents(True)
+		self._imageLabel = QtGui.QLabel()
+		self._imageLabel.setBackgroundRole(QtGui.QPalette.Base)
+		self._imageLabel.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
+		self._imageLabel.setScaledContents(True)
 
 		scrollArea = QtGui.QScrollArea();
 		scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
-		scrollArea.setWidget(imageLabel)
+		scrollArea.setWidget(self._imageLabel)
 
 		self.setCentralWidget(scrollArea)
 
