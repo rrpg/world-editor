@@ -113,10 +113,6 @@ class mainWindow(QtGui.QMainWindow):
 		#~self._imageScene.setSizePolicy(QtGui.QSizePolicy.Ignored, QtGui.QSizePolicy.Ignored)
 		#~self._imageScene.setScaledContents(True)
 
-		self._scrollArea = QtGui.QScrollArea();
-		self._scrollArea.setBackgroundRole(QtGui.QPalette.Dark)
-		self._scrollArea.setWidget(self._imageView)
-
 		self.setCentralWidget(self._imageView)
 
 	def displayMessage(self, text):
@@ -145,13 +141,12 @@ class mainWindow(QtGui.QMainWindow):
 			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 			return;
 
-		self._imageScene.addPixmap(QtGui.QPixmap.fromImage(image))
+		self._mapPixmap = QtGui.QPixmap.fromImage(image)
+		self._imageScene.addPixmap(self._mapPixmap)
 		self._scaleFactor = 1.0
 
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
-
-		#~self._imageScene.adjustSize();
 
 	def zoomInMap(self):
 		self.scaleImage(1.25);
@@ -161,18 +156,15 @@ class mainWindow(QtGui.QMainWindow):
 
 	def scaleImage(self, factor):
 		self._scaleFactor *= factor;
-		#~self._imageScene.resize(self._scaleFactor * self._imageScene.size(), QtCore.Qt.ImageConversionFlags(QtCore.Qt.FastTransformation))
-		self._imageView.scale(self._scaleFactor * self._imageView.size().width(), self._scaleFactor * self._imageView.size().height())
 
-		self.adjustScrollBar(self._scrollArea.horizontalScrollBar(), factor);
-		self.adjustScrollBar(self._scrollArea.verticalScrollBar(), factor);
+		self._imageView.resetTransform();
+		transform = self._imageView.transform();
+		transform.scale(self._scaleFactor, self._scaleFactor);
+		self._imageView.setTransform(transform);
 
 		self._zoominAction.setEnabled(self._scaleFactor < 3.0);
 		self._zoomoutAction.setEnabled(self._scaleFactor > 0.333);
 
-	def adjustScrollBar(self, scrollBar, factor):
-		value = factor * scrollBar.value() + ((factor - 1) * scrollBar.pageStep()/2)
-		scrollBar.setValue(value)
 
 class menu(QtGui.QMenuBar):
 	"""
