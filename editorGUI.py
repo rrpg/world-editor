@@ -55,6 +55,9 @@ class mainWindow(QtGui.QMainWindow):
 	_scrollArea = None
 	_scaleFactor = 1.0
 
+	# actions
+	_zoominAction = None
+	_zoomoutAction = None
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
@@ -187,16 +190,16 @@ class menu(QtGui.QMenuBar):
 		exitAction.triggered.connect(QtGui.qApp.quit)
 
 		# zoom in action
-		zoominAction = QtGui.QAction('Zoom &in', window)
-		zoominAction.setShortcut('Ctrl++')
-		zoominAction.setStatusTip('Zoom in')
-		zoominAction.triggered.connect(window.zoomInMap)
+		window._zoominAction = QtGui.QAction('Zoom &in', window)
+		window._zoominAction.setShortcut('Ctrl++')
+		window._zoominAction.setStatusTip('Zoom in')
+		window._zoominAction.triggered.connect(window.zoomInMap)
 
 		# zoom out action
-		zoomoutAction = QtGui.QAction('Zoom o&ut', window)
-		zoomoutAction.setShortcut('Ctrl+-')
-		zoomoutAction.setStatusTip('Zoom out')
-		zoomoutAction.triggered.connect(window.zoomOutMap)
+		window._zoomoutAction = QtGui.QAction('Zoom o&ut', window)
+		window._zoomoutAction.setShortcut('Ctrl+-')
+		window._zoomoutAction.setStatusTip('Zoom out')
+		window._zoomoutAction.triggered.connect(window.zoomOutMap)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
@@ -204,6 +207,6 @@ class menu(QtGui.QMenuBar):
 		fileMenu.addAction(openAction)
 		fileMenu.addAction(exitAction)
 
-		mapMenu.addAction(zoominAction)
-		mapMenu.addAction(zoomoutAction)
+		mapMenu.addAction(window._zoominAction)
+		mapMenu.addAction(window._zoomoutAction)
 
