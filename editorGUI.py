@@ -132,17 +132,18 @@ class mainWindow(QtGui.QMainWindow):
 	def openMap(self):
 		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath())
 
-		if fileName is not None:
-			image = QtGui.QImage(fileName)
+		if fileName is None:
+			return
 
-			if image is None or image.format() == QtGui.QImage.Format_Invalid:
-				QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
-				return;
+		image = QtGui.QImage(fileName)
+		if image is None or image.format() == QtGui.QImage.Format_Invalid:
+			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
+			return;
 
-			self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
-			self._scaleFactor = 1.0
+		self._imageLabel.setPixmap(QtGui.QPixmap.fromImage(image))
+		self._scaleFactor = 1.0
 
-			self._imageLabel.adjustSize();
+		self._imageLabel.adjustSize();
 
 	def zoomInMap(self):
 		self.scaleImage(1.25);
