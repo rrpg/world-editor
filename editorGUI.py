@@ -8,6 +8,9 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 import sys
 import imghdr
+import worker
+import map
+import config
 
 
 class application(QtGui.QApplication):
@@ -44,6 +47,13 @@ class application(QtGui.QApplication):
 		Execute the application
 		"""
 		return self.exec_()
+
+	def createMap(self, name, width, height):
+		"""
+		must call a map class's method to generate the map with the external
+		generator, and then open the map in the editor
+		"""
+		map.map.generate(name, width, height)
 
 
 class mainWindow(QtGui.QMainWindow):
@@ -130,30 +140,30 @@ class mainWindow(QtGui.QMainWindow):
 		#~ self.setWidth()
 		self.setWindowTitle('World editor')
 
-	def openMap(self):
+	def newMap(self):
+		"""
+		Action triggered when the menu's "new" button is pressed.
+		The user is then invited to select a map name and size.
+		"""
+		newmap = newMapWindow(self, self._app)
+
+	def openMapAction(self):
 		"""
 		Action triggered when the menu's "open" button is pressed.
 		The user is then invited to select a map on his computer. The map must
 		be a picture file.
 		"""
-		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath(), "Images (*.bmp)")
+		fileName = QtGui.QFileDialog.getOpenFileName(
+			self,
+			"Open file",
+			QtCore.QDir.currentPath(),
+			"Images (*.bmp)"
+		)
 
 		if fileName == "":
 			return
 
-		image = QtGui.QImage(fileName)
-		if image is None or imghdr.what(str(fileName)) != "bmp":
-			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
-			return;
-
-		self._imageScene.clear()
-		mapPixmap = QtGui.QPixmap.fromImage(image)
-		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
-		mapPixmap.mousePressEvent = self.pixelSelect
-		self._scaleFactor = 1.0
-
-		self._zoominAction.setEnabled(True)
-		self._zoomoutAction.setEnabled(True)
+		openMap(filename)
 
 	def zoomInMap(self):
 		"""
@@ -191,6 +201,124 @@ class mainWindow(QtGui.QMainWindow):
 		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
+	def openMap(self, fileName):
+		image = QtGui.QImage(fileName)
+		if image is None or imghdr.what(str(fileName)) != "bmp":
+			QtGui.QMessageBox.information(
+				self,
+				"Image Viewer",
+				"Cannot open %s." % (fileName)
+			)
+			return;
+
+		self._imageScene.clear()
+		mapPixmap = QtGui.QPixmap.fromImage(image)
+		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
+		mapPixmap.mousePressEvent = self.pixelSelect
+		self._scaleFactor = 1.0
+
+		self._zoominAction.setEnabled(True)
+		self._zoomoutAction.setEnabled(True)
+
+class newMapWindow(QtGui.QDialog):
+	"""
+	Window to fill some informations to create a map
+	label map name		map name field
+	label map width		map width field
+	label map height	map height field
+	create button		cancel button
+	"""
+	_app = None
+	_parent = None
+
+	_messageLabel = None
+	_mapNameField = None
+	_mapWidthField = None
+	_mapHeightField = None
+
+	_saveButton = None
+	_cancelButton = None
+
+	_thread = None
+
+	def __init__(self, parent, app):
+		QtGui.QWidget.__init__(self, parent)
+		self._app = app
+		self._parent = parent
+		self.setFixedWidth(250)
+		self.initUI()
+		self.setWindowTitle('Create new map')
+		self.show()
+
+	def initUI(self):
+		layout = QtGui.QGridLayout()
+
+		self._messageLabel = QtGui.QLabel()
+		self._messageLabel.setWordWrap(True)
+
+		mapNameLabel = QtGui.QLabel("Map name")
+		self._mapNameField = QtGui.QLineEdit()
+
+		mapWidthLabel = QtGui.QLabel("Map width")
+		self._mapWidthField = intWidget()
+
+		mapHeightLabel = QtGui.QLabel("Map height")
+		self._mapHeightField = intWidget()
+
+		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton.clicked.connect(self.createMap)
+		self._cancelButton = QtGui.QPushButton("Cancel")
+		self._cancelButton.clicked.connect(self.close)
+
+		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
+		layout.addWidget(mapNameLabel, 1, 0)
+		layout.addWidget(self._mapNameField, 1, 1)
+		layout.addWidget(mapWidthLabel, 2, 0)
+		layout.addWidget(self._mapWidthField, 2, 1)
+		layout.addWidget(mapHeightLabel, 3, 0)
+		layout.addWidget(self._mapHeightField, 3, 1)
+		layout.addWidget(self._saveButton, 4, 0)
+		layout.addWidget(self._cancelButton, 4, 1)
+
+		self.setLayout(layout)
+
+	def createMap(self):
+		valid = True
+		try:
+			name = self._mapNameField.text()
+			width = self._mapWidthField.value()
+			height = self._mapHeightField.value()
+
+			if width <= 0 or height <= 0:
+				self.displayMessage("Positive number expected for the width and the height")
+				valid = False
+		except ValueError:
+			self.displayMessage("Positive number expected for the width and the height")
+			valid = False
+
+		if valid:
+			self.displayMessage("Generating...")
+			self._saveButton.setEnabled(False)
+			self._cancelButton.setEnabled(False)
+			self._thread = worker.GeneratorThread(self._app, name, width, height)
+			self._thread.finished.connect(self.confirmCreation)
+			self._thread.start()
+
+	def displayMessage(self, message):
+		self._messageLabel.setText(message)
+		self.adjustSize()
+
+	def confirmCreation(self):
+		filename = self._mapNameField.text() + '.bmp'
+		filename = config.generator['map']['destination-dir'] + '/' + filename
+		self._parent.openMap(filename)
+		self.close()
+
+
+class intWidget(QtGui.QLineEdit):
+	def value(self):
+		return int(self.text())
+
 
 class menu(QtGui.QMenuBar):
 	"""
@@ -203,11 +331,17 @@ class menu(QtGui.QMenuBar):
 		"""
 		super(menu, self).__init__(window)
 
+		# new action
+		newAction = QtGui.QAction('&New...', window)
+		newAction.setShortcut('Ctrl+N')
+		newAction.setStatusTip('Create new map')
+		newAction.triggered.connect(window.newMap)
+
 		# open action
 		openAction = QtGui.QAction('&Open...', window)
 		openAction.setShortcut('Ctrl+O')
 		openAction.setStatusTip('Open map')
-		openAction.triggered.connect(window.openMap)
+		openAction.triggered.connect(window.openMapAction)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
@@ -233,6 +367,7 @@ class menu(QtGui.QMenuBar):
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
 
+		fileMenu.addAction(newAction)
 		fileMenu.addAction(openAction)
 		fileMenu.addAction(exitAction)
 
