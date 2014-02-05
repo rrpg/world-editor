@@ -214,6 +214,7 @@ class newMapWindow(QtGui.QDialog):
 	label map height	map height field
 	create button		cancel button
 	"""
+	_messageLabel = None
 	_mapNameField = None
 	_mapWidthField = None
 	_mapHeightField = None
@@ -227,6 +228,8 @@ class newMapWindow(QtGui.QDialog):
 
 	def initUI(self):
 		layout = QtGui.QGridLayout()
+
+		self._messageLabel = QtGui.QLabel()
 
 		mapNameLabel = QtGui.QLabel("Map name")
 		self._mapNameField = QtGui.QLineEdit()
@@ -242,14 +245,15 @@ class newMapWindow(QtGui.QDialog):
 		cancelButton = QtGui.QPushButton("Cancel")
 		cancelButton.clicked.connect(self.close)
 
-		layout.addWidget(mapNameLabel, 0, 0)
-		layout.addWidget(self._mapNameField, 0, 1)
-		layout.addWidget(mapWidthLabel, 1, 0)
-		layout.addWidget(self._mapWidthField, 1, 1)
-		layout.addWidget(mapHeightLabel, 2, 0)
-		layout.addWidget(self._mapHeightField, 2, 1)
-		layout.addWidget(saveButton, 3, 0)
-		layout.addWidget(cancelButton, 3, 1)
+		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
+		layout.addWidget(mapNameLabel, 1, 0)
+		layout.addWidget(self._mapNameField, 1, 1)
+		layout.addWidget(mapWidthLabel, 2, 0)
+		layout.addWidget(self._mapWidthField, 2, 1)
+		layout.addWidget(mapHeightLabel, 3, 0)
+		layout.addWidget(self._mapHeightField, 3, 1)
+		layout.addWidget(saveButton, 4, 0)
+		layout.addWidget(cancelButton, 4, 1)
 
 		self.setLayout(layout)
 
