@@ -146,7 +146,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		newmap = newMapWindow(self, self._app)
 
-	def openMap(self):
+	def openMapAction(self):
 		"""
 		Action triggered when the menu's "open" button is pressed.
 		The user is then invited to select a map on his computer. The map must
@@ -328,7 +328,7 @@ class menu(QtGui.QMenuBar):
 		openAction = QtGui.QAction('&Open...', window)
 		openAction.setShortcut('Ctrl+O')
 		openAction.setStatusTip('Open map')
-		openAction.triggered.connect(window.openMap)
+		openAction.triggered.connect(window.openMapAction)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
