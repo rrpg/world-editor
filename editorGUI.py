@@ -258,12 +258,23 @@ class newMapWindow(QtGui.QDialog):
 		self.setLayout(layout)
 
 	def createMap(self):
+		valid = True
 		try:
-			self._messageLabel.setText("")
-			self._app.createMap(self._mapNameField.text(), self._mapWidthField.value(), self._mapHeightField.value())
-			self.close();
+			name = self._mapNameField.text()
+			width = self._mapWidthField.value()
+			height = self._mapHeightField.value()
+
+			if width <= 0 or height <= 0:
+				self._messageLabel.setText("Positive number expected for the width and the height")
+				valid = False
 		except ValueError:
-			self._messageLabel.setText("Invalid values typed")
+			self._messageLabel.setText("Positive number expected for the width and the height")
+			valid = False
+
+		if valid:
+			self._messageLabel.setText("")
+			self._app.createMap(name, width, height)
+			self.close();
 
 
 class intWidget(QtGui.QLineEdit):
