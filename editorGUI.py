@@ -202,10 +202,10 @@ class mainWindow(QtGui.QMainWindow):
 class newMapWindow(QtGui.QDialog):
 	"""
 	Window to fill some informations to create a map
-	map name		label map name
-	map width		label map width
-	map height		label map height
-	cancel button	create button
+	label map name		map name field
+	label map width		map width field
+	label map height	map height field
+	create button		cancel button
 	"""
 	def __init__(self, parent, app):
 		QtGui.QWidget.__init__(self, parent)
