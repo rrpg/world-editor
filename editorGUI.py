@@ -146,6 +146,7 @@ class mainWindow(QtGui.QMainWindow):
 			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 			return;
 
+		self._imageScene.clear()
 		mapPixmap = QtGui.QPixmap.fromImage(image)
 		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
 		mapPixmap.mousePressEvent = self.pixelSelect
