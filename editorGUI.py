@@ -261,6 +261,7 @@ class newMapWindow(QtGui.QDialog):
 		try:
 			self._messageLabel.setText("")
 			self._app.createMap(self._mapNameField.text(), self._mapWidthField.value(), self._mapHeightField.value())
+			self.close();
 		except ValueError:
 			self._messageLabel.setText("Invalid values typed")
 
