@@ -103,7 +103,9 @@ class mainWindow(QtGui.QMainWindow):
 	def _create(self):
 		"""
 		Method which create the UI
-		The window elements are created here (table, button...)
+		The window elements are created here.
+		For the moment, the window contains only a QGraphicsView displaying the
+		world's map.
 		"""
 
 		self._imageScene = QtGui.QGraphicsScene()
@@ -128,6 +130,11 @@ class mainWindow(QtGui.QMainWindow):
 		self.setWindowTitle('World editor')
 
 	def openMap(self):
+		"""
+		Action triggered when the menu's "open" button is pressed.
+		The user is then invited to select a map on his computer. The map must
+		be a picture file.
+		"""
 		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath())
 
 		if fileName is None:
@@ -147,12 +154,24 @@ class mainWindow(QtGui.QMainWindow):
 		self._zoomoutAction.setEnabled(True)
 
 	def zoomInMap(self):
+		"""
+		Wrapper method to zoom in the map, calls scaleImage().
+		"""
 		self.scaleImage(1.25);
 
 	def zoomOutMap(self):
+		"""
+		Wrapper method to zoom out the map, calls scaleImage().
+		"""
 		self.scaleImage(0.75);
 
 	def scaleImage(self, factor):
+		"""
+		Method to resize the map after a zoom action.
+		Once the map is resized, if the scale factor is lower or equal than
+		0.75, the zoom out button is disabled and if the scale factor is higher
+		or equal than 30.0, the zoom in button is disabled.
+		"""
 		self._scaleFactor *= factor;
 
 		self._imageView.resetTransform();
@@ -164,6 +183,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._zoomoutAction.setEnabled(self._scaleFactor > 0.75);
 
 	def pixelSelect(self, event):
+		"""
+		Action called when the map is clicked, to get the clicked pixel.
+		"""
 		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
