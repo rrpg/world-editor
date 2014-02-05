@@ -227,6 +227,9 @@ class newMapWindow(QtGui.QDialog):
 	label map height	map height field
 	create button		cancel button
 	"""
+	_app = None
+	_parent = None
+
 	_messageLabel = None
 	_mapNameField = None
 	_mapWidthField = None
@@ -240,6 +243,7 @@ class newMapWindow(QtGui.QDialog):
 	def __init__(self, parent, app):
 		QtGui.QWidget.__init__(self, parent)
 		self._app = app
+		self._parent = parent
 		self.setFixedWidth(250)
 		self.initUI()
 		self.setWindowTitle('Create new map')
