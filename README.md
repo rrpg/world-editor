@@ -5,5 +5,5 @@ Uses a map generator to create the world (https://github.com/padawin/map-generat
 
 ## Requirements
 
-* Python
-* Qt
+* Python 2.7 or above
+* PyQt4
