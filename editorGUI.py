@@ -10,6 +10,7 @@ import sys
 import imghdr
 import worker
 import map
+import config
 
 
 class application(QtGui.QApplication):
@@ -300,12 +301,18 @@ class newMapWindow(QtGui.QDialog):
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
 			self._thread = worker.GeneratorThread(self._app, name, width, height)
-			self._thread.finished.connect(self.close)
+			self._thread.finished.connect(self.confirmCreation)
 			self._thread.start()
 
 	def displayMessage(self, message):
 		self._messageLabel.setText(message)
 		self.adjustSize()
+
+	def confirmCreation(self):
+		filename = self._mapNameField.text() + '.bmp'
+		filename = config.generator['map']['destination-dir'] + '/' + filename
+		self._parent.openMap(filename)
+		self.close()
 
 
 class intWidget(QtGui.QLineEdit):
