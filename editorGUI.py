@@ -150,14 +150,23 @@ class mainWindow(QtGui.QMainWindow):
 		The user is then invited to select a map on his computer. The map must
 		be a picture file.
 		"""
-		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath(), "Images (*.bmp)")
+		fileName = QtGui.QFileDialog.getOpenFileName(
+			self,
+			"Open file",
+			QtCore.QDir.currentPath(),
+			"Images (*.bmp)"
+		)
 
 		if fileName == "":
 			return
 
 		image = QtGui.QImage(fileName)
 		if image is None or imghdr.what(str(fileName)) != "bmp":
-			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
+			QtGui.QMessageBox.information(
+				self,
+				"Image Viewer",
+				"Cannot open %s." % (fileName)
+			)
 			return;
 
 		self._imageScene.clear()
