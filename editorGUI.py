@@ -162,23 +162,7 @@ class mainWindow(QtGui.QMainWindow):
 		if fileName == "":
 			return
 
-		image = QtGui.QImage(fileName)
-		if image is None or imghdr.what(str(fileName)) != "bmp":
-			QtGui.QMessageBox.information(
-				self,
-				"Image Viewer",
-				"Cannot open %s." % (fileName)
-			)
-			return;
-
-		self._imageScene.clear()
-		mapPixmap = QtGui.QPixmap.fromImage(image)
-		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
-		mapPixmap.mousePressEvent = self.pixelSelect
-		self._scaleFactor = 1.0
-
-		self._zoominAction.setEnabled(True)
-		self._zoomoutAction.setEnabled(True)
+		openMap(filename)
 
 	def zoomInMap(self):
 		"""
@@ -216,6 +200,24 @@ class mainWindow(QtGui.QMainWindow):
 		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
+	def openMap(self, fileName):
+		image = QtGui.QImage(fileName)
+		if image is None or imghdr.what(str(fileName)) != "bmp":
+			QtGui.QMessageBox.information(
+				self,
+				"Image Viewer",
+				"Cannot open %s." % (fileName)
+			)
+			return;
+
+		self._imageScene.clear()
+		mapPixmap = QtGui.QPixmap.fromImage(image)
+		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
+		mapPixmap.mousePressEvent = self.pixelSelect
+		self._scaleFactor = 1.0
+
+		self._zoominAction.setEnabled(True)
+		self._zoomoutAction.setEnabled(True)
 
 class newMapWindow(QtGui.QDialog):
 	"""
