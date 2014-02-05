@@ -222,6 +222,7 @@ class newMapWindow(QtGui.QDialog):
 	def __init__(self, parent, app):
 		QtGui.QWidget.__init__(self, parent)
 		self._app = app
+		self.setFixedWidth(250)
 		self.initUI()
 		self.setWindowTitle('Create new map')
 		self.show()
@@ -230,6 +231,7 @@ class newMapWindow(QtGui.QDialog):
 		layout = QtGui.QGridLayout()
 
 		self._messageLabel = QtGui.QLabel()
+		self._messageLabel.setWordWrap(True)
 
 		mapNameLabel = QtGui.QLabel("Map name")
 		self._mapNameField = QtGui.QLineEdit()
@@ -270,6 +272,8 @@ class newMapWindow(QtGui.QDialog):
 		except ValueError:
 			self._messageLabel.setText("Positive number expected for the width and the height")
 			valid = False
+
+		self.adjustSize()
 
 		if valid:
 			self._messageLabel.setText("")
