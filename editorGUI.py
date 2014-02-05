@@ -7,6 +7,7 @@ Module to handle the GUI application
 from PyQt4 import QtCore
 from PyQt4 import QtGui
 import sys
+import imghdr
 
 
 class application(QtGui.QApplication):
@@ -141,7 +142,7 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		image = QtGui.QImage(fileName)
-		if image is None or image.format() == QtGui.QImage.Format_Invalid:
+		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(self, "Image Viewer", "Cannot open %s." % (fileName))
 			return;
 
