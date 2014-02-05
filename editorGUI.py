@@ -258,15 +258,16 @@ class newMapWindow(QtGui.QDialog):
 		self.setLayout(layout)
 
 	def createMap(self):
-		self._app.createMap(self._mapNameField.text(), self._mapWidthField.value(), self._mapHeightField.value())
+		try:
+			self._messageLabel.setText("")
+			self._app.createMap(self._mapNameField.text(), self._mapWidthField.value(), self._mapHeightField.value())
+		except ValueError:
+			self._messageLabel.setText("Invalid values typed")
 
 
 class intWidget(QtGui.QLineEdit):
 	def value(self):
-		try:
-			return int(self.text())
-		except ValueError:
-			return 1
+		return int(self.text())
 
 
 class menu(QtGui.QMenuBar):
