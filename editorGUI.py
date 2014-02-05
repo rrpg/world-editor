@@ -130,6 +130,13 @@ class mainWindow(QtGui.QMainWindow):
 		#~ self.setWidth()
 		self.setWindowTitle('World editor')
 
+	def newMap(self):
+		"""
+		Action triggered when the menu's "new" button is pressed.
+		The user is then invited to select a map name and size.
+		"""
+		newmap = newMapWindow(self, self._app)
+
 	def openMap(self):
 		"""
 		Action triggered when the menu's "open" button is pressed.
@@ -192,6 +199,25 @@ class mainWindow(QtGui.QMainWindow):
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
 
+class newMapWindow(QtGui.QDialog):
+	"""
+	Window to fill some informations to create a map
+	map name		label map name
+	map width		label map width
+	map height		label map height
+	cancel button	create button
+	"""
+	def __init__(self, parent, app):
+		QtGui.QWidget.__init__(self, parent)
+		self._app = app
+		self.initUI()
+		self.setWindowTitle('Create new map')
+		self.show()
+
+	def initUI(self):
+		pass
+
+
 class menu(QtGui.QMenuBar):
 	"""
 	Class to create the window's menu.
@@ -202,6 +228,12 @@ class menu(QtGui.QMenuBar):
 		Construct of the menu. The menu's items are defined here.
 		"""
 		super(menu, self).__init__(window)
+
+		# new action
+		newAction = QtGui.QAction('&New...', window)
+		newAction.setShortcut('Ctrl+N')
+		newAction.setStatusTip('Create new map')
+		newAction.triggered.connect(window.newMap)
 
 		# open action
 		openAction = QtGui.QAction('&Open...', window)
@@ -233,6 +265,7 @@ class menu(QtGui.QMenuBar):
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
 
+		fileMenu.addAction(newAction)
 		fileMenu.addAction(openAction)
 		fileMenu.addAction(exitAction)
 
