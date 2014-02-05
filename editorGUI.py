@@ -137,7 +137,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		fileName = QtGui.QFileDialog.getOpenFileName(self, "Open file", QtCore.QDir.currentPath())
 
-		if fileName is None:
+		if fileName == "":
 			return
 
 		image = QtGui.QImage(fileName)
