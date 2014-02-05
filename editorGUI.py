@@ -8,6 +8,7 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 import sys
 import imghdr
+import map
 
 
 class application(QtGui.QApplication):
@@ -50,7 +51,7 @@ class application(QtGui.QApplication):
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
-		pass
+		map.map.generate(name, width, height)
 
 
 class mainWindow(QtGui.QMainWindow):
