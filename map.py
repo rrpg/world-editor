@@ -4,8 +4,9 @@
 Module to work with world maps (Generation, edition, save...)
 """
 import subprocess
-
+import os
 import config
+
 
 class map:
 	@staticmethod
@@ -15,4 +16,6 @@ class map:
 			width,
 			height
 		)
+		if not os.path.exists(config.generator['map']['destination-dir']):
+			os.makedirs(config.generator['map']['destination-dir'])
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
