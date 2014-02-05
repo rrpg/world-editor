@@ -218,6 +218,14 @@ class newMapWindow(QtGui.QDialog):
 		pass
 
 
+class intWidget(QtGui.QLineEdit):
+	def value(self):
+		try:
+			return int(self.text())
+		except ValueError:
+			return 1
+
+
 class menu(QtGui.QMenuBar):
 	"""
 	Class to create the window's menu.
