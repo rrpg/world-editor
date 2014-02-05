@@ -8,6 +8,7 @@ from PyQt4 import QtCore
 from PyQt4 import QtGui
 import sys
 import imghdr
+import worker
 import map
 
 
@@ -232,6 +233,8 @@ class newMapWindow(QtGui.QDialog):
 	_saveButton = None
 	_cancelButton = None
 
+	_thread = None
+
 	def __init__(self, parent, app):
 		QtGui.QWidget.__init__(self, parent)
 		self._app = app
@@ -290,8 +293,9 @@ class newMapWindow(QtGui.QDialog):
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._app.createMap(name, width, height)
-			self.close();
+			self._thread = worker.GeneratorThread(self._app, name, width, height)
+			self._thread.finished.connect(self.close)
+			self._thread.start()
 
 	def displayMessage(self, message):
 		self._messageLabel.setText(message)
