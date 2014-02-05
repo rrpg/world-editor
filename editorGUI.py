@@ -280,20 +280,22 @@ class newMapWindow(QtGui.QDialog):
 			height = self._mapHeightField.value()
 
 			if width <= 0 or height <= 0:
-				self._messageLabel.setText("Positive number expected for the width and the height")
+				self.displayMessage("Positive number expected for the width and the height")
 				valid = False
 		except ValueError:
-			self._messageLabel.setText("Positive number expected for the width and the height")
+			self.displayMessage("Positive number expected for the width and the height")
 			valid = False
 
-		self.adjustSize()
-
 		if valid:
-			self._messageLabel.setText("")
+			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
 			self._app.createMap(name, width, height)
 			self.close();
+
+	def displayMessage(self, message):
+		self._messageLabel.setText(message)
+		self.adjustSize()
 
 
 class intWidget(QtGui.QLineEdit):
