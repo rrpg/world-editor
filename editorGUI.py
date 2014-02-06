@@ -55,6 +55,9 @@ class application(QtGui.QApplication):
 		"""
 		map.map.generate(name, width, height)
 
+	def exportMapAction(self):
+		pass
+
 
 class mainWindow(QtGui.QMainWindow):
 	"""
@@ -67,6 +70,7 @@ class mainWindow(QtGui.QMainWindow):
 	_scaleFactor = 1.0
 
 	# actions
+	_exportAction = None
 	_zoominAction = None
 	_zoomoutAction = None
 
@@ -219,6 +223,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
+		self._exportAction.setEnabled(True)
 
 class newMapWindow(QtGui.QDialog):
 	"""
@@ -345,6 +350,12 @@ class menu(QtGui.QMenuBar):
 		openAction.setStatusTip('Open map')
 		openAction.triggered.connect(window.openMapAction)
 
+		# export action
+		window._exportAction = QtGui.QAction('&Export', window)
+		window._exportAction.setShortcut('Ctrl+E')
+		window._exportAction.setStatusTip('Export map')
+		window._exportAction.triggered.connect(window._app.exportMapAction)
+
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
 		exitAction.setShortcut('Ctrl+Q')
@@ -363,6 +374,7 @@ class menu(QtGui.QMenuBar):
 		window._zoomoutAction.setStatusTip('Zoom out')
 		window._zoomoutAction.triggered.connect(window.zoomOutMap)
 
+		window._exportAction.setEnabled(False)
 		window._zoominAction.setEnabled(False)
 		window._zoomoutAction.setEnabled(False)
 
@@ -371,6 +383,7 @@ class menu(QtGui.QMenuBar):
 
 		fileMenu.addAction(newAction)
 		fileMenu.addAction(openAction)
+		fileMenu.addAction(window._exportAction)
 		fileMenu.addAction(exitAction)
 
 		mapMenu.addAction(window._zoominAction)
