@@ -9,7 +9,7 @@ map_default_height = 400
 
 generator = {}
 generator['map'] = {
-	'destination-dir': rootPath + '/maps',
+	'destination-dir': rootPath + '/temp',
 	'generator': externalPath + '/map-generator/map -f %s -w %d -h %d'
 }
 
