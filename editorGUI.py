@@ -56,7 +56,7 @@ class application(QtGui.QApplication):
 		map.map.generate(name, width, height)
 
 	def exportMapAction(self):
-		pass
+		map.map.export(self._name)
 
 
 class mainWindow(QtGui.QMainWindow):
