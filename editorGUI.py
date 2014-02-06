@@ -261,9 +261,11 @@ class newMapWindow(QtGui.QDialog):
 
 		mapWidthLabel = QtGui.QLabel("Map width")
 		self._mapWidthField = intWidget()
+		self._mapWidthField.setText(str(config.map_default_width))
 
 		mapHeightLabel = QtGui.QLabel("Map height")
 		self._mapHeightField = intWidget()
+		self._mapHeightField.setText(str(config.map_default_height))
 
 		self._saveButton = QtGui.QPushButton("Create")
 		self._saveButton.clicked.connect(self.createMap)
