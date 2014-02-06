@@ -236,6 +236,7 @@ class newMapWindow(QtGui.QDialog):
 	_app = None
 	_parent = None
 
+	_name = None
 	_messageLabel = None
 	_mapNameField = None
 	_mapWidthField = None
@@ -292,7 +293,7 @@ class newMapWindow(QtGui.QDialog):
 	def createMap(self):
 		valid = True
 		try:
-			name = self._mapNameField.text()
+			self._name = self._mapNameField.text()
 			width = self._mapWidthField.value()
 			height = self._mapHeightField.value()
 
@@ -307,7 +308,7 @@ class newMapWindow(QtGui.QDialog):
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._thread = worker.GeneratorThread(self._app, name, width, height)
+			self._thread = worker.GeneratorThread(self._app, self._name, width, height)
 			self._thread.finished.connect(self.confirmCreation)
 			self._thread.start()
 
@@ -316,9 +317,9 @@ class newMapWindow(QtGui.QDialog):
 		self.adjustSize()
 
 	def confirmCreation(self):
-		filename = self._mapNameField.text() + '.bmp'
+		filename = self._name + '.bmp'
 		filename = config.generator['map']['destination-dir'] + '/' + filename
-		self._parent.openMap(filename)
+		self._parent.openMap(self._name, filename)
 		self.close()
 
 
