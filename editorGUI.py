@@ -167,7 +167,7 @@ class mainWindow(QtGui.QMainWindow):
 		if fileName == "":
 			return
 
-		openMap(filename)
+		openMap("tmpname", filename)
 
 	def zoomInMap(self):
 		"""
@@ -205,7 +205,7 @@ class mainWindow(QtGui.QMainWindow):
 		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
-	def openMap(self, fileName):
+	def openMap(self, mapName, fileName):
 		image = QtGui.QImage(fileName)
 		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(
@@ -224,6 +224,8 @@ class mainWindow(QtGui.QMainWindow):
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
+
+		self._app._name = mapName
 
 class newMapWindow(QtGui.QDialog):
 	"""
