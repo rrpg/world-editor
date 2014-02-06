@@ -68,5 +68,14 @@ class map:
 		for r in result:
 			areaTypes.append({'id_area_type': r[0], 'name': r[1]})
 
+		# Open text file containing cells infos
+		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
+		areas = []
+		for area in areasFile:
+			#~areas.append(area)
+			pass
+			#~print area
+		areasFile.close()
+
 		# Insert areas
 		db.close()
