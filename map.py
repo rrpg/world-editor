@@ -44,7 +44,7 @@ class map:
 		f.close()
 
 		# Create main region
-		query = "INSERT INTO region (region_name) VALUES ('" + name + "')"
+		query = str("INSERT INTO region (region_name) VALUES ('" + name + "')")
 		c.execute(query)
 
 		# Create area types
