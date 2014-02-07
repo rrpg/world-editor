@@ -49,11 +49,11 @@ class map:
 
 		# Create area types
 		query = "INSERT INTO area_type (name) VALUES "
-		areaTypes = checks.getGroundTypes()
+		areaTypesCodes = checks.getGroundTypes()
 		valuesInsert = list()
 		valuesInsert.append("('dungeon')")
 		values = list()
-		for t in areaTypes:
+		for t in areaTypesCodes:
 			valuesInsert.append("(?)")
 			values.append(t)
 		query = query + ', '.join(valuesInsert)
@@ -65,7 +65,7 @@ class map:
 		result = c.fetchall()
 		areaTypes = list()
 		for r in result:
-			areaTypes.append({'id_area_type': r[0], 'name': r[1]})
+			areaTypesCodes.append({'id_area_type': r[0], 'name': r[1]})
 
 		# Open text file containing cells infos
 		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
