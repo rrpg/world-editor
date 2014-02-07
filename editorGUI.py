@@ -55,6 +55,9 @@ class application(QtGui.QApplication):
 		"""
 		map.map.generate(name, width, height)
 
+	def exportMap(self, thread):
+		map.map.export(self._name, thread)
+
 
 class mainWindow(QtGui.QMainWindow):
 	"""
@@ -67,6 +70,7 @@ class mainWindow(QtGui.QMainWindow):
 	_scaleFactor = 1.0
 
 	# actions
+	_exportAction = None
 	_zoominAction = None
 	_zoomoutAction = None
 
@@ -163,7 +167,7 @@ class mainWindow(QtGui.QMainWindow):
 		if fileName == "":
 			return
 
-		openMap(filename)
+		self.openMap("tmpname", fileName)
 
 	def zoomInMap(self):
 		"""
@@ -201,7 +205,7 @@ class mainWindow(QtGui.QMainWindow):
 		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
 		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
 
-	def openMap(self, fileName):
+	def openMap(self, mapName, fileName):
 		image = QtGui.QImage(fileName)
 		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(
@@ -219,6 +223,56 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
+		self._exportAction.setEnabled(True)
+
+		self._app._name = mapName
+
+	def exportMap(self):
+		exportDialog = exportMapDialog(self)
+
+		self._generatorThread = worker.exporterThread(self._app)
+		self._generatorThread.finished.connect(exportDialog.close)
+
+		exportDialog.setThread(self._generatorThread)
+		self._generatorThread.start()
+
+
+class exportMapDialog(QtGui.QDialog):
+	_thread = None
+
+	def __init__(self, parent):
+		QtGui.QDialog.__init__(self, parent)
+		self.buildUI()
+		self.show()
+
+	def setThread(self, thread):
+		self._thread = thread
+		self._thread.notifyProgressLocal.connect(self.onProgressLocal)
+		self._thread.notifyProgressMain.connect(self.onProgressMain)
+
+	def buildUI(self):
+		vbox = QtGui.QVBoxLayout()
+
+		self.messageLabel = QtGui.QLabel()
+		self.progressBarLocal = QtGui.QProgressBar(self)
+		self.progressBarLocal.setRange(0,100)
+		self.progressBarMain = QtGui.QProgressBar(self)
+		self.progressBarMain.setRange(0,100)
+
+		vbox.addWidget(self.messageLabel)
+		vbox.addWidget(self.progressBarLocal)
+		vbox.addWidget(self.progressBarMain)
+
+		self.setLayout(vbox)
+
+	def onProgressLocal(self, i, message):
+		self.progressBarLocal.setValue(i)
+		self.messageLabel.setText(message)
+
+	def onProgressMain(self, i, message):
+		self.progressBarMain.setValue(i)
+		self.messageLabel.setText(message)
+
 
 class newMapWindow(QtGui.QDialog):
 	"""
@@ -231,6 +285,7 @@ class newMapWindow(QtGui.QDialog):
 	_app = None
 	_parent = None
 
+	_name = None
 	_messageLabel = None
 	_mapNameField = None
 	_mapWidthField = None
@@ -287,7 +342,7 @@ class newMapWindow(QtGui.QDialog):
 	def createMap(self):
 		valid = True
 		try:
-			name = self._mapNameField.text()
+			self._name = self._mapNameField.text()
 			width = self._mapWidthField.value()
 			height = self._mapHeightField.value()
 
@@ -302,7 +357,7 @@ class newMapWindow(QtGui.QDialog):
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._thread = worker.GeneratorThread(self._app, name, width, height)
+			self._thread = worker.generatorThread(self._app, self._name, width, height)
 			self._thread.finished.connect(self.confirmCreation)
 			self._thread.start()
 
@@ -311,9 +366,9 @@ class newMapWindow(QtGui.QDialog):
 		self.adjustSize()
 
 	def confirmCreation(self):
-		filename = self._mapNameField.text() + '.bmp'
+		filename = self._name + '.bmp'
 		filename = config.generator['map']['destination-dir'] + '/' + filename
-		self._parent.openMap(filename)
+		self._parent.openMap(self._name, filename)
 		self.close()
 
 
@@ -345,6 +400,12 @@ class menu(QtGui.QMenuBar):
 		openAction.setStatusTip('Open map')
 		openAction.triggered.connect(window.openMapAction)
 
+		# export action
+		window._exportAction = QtGui.QAction('&Export', window)
+		window._exportAction.setShortcut('Ctrl+E')
+		window._exportAction.setStatusTip('Export map')
+		window._exportAction.triggered.connect(window.exportMap)
+
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
 		exitAction.setShortcut('Ctrl+Q')
@@ -363,6 +424,7 @@ class menu(QtGui.QMenuBar):
 		window._zoomoutAction.setStatusTip('Zoom out')
 		window._zoomoutAction.triggered.connect(window.zoomOutMap)
 
+		window._exportAction.setEnabled(False)
 		window._zoominAction.setEnabled(False)
 		window._zoomoutAction.setEnabled(False)
 
@@ -371,6 +433,7 @@ class menu(QtGui.QMenuBar):
 
 		fileMenu.addAction(newAction)
 		fileMenu.addAction(openAction)
+		fileMenu.addAction(window._exportAction)
 		fileMenu.addAction(exitAction)
 
 		mapMenu.addAction(window._zoominAction)
