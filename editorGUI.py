@@ -310,7 +310,7 @@ class newMapWindow(QtGui.QDialog):
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._thread = worker.GeneratorThread(self._app, self._name, width, height)
+			self._thread = worker.generatorThread(self._app, self._name, width, height)
 			self._thread.finished.connect(self.confirmCreation)
 			self._thread.start()
 

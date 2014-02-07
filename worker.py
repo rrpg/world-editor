@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 from PyQt4 import QtCore
 
-class GeneratorThread(QtCore.QThread):
+class generatorThread(QtCore.QThread):
 	"""
 	Thread called to generate a map
 	"""
