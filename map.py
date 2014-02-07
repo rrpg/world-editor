@@ -63,9 +63,11 @@ class map:
 		query = "SELECT id_area_type, name FROM area_type"
 		c.execute(query)
 		result = c.fetchall()
-		areaTypes = list()
+		areaTypes = dict()
 		for r in result:
-			areaTypesCodes.append({'id_area_type': r[0], 'name': r[1]})
+			if r[1] in areaTypesCodes:
+				code = areaTypesCodes[r[1]]
+				areaTypes[code] = {'id_area_type': r[0], 'name': r[1]}
 
 		# Open text file containing cells infos
 		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
