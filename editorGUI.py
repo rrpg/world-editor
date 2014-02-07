@@ -55,7 +55,7 @@ class application(QtGui.QApplication):
 		"""
 		map.map.generate(name, width, height)
 
-	def exportMapAction(self):
+	def exportMap(self):
 		map.map.export(self._name)
 
 
@@ -357,7 +357,7 @@ class menu(QtGui.QMenuBar):
 		window._exportAction = QtGui.QAction('&Export', window)
 		window._exportAction.setShortcut('Ctrl+E')
 		window._exportAction.setStatusTip('Export map')
-		window._exportAction.triggered.connect(window._app.exportMapAction)
+		window._exportAction.triggered.connect(window._app.exportMap)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
