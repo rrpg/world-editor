@@ -93,5 +93,6 @@ class map:
 
 		areasFile.close()
 
+		db.commit()
 		# Insert areas
 		db.close()
