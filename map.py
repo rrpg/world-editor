@@ -23,7 +23,8 @@ class map:
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 	@staticmethod
-	def export(name):
+	def export(name, thread):
+		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
 		# Delete the file if it already exist
 		if os.path.isfile(fileName):
@@ -43,9 +44,13 @@ class map:
 		c.executescript(sql)
 		f.close()
 
+		thread.notifyProgressLocal.emit(25, "Regions creation")
+
 		# Create main region
 		query = str("INSERT INTO region (region_name) VALUES ('" + name + "')")
 		c.execute(query)
+
+		thread.notifyProgressLocal.emit(50, "Area types creation")
 
 		# Create area types
 		query = "INSERT INTO area_type (name) VALUES "
@@ -58,6 +63,8 @@ class map:
 			values.append(t)
 		query = query + ', '.join(valuesInsert)
 		c.execute(query, values)
+
+		thread.notifyProgressLocal.emit(75, "Areas creation")
 
 		# Get area types IDs
 		query = "SELECT id_area_type, name FROM area_type"
@@ -91,8 +98,10 @@ class map:
 			]
 			c.execute(query, areas)
 
+		thread.notifyProgressLocal.emit(100, "Areas created")
 		areasFile.close()
 
 		db.commit()
-		# Insert areas
+
+		thread.notifyProgressMain.emit(100, "Finished")
 		db.close()

@@ -55,8 +55,8 @@ class application(QtGui.QApplication):
 		"""
 		map.map.generate(name, width, height)
 
-	def exportMap(self):
-		map.map.export(self._name)
+	def exportMap(self, thread):
+		map.map.export(self._name, thread)
 
 
 class mainWindow(QtGui.QMainWindow):
@@ -228,8 +228,50 @@ class mainWindow(QtGui.QMainWindow):
 		self._app._name = mapName
 
 	def exportMap(self):
+		exportDialog = exportMapDialog(self)
+
 		self._generatorThread = worker.exporterThread(self._app)
+		self._generatorThread.finished.connect(exportDialog.close)
+
+		exportDialog.setThread(self._generatorThread)
 		self._generatorThread.start()
+
+
+class exportMapDialog(QtGui.QDialog):
+	_thread = None
+
+	def __init__(self, parent):
+		QtGui.QDialog.__init__(self, parent)
+		self.buildUI()
+		self.show()
+
+	def setThread(self, thread):
+		self._thread = thread
+		self._thread.notifyProgressLocal.connect(self.onProgressLocal)
+		self._thread.notifyProgressMain.connect(self.onProgressMain)
+
+	def buildUI(self):
+		vbox = QtGui.QVBoxLayout()
+
+		self.messageLabel = QtGui.QLabel()
+		self.progressBarLocal = QtGui.QProgressBar(self)
+		self.progressBarLocal.setRange(0,100)
+		self.progressBarMain = QtGui.QProgressBar(self)
+		self.progressBarMain.setRange(0,100)
+
+		vbox.addWidget(self.messageLabel)
+		vbox.addWidget(self.progressBarLocal)
+		vbox.addWidget(self.progressBarMain)
+
+		self.setLayout(vbox)
+
+	def onProgressLocal(self, i, message):
+		self.progressBarLocal.setValue(i)
+		self.messageLabel.setText(message)
+
+	def onProgressMain(self, i, message):
+		self.progressBarMain.setValue(i)
+		self.messageLabel.setText(message)
 
 
 class newMapWindow(QtGui.QDialog):

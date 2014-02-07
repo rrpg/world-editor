@@ -26,6 +26,9 @@ class exporterThread(QtCore.QThread):
 	"""
 	_app = None
 
+	notifyProgressLocal = QtCore.pyqtSignal(int, str)
+	notifyProgressMain = QtCore.pyqtSignal(int, str)
+
 	def __init__(self, app, parent=None):
 		QtCore.QThread.__init__(self, parent)
 		self._app = app
