@@ -7,6 +7,8 @@ class generatorThread(QtCore.QThread):
 	"""
 	_app = None
 	_args = None
+	_width = None
+	_height = None
 
 	def __init__(self, app, name, width, height, parent=None):
 		QtCore.QThread.__init__(self, parent)
