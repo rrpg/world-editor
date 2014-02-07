@@ -227,6 +227,11 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._app._name = mapName
 
+	def exportMap(self):
+		self._generatorThread = worker.exporterThread(self._app)
+		self._generatorThread.start()
+
+
 class newMapWindow(QtGui.QDialog):
 	"""
 	Window to fill some informations to create a map
@@ -357,7 +362,7 @@ class menu(QtGui.QMenuBar):
 		window._exportAction = QtGui.QAction('&Export', window)
 		window._exportAction.setShortcut('Ctrl+E')
 		window._exportAction.setStatusTip('Export map')
-		window._exportAction.triggered.connect(window._app.exportMap)
+		window._exportAction.triggered.connect(window.exportMap)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)

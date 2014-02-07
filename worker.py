@@ -19,3 +19,16 @@ class generatorThread(QtCore.QThread):
 
 	def run(self):
 		self._app.createMap(self._name, self._width, self._height)
+
+class exporterThread(QtCore.QThread):
+	"""
+	Thread called to export a map
+	"""
+	_app = None
+
+	def __init__(self, app, parent=None):
+		QtCore.QThread.__init__(self, parent)
+		self._app = app
+
+	def run(self):
+		self._app.exportMap(self)
