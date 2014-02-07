@@ -71,9 +71,7 @@ class map:
 
 		# Open text file containing cells infos
 		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
-		areas = []
-		query = "INSERT INTO area (id_area_type, id_region, container, x, y, directions) VALUES "
-		pattern = "(?, ?, ?, ?, ?, ?)"
+		query = "INSERT INTO area (id_area_type, id_region, container, x, y, directions) VALUES (?, ?, ?, ?, ?, ?)"
 		nbAreas = 0
 		for area in areasFile:
 			a = area.split(' ')
@@ -83,14 +81,16 @@ class map:
 				continue
 
 			nbAreas = nbAreas + 1
-			areas.append(areaTypes[int(a[0])]['id_area_type'])
-			areas.append(1)
-			areas.append("world")
-			areas.append(a[1])
-			areas.append(a[2])
-			areas.append(a[3])
+			areas = [
+				areaTypes[int(a[0])]['id_area_type'],
+				1,
+				"world",
+				a[1],
+				a[2],
+				a[3]
+			]
+			c.execute(query, areas)
 
-		query = query + (', '.join([pattern] * nbAreas))
 		areasFile.close()
 
 		# Insert areas
