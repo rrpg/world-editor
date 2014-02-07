@@ -44,8 +44,7 @@ class map:
 		f.close()
 
 		# Create main region
-		# @TODO replace World by a custom world name
-		query = "INSERT INTO region (region_name) VALUES ('World')"
+		query = "INSERT INTO region (region_name) VALUES ('" + name + "')"
 		c.execute(query)
 
 		# Create area types
