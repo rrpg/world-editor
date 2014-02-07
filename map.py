@@ -72,10 +72,25 @@ class map:
 		# Open text file containing cells infos
 		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
 		areas = []
+		query = "INSERT INTO area (id_area_type, id_region, container, x, y, directions) VALUES "
+		pattern = "(?, ?, ?, ?, ?, ?)"
+		nbAreas = 0
 		for area in areasFile:
-			#~areas.append(area)
-			pass
-			#~print area
+			a = area.split(' ')
+			t = areaTypes[int(a[0])]
+
+			if t['name'] == 'water':
+				continue
+
+			nbAreas = nbAreas + 1
+			areas.append(areaTypes[int(a[0])]['id_area_type'])
+			areas.append(1)
+			areas.append("world")
+			areas.append(a[1])
+			areas.append(a[2])
+			# direction to add
+
+		query = query + (', '.join([pattern] * nbAreas))
 		areasFile.close()
 
 		# Insert areas
