@@ -88,7 +88,7 @@ class map:
 			areas.append("world")
 			areas.append(a[1])
 			areas.append(a[2])
-			# direction to add
+			areas.append(a[3])
 
 		query = query + (', '.join([pattern] * nbAreas))
 		areasFile.close()
