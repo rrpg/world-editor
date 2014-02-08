@@ -58,7 +58,7 @@ class menu(QtGui.QMenuBar):
 		mapMenu = self.addMenu('&Map')
 
 		fileMenu.addAction(newAction)
-		fileMenu.addAction(openAction)
+		#~fileMenu.addAction(openAction)
 		fileMenu.addAction(window._exportAction)
 		fileMenu.addAction(exitAction)
 
