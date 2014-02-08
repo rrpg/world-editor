@@ -367,7 +367,7 @@ class newMapWindow(QtGui.QDialog):
 
 	def confirmCreation(self):
 		filename = self._name + '.bmp'
-		filename = config.generator['map']['destination-dir'] + '/' + filename
+		filename = config.tempDir + '/' + filename
 		self._parent.openMap(self._name, filename)
 		self.close()
 

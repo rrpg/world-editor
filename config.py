@@ -10,9 +10,10 @@ databaseStructure = databasePath + '/structure.sql'
 map_default_width = 400
 map_default_height = 400
 
+tempDir = rootPath + '/tmp'
+
 generator = {}
 generator['map'] = {
-	'destination-dir': rootPath + '/temp',
 	'path': externalPath + '/map-generator',
 	'generator': externalPath + '/map-generator/map -f %s -w %d -h %d'
 }

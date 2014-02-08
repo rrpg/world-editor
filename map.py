@@ -14,12 +14,12 @@ class map:
 	@staticmethod
 	def generate(name, width, height):
 		command = config.generator['map']['generator'] % (
-			config.generator['map']['destination-dir'] + '/' + name,
+			config.tempDir + '/' + name,
 			width,
 			height
 		)
-		if not os.path.exists(config.generator['map']['destination-dir']):
-			os.makedirs(config.generator['map']['destination-dir'])
+		if not os.path.exists(config.tempDir):
+			os.makedirs(config.tempDir)
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
 	@staticmethod
