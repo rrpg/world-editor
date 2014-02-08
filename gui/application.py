@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui
-from mainwindow import mainWindow
+from gui.mainwindow import mainWindow
 from core import map, config
 import sys
 import shutil

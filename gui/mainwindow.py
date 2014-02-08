@@ -2,9 +2,9 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-from menu import menu
-from newmapdialog import newMapDialog
-from exportmapdialog import exportMapDialog
+from gui.menu import menu
+from gui.newmapdialog import newMapDialog
+from gui.exportmapdialog import exportMapDialog
 from core import worker
 import imghdr
 

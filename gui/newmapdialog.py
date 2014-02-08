@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui
-from intlineedit import intLineEdit
+from gui.intlineedit import intLineEdit
 from core import config, worker
 
 

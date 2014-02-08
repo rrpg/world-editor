@@ -5,7 +5,7 @@ Module to work with world maps (Generation, edition, save...)
 """
 import subprocess
 import os
-import config
+from core import config
 import sqlite3
 import sys
 
