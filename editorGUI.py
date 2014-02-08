@@ -11,6 +11,7 @@ import imghdr
 import worker
 import map
 import config
+import shutil
 
 
 class application(QtGui.QApplication):
@@ -42,6 +43,8 @@ class application(QtGui.QApplication):
 		super(application, self).__init__(sys.argv)
 		self.widget = mainWindow(self)
 
+		self.aboutToQuit.connect(self.clean)
+
 	def run(self):
 		"""
 		Execute the application
@@ -57,6 +60,9 @@ class application(QtGui.QApplication):
 
 	def exportMap(self, thread):
 		map.map.export(self._name, thread)
+
+	def clean(self):
+		shutil.rmtree(config.tempDir)
 
 
 class mainWindow(QtGui.QMainWindow):
