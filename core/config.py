@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 import os
 
-rootPath = os.path.dirname(__file__)
+rootPath = os.path.dirname(__file__) + '/..'
 externalPath = rootPath + '/externals'
 exportPath = rootPath + '/maps'
 databasePath = rootPath + '/database'

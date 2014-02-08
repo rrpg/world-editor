@@ -5,11 +5,11 @@ Entry point of the application
 """
 
 import sys
-import editorGUI
+from gui.application import application
 
 
 def main(argv):
-    editorApp = editorGUI.application()
+    editorApp = application()
     sys.exit(editorApp.run())
 
 

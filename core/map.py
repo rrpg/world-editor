@@ -77,7 +77,7 @@ class map:
 				areaTypes[code] = {'id_area_type': r[0], 'name': r[1]}
 
 		# Open text file containing cells infos
-		areasFile = open(config.generator['map']['destination-dir'] + '/' + name + '.txt', "r")
+		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
 		query = "INSERT INTO area (id_area_type, id_region, container, x, y, directions) VALUES (?, ?, ?, ?, ?, ?)"
 		nbAreas = 0
 		for area in areasFile:
