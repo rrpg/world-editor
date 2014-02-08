@@ -8,6 +8,11 @@ class menu(QtGui.QMenuBar):
 	Class to create the window's menu.
 	"""
 
+	# actions
+	_exportAction = None
+	_zoominAction = None
+	_zoomoutAction = None
+
 	def __init__(self, window):
 		"""
 		Construct of the menu. The menu's items are defined here.
@@ -27,10 +32,10 @@ class menu(QtGui.QMenuBar):
 		openAction.triggered.connect(window.openMapAction)
 
 		# export action
-		window._exportAction = QtGui.QAction('&Export', window)
-		window._exportAction.setShortcut('Ctrl+E')
-		window._exportAction.setStatusTip('Export map')
-		window._exportAction.triggered.connect(window.exportMap)
+		self._exportAction = QtGui.QAction('&Export', self)
+		self._exportAction.setShortcut('Ctrl+E')
+		self._exportAction.setStatusTip('Export map')
+		self._exportAction.triggered.connect(window.exportMap)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
@@ -39,28 +44,28 @@ class menu(QtGui.QMenuBar):
 		exitAction.triggered.connect(QtGui.qApp.quit)
 
 		# zoom in action
-		window._zoominAction = QtGui.QAction('Zoom &in', window)
-		window._zoominAction.setShortcut('Ctrl++')
-		window._zoominAction.setStatusTip('Zoom in')
-		window._zoominAction.triggered.connect(window.zoomInMap)
+		self._zoominAction = QtGui.QAction('Zoom &in', self)
+		self._zoominAction.setShortcut('Ctrl++')
+		self._zoominAction.setStatusTip('Zoom in')
+		self._zoominAction.triggered.connect(window.zoomInMap)
 
 		# zoom out action
-		window._zoomoutAction = QtGui.QAction('Zoom o&ut', window)
-		window._zoomoutAction.setShortcut('Ctrl+-')
-		window._zoomoutAction.setStatusTip('Zoom out')
-		window._zoomoutAction.triggered.connect(window.zoomOutMap)
+		self._zoomoutAction = QtGui.QAction('Zoom o&ut', self)
+		self._zoomoutAction.setShortcut('Ctrl+-')
+		self._zoomoutAction.setStatusTip('Zoom out')
+		self._zoomoutAction.triggered.connect(window.zoomOutMap)
 
-		window._exportAction.setEnabled(False)
-		window._zoominAction.setEnabled(False)
-		window._zoomoutAction.setEnabled(False)
+		self._exportAction.setEnabled(False)
+		self._zoominAction.setEnabled(False)
+		self._zoomoutAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
 
 		fileMenu.addAction(newAction)
 		#~fileMenu.addAction(openAction)
-		fileMenu.addAction(window._exportAction)
+		fileMenu.addAction(self._exportAction)
 		fileMenu.addAction(exitAction)
 
-		mapMenu.addAction(window._zoominAction)
-		mapMenu.addAction(window._zoomoutAction)
+		mapMenu.addAction(self._zoominAction)
+		mapMenu.addAction(self._zoomoutAction)
