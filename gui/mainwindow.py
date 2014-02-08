@@ -198,3 +198,6 @@ class mainWindow(QtGui.QMainWindow):
 		if not self._isRecording:
 			self._isRecording = True
 			self._selectPixelEvent.connect(self.selectStartCell)
+
+	def alert(self, message):
+		QtGui.QMessageBox.critical(self, "An error occured", message)
