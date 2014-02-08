@@ -23,6 +23,10 @@ class map:
 			os.makedirs(config.tempDir)
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
+	def checkForExport(self):
+		if self.startCellPosition is None:
+			raise exception("No start cell selected")
+
 	def export(self, name, thread):
 		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
@@ -105,3 +109,7 @@ class map:
 
 		thread.notifyProgressMain.emit(100, "Finished")
 		db.close()
+
+
+class exception(BaseException):
+	pass

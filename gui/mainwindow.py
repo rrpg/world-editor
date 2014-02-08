@@ -175,6 +175,12 @@ class mainWindow(QtGui.QMainWindow):
 		self._app._name = mapName
 
 	def exportMap(self):
+		try:
+			self._app.map.checkForExport()
+		except BaseException as e:
+			self.alert(e.message)
+			return
+
 		exportDialog = exportMapDialog(self)
 
 		self._generatorThread = worker.exporterThread(self._app)
