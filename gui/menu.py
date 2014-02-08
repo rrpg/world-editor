@@ -13,6 +13,7 @@ class menu(QtGui.QMenuBar):
 	_exportAction = None
 	_zoominAction = None
 	_zoomoutAction = None
+	_selectStartCellAction = None
 
 	mapOpened = QtCore.pyqtSignal()
 	mapZoomed = QtCore.pyqtSignal(float)
@@ -62,12 +63,18 @@ class menu(QtGui.QMenuBar):
 		self._zoomoutAction.setStatusTip('Zoom out')
 		self._zoomoutAction.triggered.connect(window.zoomOutMap)
 
+		# select start cell action
+		self._selectStartCellAction = QtGui.QAction('Select start cell', self)
+		self._selectStartCellAction.setStatusTip('Select the starting cell of the game')
+
 		self._exportAction.setEnabled(False)
 		self._zoominAction.setEnabled(False)
 		self._zoomoutAction.setEnabled(False)
+		self._selectStartCellAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
+		worldMenu = self.addMenu('&World')
 
 		fileMenu.addAction(newAction)
 		#~fileMenu.addAction(openAction)
@@ -77,10 +84,13 @@ class menu(QtGui.QMenuBar):
 		mapMenu.addAction(self._zoominAction)
 		mapMenu.addAction(self._zoomoutAction)
 
+		worldMenu.addAction(self._selectStartCellAction)
+
 	def enableMenuItems(self):
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
+		self._selectStartCellAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
 		self._zoominAction.setEnabled(scaleFactor < 30.0);
