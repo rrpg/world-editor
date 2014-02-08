@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui
+from PyQt4 import QtCore
 
 
 class menu(QtGui.QMenuBar):
@@ -13,11 +14,17 @@ class menu(QtGui.QMenuBar):
 	_zoominAction = None
 	_zoomoutAction = None
 
+	mapOpened = QtCore.pyqtSignal()
+	mapZoomed = QtCore.pyqtSignal(float)
+
 	def __init__(self, window):
 		"""
 		Construct of the menu. The menu's items are defined here.
 		"""
 		super(menu, self).__init__(window)
+
+		self.mapOpened.connect(self.enableMenuItems)
+		self.mapZoomed.connect(self.checkZoomMenuItems)
 
 		# new action
 		newAction = QtGui.QAction('&New...', window)
@@ -69,3 +76,12 @@ class menu(QtGui.QMenuBar):
 
 		mapMenu.addAction(self._zoominAction)
 		mapMenu.addAction(self._zoomoutAction)
+
+	def enableMenuItems(self):
+		self._zoominAction.setEnabled(True)
+		self._zoomoutAction.setEnabled(True)
+		self._exportAction.setEnabled(True)
+
+	def checkZoomMenuItems(self, scaleFactor):
+		self._zoominAction.setEnabled(scaleFactor < 30.0);
+		self._zoomoutAction.setEnabled(scaleFactor > 0.75);

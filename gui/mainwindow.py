@@ -140,8 +140,7 @@ class mainWindow(QtGui.QMainWindow):
 		transform.scale(self._scaleFactor, self._scaleFactor);
 		self._imageView.setTransform(transform);
 
-		self.menuBar()._zoominAction.setEnabled(self._scaleFactor < 30.0);
-		self.menuBar()._zoomoutAction.setEnabled(self._scaleFactor > 0.75);
+		self.menuBar().mapZoomed.emit(self._scaleFactor)
 
 	def pixelSelect(self, event):
 		"""
@@ -166,9 +165,7 @@ class mainWindow(QtGui.QMainWindow):
 		mapPixmap.mousePressEvent = self.pixelSelect
 		self._scaleFactor = 1.0
 
-		self.menuBar()._zoominAction.setEnabled(True)
-		self.menuBar()._zoomoutAction.setEnabled(True)
-		self.menuBar()._exportAction.setEnabled(True)
+		self.menuBar().mapOpened.emit()
 
 		self._app._name = mapName
 
