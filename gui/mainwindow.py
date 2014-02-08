@@ -167,6 +167,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
+		self._app.initMap()
 		self._app._name = mapName
 
 	def exportMap(self):

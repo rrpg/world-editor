@@ -11,8 +11,7 @@ import sys
 
 
 class map:
-	@staticmethod
-	def generate(name, width, height):
+	def generate(self, name, width, height):
 		command = config.generator['map']['generator'] % (
 			config.tempDir + '/' + name,
 			width,
@@ -22,8 +21,7 @@ class map:
 			os.makedirs(config.tempDir)
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-	@staticmethod
-	def export(name, thread):
+	def export(self, name, thread):
 		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
 		# Delete the file if it already exist
