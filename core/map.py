@@ -11,6 +11,8 @@ import sys
 
 
 class map:
+	startCellPosition = None
+
 	def generate(self, name, width, height):
 		command = config.generator['map']['generator'] % (
 			config.tempDir + '/' + name,

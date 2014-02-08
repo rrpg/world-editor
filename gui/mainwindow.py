@@ -19,6 +19,10 @@ class mainWindow(QtGui.QMainWindow):
 	_scrollArea = None
 	_scaleFactor = 1.0
 
+	_isRecording = False
+
+	_selectPixelEvent = QtCore.pyqtSignal(int, int)
+
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
 			cls._instance = super(mainWindow, cls).__new__(
@@ -146,8 +150,8 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Action called when the map is clicked, to get the clicked pixel.
 		"""
-		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
-		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
+		(x, y) = (int(event.pos().x()), int(event.pos().y()))
+		self._selectPixelEvent.emit(x, y)
 
 	def openMap(self, mapName, fileName):
 		image = QtGui.QImage(fileName)
@@ -178,3 +182,13 @@ class mainWindow(QtGui.QMainWindow):
 
 		exportDialog.setThread(self._generatorThread)
 		self._generatorThread.start()
+
+	def selectStartCell(self, x, y):
+		self._app.map.startCellPosition = (x, y)
+		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def recordSelectStartCell(self):
+		if not self._isRecording:
+			self._isRecording = True
+			self._selectPixelEvent.connect(self.selectStartCell)

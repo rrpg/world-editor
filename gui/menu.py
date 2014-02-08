@@ -66,6 +66,7 @@ class menu(QtGui.QMenuBar):
 		# select start cell action
 		self._selectStartCellAction = QtGui.QAction('Select start cell', self)
 		self._selectStartCellAction.setStatusTip('Select the starting cell of the game')
+		self._selectStartCellAction.triggered.connect(window.recordSelectStartCell)
 
 		self._exportAction.setEnabled(False)
 		self._zoominAction.setEnabled(False)
