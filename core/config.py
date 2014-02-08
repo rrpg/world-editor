@@ -15,7 +15,7 @@ tempDir = rootPath + '/tmp'
 generator = {}
 generator['map'] = {
 	'path': externalPath + '/map-generator',
-	'generator': externalPath + '/map-generator/map -f %s -w %d -h %d'
+	'generator': externalPath + '/map-generator/map -t -f %s -w %d -h %d'
 }
 
 db = exportPath + '/%s.db'
