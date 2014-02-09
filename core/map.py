@@ -56,16 +56,19 @@ class map:
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
 	def export(self, name, thread):
+		thread.notifyProgressMain.emit(0, "Database initialisation")
 		db = self._exportPrepareDb(thread, name)
+		self._exportCreateDbStructure(db)
 		self._exportWorldCreation(thread, db, name)
 		thread.notifyProgressMain.emit(50, "")
+
 		self._exportStartCell(thread, db)
 		thread.notifyProgressMain.emit(100, "Finished")
+
 		db.commit()
 		db.close()
 
 	def _exportPrepareDb(self, thread, name):
-		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
 		# Delete the file if it already exist
 		if os.path.isfile(fileName):
@@ -74,13 +77,16 @@ class map:
 		# Open connection
 		return sqlite3.connect(fileName)
 
-	def _exportWorldCreation(self, thread, db, name):
+	def _exportCreateDbStructure(self, db):
 		c = db.cursor()
 
 		f = open(config.databaseStructure, 'r')
 		sql = f.read()
 		c.executescript(sql)
 		f.close()
+
+	def _exportWorldCreation(self, thread, db, name):
+		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(25, "Regions creation")
 
