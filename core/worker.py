@@ -37,9 +37,14 @@ class exporterThread(QtCore.QThread):
 	notifyProgressLocal = QtCore.pyqtSignal(int, str)
 	notifyProgressMain = QtCore.pyqtSignal(int, str)
 
+	exportError = QtCore.pyqtSignal(str)
+
 	def __init__(self, app, parent=None):
 		QtCore.QThread.__init__(self, parent)
 		self._app = app
 
 	def run(self):
-		self._app.exportMap(self)
+		try:
+			self._app.exportMap(self)
+		except OSError as e:
+			self.exportError.emit(str(e))

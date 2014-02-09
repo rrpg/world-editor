@@ -190,6 +190,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._generatorThread = worker.exporterThread(self._app)
 		self._generatorThread.finished.connect(exportDialog.close)
+		self._generatorThread.exportError.connect(self.alert)
 
 		exportDialog.setThread(self._generatorThread)
 		self._generatorThread.start()
