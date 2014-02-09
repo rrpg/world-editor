@@ -25,6 +25,10 @@ class map:
 		)
 		if not os.path.exists(config.tempDir):
 			os.makedirs(config.tempDir)
+
+		while not os.path.exists(config.tempDir):
+			continue
+
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		self.loadCells(name)
 
