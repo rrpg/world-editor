@@ -12,6 +12,7 @@ import sys
 
 class map:
 	startCellPosition = None
+	cells = dict()
 
 	def generate(self, name, width, height):
 		command = config.generator['map']['generator'] % (
@@ -22,6 +23,20 @@ class map:
 		if not os.path.exists(config.tempDir):
 			os.makedirs(config.tempDir)
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		self.loadCells(name)
+
+	def loadCells(self, name):
+		# Open text file containing cells infos
+		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
+		nbAreas = 0
+		for area in areasFile:
+			a = area.split(' ')
+			try:
+				self.cells[a[1]];
+			except KeyError:
+				self.cells[a[1]] = dict()
+
+			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
 
 	def checkForExport(self):
 		if self.startCellPosition is None:
@@ -81,29 +96,26 @@ class map:
 				areaTypes[code] = {'id_area_type': r[0], 'name': r[1]}
 
 		# Open text file containing cells infos
-		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
 		query = "INSERT INTO area (id_area_type, id_region, container, x, y, directions) VALUES (?, ?, ?, ?, ?, ?)"
 		nbAreas = 0
-		for area in areasFile:
-			a = area.split(' ')
-			t = areaTypes[int(a[0])]
+		for x in self.cells:
+			for y in self.cells[x]:
+				t = areaTypes[self.cells[x][y][0]]
+				if t['name'] == 'water':
+					continue
 
-			if t['name'] == 'water':
-				continue
-
-			nbAreas = nbAreas + 1
-			areas = [
-				areaTypes[int(a[0])]['id_area_type'],
-				1,
-				"world",
-				a[1],
-				a[2],
-				a[3]
-			]
-			c.execute(query, areas)
+				nbAreas = nbAreas + 1
+				areas = [
+					areaTypes[self.cells[x][y][0]]['id_area_type'],
+					1,
+					"world",
+					x,
+					y,
+					self.cells[x][y][1]
+				]
+				c.execute(query, areas)
 
 		thread.notifyProgressLocal.emit(100, "Areas created")
-		areasFile.close()
 
 		db.commit()
 
