@@ -28,7 +28,7 @@ class newMapDialog(QtGui.QDialog):
 	_thread = None
 
 	def __init__(self, parent, app):
-		QtGui.QWidget.__init__(self, parent)
+		QtGui.QDialog.__init__(self, parent)
 		self._app = app
 		self._parent = parent
 		self.setFixedWidth(250)
