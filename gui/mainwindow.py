@@ -197,6 +197,13 @@ class mainWindow(QtGui.QMainWindow):
 	def selectStartCell(self, x, y):
 		try:
 			self._app.map.setStartCellPosition((x, y))
+			if 'start-cell' in self._pixmaps.keys():
+				self._imageScene.removeItem(self._pixmaps['start-cell'])
+				self._pixmaps['start-cell'] = None
+
+			rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+			rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+			self._pixmaps['start-cell'] = rect
 		except BaseException as e:
 			self.alert(e.message)
 
