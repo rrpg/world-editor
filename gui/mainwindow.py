@@ -23,6 +23,8 @@ class mainWindow(QtGui.QMainWindow):
 
 	_selectPixelEvent = QtCore.pyqtSignal(int, int)
 
+	_pixmaps = dict()
+
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
 			cls._instance = super(mainWindow, cls).__new__(
@@ -167,6 +169,9 @@ class mainWindow(QtGui.QMainWindow):
 		mapPixmap = QtGui.QPixmap.fromImage(image)
 		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
 		mapPixmap.mousePressEvent = self.pixelSelect
+
+		self._pixmaps['map'] = mapPixmap
+
 		self._scaleFactor = 1.0
 
 		self.menuBar().mapOpened.emit()
