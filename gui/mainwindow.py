@@ -25,6 +25,8 @@ class mainWindow(QtGui.QMainWindow):
 
 	_pixmaps = dict()
 
+	_thread = None
+
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
 			cls._instance = super(mainWindow, cls).__new__(
@@ -188,12 +190,12 @@ class mainWindow(QtGui.QMainWindow):
 
 		exportDialog = exportMapDialog(self)
 
-		self._generatorThread = worker.exporterThread(self._app)
-		self._generatorThread.finished.connect(exportDialog.close)
-		self._generatorThread.exportError.connect(self.alert)
+		self._thread = worker.exporterThread(self._app)
+		self._thread.finished.connect(exportDialog.close)
+		self._thread.exportError.connect(self.alert)
 
-		exportDialog.setThread(self._generatorThread)
-		self._generatorThread.start()
+		exportDialog.setThread(self._thread)
+		self._thread.start()
 
 	def selectStartCell(self, x, y):
 		try:
