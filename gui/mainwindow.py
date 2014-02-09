@@ -5,6 +5,7 @@ from PyQt4 import QtCore
 from gui.menu import menu
 from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
+from gui.specieslistdialog import speciesListDialog
 from core import worker
 import imghdr
 
@@ -220,3 +221,7 @@ class mainWindow(QtGui.QMainWindow):
 
 	def alert(self, message):
 		QtGui.QMessageBox.critical(self, "An error occured", message)
+
+	def listspecies(self):
+		specieswindow = speciesListDialog(self, self._app)
+		specieswindow.show()
