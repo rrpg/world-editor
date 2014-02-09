@@ -56,6 +56,15 @@ class map:
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
 	def export(self, name, thread):
+		db = self._exportPrepareDb(thread, name)
+		self._exportWorldCreation(thread, db, name)
+		thread.notifyProgressMain.emit(50, "")
+		self._exportStartCell(thread, db)
+		thread.notifyProgressMain.emit(100, "Finished")
+		db.commit()
+		db.close()
+
+	def _exportPrepareDb(self, thread, name):
 		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
 		# Delete the file if it already exist
@@ -63,8 +72,9 @@ class map:
 			os.remove(fileName)
 
 		# Open connection
-		db = sqlite3.connect(fileName)
+		return sqlite3.connect(fileName)
 
+	def _exportWorldCreation(self, thread, db, name):
 		c = db.cursor()
 
 		f = open(config.databaseStructure, 'r')
@@ -126,6 +136,9 @@ class map:
 
 		thread.notifyProgressLocal.emit(100, "Areas created")
 
+	def _exportStartCell(self, thread, db):
+		c = db.cursor()
+
 		# select start cell ID in DB from coordinates
 		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
 		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
@@ -134,12 +147,8 @@ class map:
 		# insert in setting the id of the starting cell
 		query = str("INSERT INTO settings (key, value) VALUES ('START_CELL_ID', ?)")
 		c.execute(query, [result[0]])
+
 		thread.notifyProgressLocal.emit(100, "Start cell defined")
-		db.commit()
-
-		thread.notifyProgressMain.emit(100, "Finished")
-		db.close()
-
 
 class exception(BaseException):
 	pass
