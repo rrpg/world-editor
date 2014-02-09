@@ -194,6 +194,7 @@ class mainWindow(QtGui.QMainWindow):
 			self._app.map.setStartCellPosition((x, y))
 		except BaseException as e:
 			self.alert(e.message)
+
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
