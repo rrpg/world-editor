@@ -59,6 +59,7 @@ class map:
 		thread.notifyProgressMain.emit(0, "Database initialisation")
 		db = self._exportPrepareDb(thread, name)
 		self._exportCreateDbStructure(db)
+		self._exportCreateGenders(thread, db)
 		self._exportWorldCreation(thread, db, name)
 		thread.notifyProgressMain.emit(50, "")
 
@@ -84,6 +85,16 @@ class map:
 		sql = f.read()
 		c.executescript(sql)
 		f.close()
+
+	def _exportCreateGenders(self, thread, db):
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Genders creation")
+		query = str("INSERT INTO gender (name) VALUES ('male')")
+		c.execute(query)
+		query = str("INSERT INTO gender (name) VALUES ('female')")
+		c.execute(query)
+		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
 		c = db.cursor()
