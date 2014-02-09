@@ -19,6 +19,8 @@ class application(QtGui.QApplication):
 		if not cls._instance:
 			cls._instance = super(application, cls).__new__(
 								cls, *args, **kwargs)
+			cls._instance.initMap()
+
 		return cls._instance
 
 	@classmethod
@@ -50,10 +52,13 @@ class application(QtGui.QApplication):
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
-		map.map.generate(name, width, height)
+		self.map.generate(name, width, height)
+
+	def initMap(self):
+		self.map = map.map()
 
 	def exportMap(self, thread):
-		map.map.export(self._name, thread)
+		self.map.export(self._name, thread)
 
 	def clean(self):
 

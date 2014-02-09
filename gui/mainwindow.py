@@ -19,6 +19,12 @@ class mainWindow(QtGui.QMainWindow):
 	_scrollArea = None
 	_scaleFactor = 1.0
 
+	_isRecording = False
+
+	_selectPixelEvent = QtCore.pyqtSignal(int, int)
+
+	_pixmaps = dict()
+
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
 			cls._instance = super(mainWindow, cls).__new__(
@@ -146,8 +152,8 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Action called when the map is clicked, to get the clicked pixel.
 		"""
-		pixelPosition = (int(event.pos().x()), int(event.pos().y()))
-		self.setWindowTitle('Pixel position = ' + str(pixelPosition))
+		(x, y) = (int(event.pos().x()), int(event.pos().y()))
+		self._selectPixelEvent.emit(x, y)
 
 	def openMap(self, mapName, fileName):
 		image = QtGui.QImage(fileName)
@@ -163,13 +169,23 @@ class mainWindow(QtGui.QMainWindow):
 		mapPixmap = QtGui.QPixmap.fromImage(image)
 		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
 		mapPixmap.mousePressEvent = self.pixelSelect
+
+		self._pixmaps['map'] = mapPixmap
+
 		self._scaleFactor = 1.0
 
 		self.menuBar().mapOpened.emit()
 
+		self._app.initMap()
 		self._app._name = mapName
 
 	def exportMap(self):
+		try:
+			self._app.map.checkForExport()
+		except BaseException as e:
+			self.alert(e.message)
+			return
+
 		exportDialog = exportMapDialog(self)
 
 		self._generatorThread = worker.exporterThread(self._app)
@@ -177,3 +193,27 @@ class mainWindow(QtGui.QMainWindow):
 
 		exportDialog.setThread(self._generatorThread)
 		self._generatorThread.start()
+
+	def selectStartCell(self, x, y):
+		try:
+			self._app.map.setStartCellPosition((x, y))
+			if 'start-cell' in self._pixmaps.keys():
+				self._imageScene.removeItem(self._pixmaps['start-cell'])
+				self._pixmaps['start-cell'] = None
+
+			rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+			rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+			self._pixmaps['start-cell'] = rect
+		except BaseException as e:
+			self.alert(e.message)
+
+		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def recordSelectStartCell(self):
+		if not self._isRecording:
+			self._isRecording = True
+			self._selectPixelEvent.connect(self.selectStartCell)
+
+	def alert(self, message):
+		QtGui.QMessageBox.critical(self, "An error occured", message)
