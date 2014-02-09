@@ -25,6 +25,10 @@ class map:
 		)
 		if not os.path.exists(config.tempDir):
 			os.makedirs(config.tempDir)
+
+		while not os.path.exists(config.tempDir):
+			continue
+
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		self.loadCells(name)
 
@@ -78,6 +82,13 @@ class map:
 	def _exportPrepareDb(self, thread, name):
 		thread.notifyProgressLocal.emit(0, "Database creation")
 		fileName = config.db % (name)
+		dirname = os.path.dirname(fileName)
+		if not os.path.exists(dirname):
+			os.makedirs(dirname)
+
+		while not os.path.exists(dirname):
+			continue
+
 		# Delete the file if it already exist
 		if os.path.isfile(fileName):
 			os.remove(fileName)

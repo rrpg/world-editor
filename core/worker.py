@@ -10,6 +10,9 @@ class generatorThread(QtCore.QThread):
 	_width = None
 	_height = None
 
+	generatorError = QtCore.pyqtSignal(str)
+	generatorSuccess = QtCore.pyqtSignal()
+
 	def __init__(self, app, name, width, height, parent=None):
 		QtCore.QThread.__init__(self, parent)
 		self._app = app
@@ -18,7 +21,12 @@ class generatorThread(QtCore.QThread):
 		self._height = height
 
 	def run(self):
-		self._app.createMap(self._name, self._width, self._height)
+		try:
+			self._app.createMap(self._name, self._width, self._height)
+			self.generatorSuccess.emit()
+		except OSError as e:
+			self.generatorError.emit(str(e))
+			self.exit(1)
 
 class exporterThread(QtCore.QThread):
 	"""
@@ -29,9 +37,14 @@ class exporterThread(QtCore.QThread):
 	notifyProgressLocal = QtCore.pyqtSignal(int, str)
 	notifyProgressMain = QtCore.pyqtSignal(int, str)
 
+	exportError = QtCore.pyqtSignal(str)
+
 	def __init__(self, app, parent=None):
 		QtCore.QThread.__init__(self, parent)
 		self._app = app
 
 	def run(self):
-		self._app.exportMap(self)
+		try:
+			self._app.exportMap(self)
+		except OSError as e:
+			self.exportError.emit(str(e))

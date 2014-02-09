@@ -89,7 +89,8 @@ class newMapDialog(QtGui.QDialog):
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
 			self._thread = worker.generatorThread(self._app, self._name, width, height)
-			self._thread.finished.connect(self.confirmCreation)
+			self._thread.generatorError.connect(self.displayMessage)
+			self._thread.generatorSuccess.connect(self.confirmCreation)
 			self._thread.start()
 
 	def displayMessage(self, message):
