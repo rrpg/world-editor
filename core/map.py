@@ -9,6 +9,9 @@ from core import config
 import sqlite3
 import sys
 
+# Import an external check class from the generator
+sys.path.insert(0, config.generator['map']['path'])
+import checks
 
 class map:
 	startCellPosition = None
@@ -42,6 +45,16 @@ class map:
 		if self.startCellPosition is None:
 			raise exception("No start cell selected")
 
+	def setStartCellPosition(self, position):
+		if self.isStartCellValid(position):
+			self.startCellPosition = position
+		else:
+			raise exception("Invalid start cell position")
+
+	def isStartCellValid(self, position):
+		areaTypesCodes = checks.getGroundTypes()
+		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
+
 	def export(self, name, thread):
 		thread.notifyProgressLocal.emit(0, "Database initialisation")
 		fileName = config.db % (name)
@@ -51,10 +64,6 @@ class map:
 
 		# Open connection
 		db = sqlite3.connect(fileName)
-
-		# Import an external check class from the generator
-		sys.path.insert(0, config.generator['map']['path'])
-		import checks
 
 		c = db.cursor()
 

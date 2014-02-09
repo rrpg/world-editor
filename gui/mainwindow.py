@@ -190,7 +190,10 @@ class mainWindow(QtGui.QMainWindow):
 		self._generatorThread.start()
 
 	def selectStartCell(self, x, y):
-		self._app.map.startCellPosition = (x, y)
+		try:
+			self._app.map.setStartCellPosition((x, y))
+		except BaseException as e:
+			self.alert(e.message)
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
