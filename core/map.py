@@ -126,6 +126,15 @@ class map:
 
 		thread.notifyProgressLocal.emit(100, "Areas created")
 
+		# select start cell ID in DB from coordinates
+		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
+		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
+		result = c.fetchone()
+
+		# insert in setting the id of the starting cell
+		query = str("INSERT INTO settings (key, value) VALUES ('START_CELL_ID', ?)")
+		c.execute(query, [result[0]])
+		thread.notifyProgressLocal.emit(100, "Start cell defined")
 		db.commit()
 
 		thread.notifyProgressMain.emit(100, "Finished")
