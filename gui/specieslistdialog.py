@@ -60,7 +60,6 @@ class speciesListDialog(QtGui.QDialog):
 class SpeciesTableModel(QtCore.QAbstractTableModel):
 	def __init__(self, datain, parent = None, *args):
 		QtCore.QAbstractTableModel.__init__(self, parent, *args)
-		self.dataChanged.connect(self.saveChange)
 		self.arraydata = datain
 
 	def rowCount(self, parent):
@@ -78,9 +77,6 @@ class SpeciesTableModel(QtCore.QAbstractTableModel):
 		elif role != QtCore.Qt.DisplayRole:
 			return None
 		return (self.arraydata[index.row()][index.column()])
-
-	def saveChange(self, x, y):
-		print x, y
 
 	def flags(self, index):
 		return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
