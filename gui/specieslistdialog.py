@@ -80,6 +80,8 @@ class SpeciesTableModel(QtCore.QAbstractTableModel):
 	def data(self, index, role):
 		if not index.isValid():
 			return None
+		elif role == QtCore.Qt.EditRole:
+			return str(self.arraydata[index.row()][index.column()])
 		elif role != QtCore.Qt.DisplayRole:
 			return None
 		return (self.arraydata[index.row()][index.column()])
