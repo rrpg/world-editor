@@ -68,10 +68,16 @@ class menu(QtGui.QMenuBar):
 		self._selectStartCellAction.setStatusTip('Select the starting cell of the game')
 		self._selectStartCellAction.triggered.connect(window.recordSelectStartCell)
 
+		# list species action
+		self._listSpeciesAction = QtGui.QAction('List species...', self)
+		self._listSpeciesAction.setStatusTip('List the existing species of the world')
+		self._listSpeciesAction.triggered.connect(window.listspecies)
+
 		self._exportAction.setEnabled(False)
 		self._zoominAction.setEnabled(False)
 		self._zoomoutAction.setEnabled(False)
 		self._selectStartCellAction.setEnabled(False)
+		self._listSpeciesAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
@@ -86,12 +92,15 @@ class menu(QtGui.QMenuBar):
 		mapMenu.addAction(self._zoomoutAction)
 
 		worldMenu.addAction(self._selectStartCellAction)
+		worldMenu.addSeparator()
+		worldMenu.addAction(self._listSpeciesAction)
 
 	def enableMenuItems(self):
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
 		self._selectStartCellAction.setEnabled(True)
+		self._listSpeciesAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
 		self._zoominAction.setEnabled(scaleFactor < 30.0);
