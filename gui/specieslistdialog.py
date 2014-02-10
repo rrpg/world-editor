@@ -61,8 +61,8 @@ class speciesListDialog(QtGui.QDialog):
 		)
 
 	def createSpecies(self):
-		name = str(self._nameField.text())
-		description = str(self._descriptionField.toPlainText())
+		name = str(self._nameField.text()).strip()
+		description = str(self._descriptionField.toPlainText()).strip()
 
 		if name is "" or description is "":
 			return False
