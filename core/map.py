@@ -16,6 +16,7 @@ import checks
 class map:
 	startCellPosition = None
 	cells = dict()
+	species = list()
 
 	def generate(self, name, width, height):
 		command = config.generator['map']['generator'] % (
