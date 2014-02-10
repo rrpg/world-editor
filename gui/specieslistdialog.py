@@ -55,16 +55,13 @@ class speciesListDialog(QtGui.QDialog):
 		return form
 
 	def updateCreateButton(self):
-		self._saveButton.setEnabled(
-			str(self._nameField.text()).strip() != ""
-			and str(self._descriptionField.toPlainText()).strip() != ""
-		)
+		self._saveButton.setEnabled(str(self._nameField.text()).strip() != "")
 
 	def createSpecies(self):
 		name = str(self._nameField.text()).strip()
 		description = str(self._descriptionField.toPlainText()).strip()
 
-		if name is "" or description is "":
+		if name is "":
 			return False
 
 		self._app.addSpecies(name, description)
@@ -130,11 +127,11 @@ class EditableRowDelegate(QtGui.QItemDelegate):
 	def updateValue(self):
 		try:
 			value = self._editor.text()
+			if value == "":
+				return False
 		except AttributeError:
 			value = self._editor.toPlainText()
 
-		if value == "":
-			return False
 
 		self._editedIndex.model().setData(self._editedIndex, value, QtCore.Qt.DisplayRole)
 		self._table.setModel(self._editedIndex.model())
