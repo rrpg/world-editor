@@ -31,6 +31,8 @@ class speciesListDialog(QtGui.QDialog):
 
 		self._saveButton = QtGui.QPushButton("Create")
 		self._saveButton.clicked.connect(self.createSpecies)
+		closeButton = QtGui.QPushButton("Close")
+		closeButton.clicked.connect(self.close)
 
 		form.addWidget(nameLabel, 0, 0)
 		form.addWidget(self._nameField, 0, 1)
@@ -40,6 +42,7 @@ class speciesListDialog(QtGui.QDialog):
 
 		layout.addWidget(self._tableview)
 		layout.addLayout(form)
+		layout.addWidget(closeButton)
 		self.setLayout(layout)
 
 	def createSpecies(self):
