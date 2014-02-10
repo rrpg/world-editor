@@ -61,6 +61,8 @@ class application(QtGui.QApplication):
 		self.map.export(self._name, thread)
 
 	def clean(self):
-
 		if os.path.exists(config.tempDir):
 			shutil.rmtree(config.tempDir)
+
+	def addSpecies(self, name, description):
+		self.map.species.append([name, description])

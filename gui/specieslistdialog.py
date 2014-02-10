@@ -5,6 +5,7 @@ from PyQt4 import QtGui, QtCore
 class speciesListDialog(QtGui.QDialog):
 
 	_instance = None
+	_tableview = None
 
 	def __init__(self, parent, app):
 		QtGui.QDialog.__init__(self, parent)
@@ -18,8 +19,8 @@ class speciesListDialog(QtGui.QDialog):
 		layout = QtGui.QVBoxLayout(self)
 
 		tablemodel = SpeciesTableModel(self._app.map.species, self)
-		tableview = QtGui.QTableView()
-		tableview.setModel(tablemodel)
+		self._tableview = QtGui.QTableView()
+		self._tableview.setModel(tablemodel)
 
 		form = QtGui.QGridLayout()
 
@@ -37,12 +38,15 @@ class speciesListDialog(QtGui.QDialog):
 		form.addWidget(self._descriptionField, 1, 1)
 		form.addWidget(self._saveButton, 2, 1)
 
-		layout.addWidget(tableview)
+		layout.addWidget(self._tableview)
 		layout.addLayout(form)
 		self.setLayout(layout)
 
 	def createSpecies(self):
-		print self._nameField.text(), self._descriptionField.toPlainText()
+		self._app.addSpecies(self._nameField.text(), self._descriptionField.toPlainText())
+
+		tablemodel = SpeciesTableModel(self._app.map.species, self)
+		self._tableview.setModel(tablemodel)
 
 
 class SpeciesTableModel(QtCore.QAbstractTableModel):
