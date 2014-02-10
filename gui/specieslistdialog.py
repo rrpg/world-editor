@@ -71,6 +71,12 @@ class SpeciesTableModel(QtCore.QAbstractTableModel):
 
 		return len(self.arraydata[0])
 
+	def setData(self, index, value, role):
+		if role == QtCore.Qt.DisplayRole:
+			self.arraydata[index.row()][index.column()] = str(value)
+			return True
+		return False
+
 	def data(self, index, role):
 		if not index.isValid():
 			return None
