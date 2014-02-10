@@ -71,6 +71,8 @@ class map:
 		self._exportCreateGenders(thread, db)
 		thread.notifyProgressMain.emit(60, "")
 
+		self._exportSpecies(thread, db)
+
 		self._exportWorldCreation(thread, db, name)
 		thread.notifyProgressMain.emit(80, "")
 
@@ -116,6 +118,15 @@ class map:
 		c.execute(query)
 		query = str("INSERT INTO gender (name) VALUES ('female')")
 		c.execute(query)
+		thread.notifyProgressLocal.emit(100, "Finished")
+
+	def _exportSpecies(self, thread, db):
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Species creation")
+		query = str("INSERT INTO species (name, description) VALUES (?, ?)")
+		for s in self.species:
+			c.execute(query, s)
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
