@@ -132,5 +132,9 @@ class EditableRowDelegate(QtGui.QItemDelegate):
 			value = self._editor.text()
 		except AttributeError:
 			value = self._editor.toPlainText()
+
+		if value == "":
+			return False
+
 		self._editedIndex.model().setData(self._editedIndex, value, QtCore.Qt.DisplayRole)
 		self._table.setModel(self._editedIndex.model())
