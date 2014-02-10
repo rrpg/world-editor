@@ -37,10 +37,13 @@ class speciesListDialog(QtGui.QDialog):
 
 		nameLabel = QtGui.QLabel("Species name")
 		self._nameField = QtGui.QLineEdit()
+		self._nameField.textChanged.connect(self.updateCreateButton)
 		descriptionLabel = QtGui.QLabel("Species Description")
 		self._descriptionField = QtGui.QTextEdit()
+		self._descriptionField.textChanged.connect(self.updateCreateButton)
 
 		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton.setEnabled(False)
 		self._saveButton.clicked.connect(self.createSpecies)
 
 		form.addWidget(nameLabel, 0, 0)
@@ -50,6 +53,12 @@ class speciesListDialog(QtGui.QDialog):
 		form.addWidget(self._saveButton, 2, 1)
 
 		return form
+
+	def updateCreateButton(self):
+		self._saveButton.setEnabled(
+			str(self._nameField.text()).strip() != ""
+			and str(self._descriptionField.toPlainText()).strip() != ""
+		)
 
 	def createSpecies(self):
 		name = str(self._nameField.text())
