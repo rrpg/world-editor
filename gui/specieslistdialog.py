@@ -22,6 +22,17 @@ class speciesListDialog(QtGui.QDialog):
 		self._tableview.setItemDelegate(EditableRowDelegate(self._tableview))
 		self._tableview.setModel(tablemodel)
 
+		closeButton = QtGui.QPushButton("Close")
+		closeButton.clicked.connect(self.close)
+
+		form = self.creationForm()
+
+		layout.addWidget(self._tableview)
+		layout.addLayout(form)
+		layout.addWidget(closeButton)
+		self.setLayout(layout)
+
+	def creationForm(self):
 		form = QtGui.QGridLayout()
 
 		nameLabel = QtGui.QLabel("Species name")
@@ -31,8 +42,6 @@ class speciesListDialog(QtGui.QDialog):
 
 		self._saveButton = QtGui.QPushButton("Create")
 		self._saveButton.clicked.connect(self.createSpecies)
-		closeButton = QtGui.QPushButton("Close")
-		closeButton.clicked.connect(self.close)
 
 		form.addWidget(nameLabel, 0, 0)
 		form.addWidget(self._nameField, 0, 1)
@@ -40,10 +49,7 @@ class speciesListDialog(QtGui.QDialog):
 		form.addWidget(self._descriptionField, 1, 1)
 		form.addWidget(self._saveButton, 2, 1)
 
-		layout.addWidget(self._tableview)
-		layout.addLayout(form)
-		layout.addWidget(closeButton)
-		self.setLayout(layout)
+		return form
 
 	def createSpecies(self):
 		name = str(self._nameField.text())
