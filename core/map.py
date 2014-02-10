@@ -63,18 +63,19 @@ class map:
 	def export(self, name, thread):
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, name)
-		thread.notifyProgressMain.emit(20, "")
+		thread.notifyProgressMain.emit(16, "")
 
 		self._exportCreateDbStructure(thread, db)
-		thread.notifyProgressMain.emit(40, "")
+		thread.notifyProgressMain.emit(33, "")
 
 		self._exportCreateGenders(thread, db)
-		thread.notifyProgressMain.emit(60, "")
+		thread.notifyProgressMain.emit(49, "")
 
 		self._exportSpecies(thread, db)
+		thread.notifyProgressMain.emit(66, "")
 
 		self._exportWorldCreation(thread, db, name)
-		thread.notifyProgressMain.emit(80, "")
+		thread.notifyProgressMain.emit(82, "")
 
 		self._exportStartCell(thread, db)
 		thread.notifyProgressMain.emit(100, "")
