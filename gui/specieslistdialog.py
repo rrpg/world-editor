@@ -45,7 +45,13 @@ class speciesListDialog(QtGui.QDialog):
 		self.setLayout(layout)
 
 	def createSpecies(self):
-		self._app.addSpecies(self._nameField.text(), self._descriptionField.toPlainText())
+		name = str(self._nameField.text())
+		description = str(self._descriptionField.toPlainText())
+
+		if name is "" or description is "":
+			return False
+
+		self._app.addSpecies(name, description)
 
 		tablemodel = SpeciesTableModel(self._app.map.species, self)
 		self._tableview.setModel(tablemodel)
