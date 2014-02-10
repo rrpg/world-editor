@@ -4,7 +4,6 @@ from PyQt4 import QtGui, QtCore
 
 class speciesListDialog(QtGui.QDialog):
 
-	_instance = None
 	_tableview = None
 
 	def __init__(self, parent, app):
