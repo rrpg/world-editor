@@ -19,6 +19,7 @@ class speciesListDialog(QtGui.QDialog):
 
 		tablemodel = SpeciesTableModel(self._app.map.species, self)
 		self._tableview = QtGui.QTableView()
+		self._tableview.setItemDelegate(EditableRowDelegate(self._tableview))
 		self._tableview.setModel(tablemodel)
 
 		form = QtGui.QGridLayout()
@@ -88,3 +89,33 @@ class SpeciesTableModel(QtCore.QAbstractTableModel):
 
 	def flags(self, index):
 		return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+
+
+class EditableRowDelegate(QtGui.QItemDelegate):
+	_table = None
+
+	def __init__(self, table, *args):
+		QtGui.QItemDelegate.__init__(self, *args)
+		self._table = table
+
+	def createEditor(self, parent, option, index):
+		if index.column() == 1:
+			self._editor = QtGui.QTextEdit(parent)
+			self._editor.textChanged.connect(self.updateValue)
+		else:
+			self._editor = QtGui.QLineEdit(parent)
+			self._editor.editingFinished.connect(self.updateValue)
+		self._editedIndex = index
+		return self._editor
+
+	def setEditorData(self, editor, index):
+		self._editedIndex = index
+		editor.setText(index.model().data(index, QtCore.Qt.EditRole));
+
+	def updateValue(self):
+		try:
+			value = self._editor.text()
+		except AttributeError:
+			value = self._editor.toPlainText()
+		self._editedIndex.model().setData(self._editedIndex, value, QtCore.Qt.DisplayRole)
+		self._table.setModel(self._editedIndex.model())
