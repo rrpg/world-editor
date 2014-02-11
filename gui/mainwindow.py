@@ -159,6 +159,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._selectPixelEvent.emit(x, y)
 
 	def openMap(self, mapName, fileName):
+		"""
+		Method to open a map from a filename
+		"""
 		image = QtGui.QImage(fileName)
 		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(
@@ -183,6 +186,12 @@ class mainWindow(QtGui.QMainWindow):
 		self._app._name = mapName
 
 	def exportMap(self):
+		"""
+		Method to export a map.
+		Will check if the map can be exported, and if it is, the export will be
+		run and a dialog will be displayed with a progress bar to show the
+		export progression.
+		"""
 		try:
 			self._app.map.checkForExport()
 		except BaseException as e:
@@ -198,7 +207,20 @@ class mainWindow(QtGui.QMainWindow):
 		exportDialog.setThread(self._thread)
 		self._thread.start()
 
+	def recordSelectStartCell(self):
+		"""
+		Method called when the user has to select a starting cell. A record mode
+		will be enabled and the user will have to click on a cell in the map.
+		"""
+		if not self._isRecording:
+			self._isRecording = True
+			self._selectPixelEvent.connect(self.selectStartCell)
+
 	def selectStartCell(self, x, y):
+		"""
+		Method called when the user click on a cell in the map to select a
+		starting cell.
+		"""
 		try:
 			self._app.map.setStartCellPosition((x, y))
 			if 'start-cell' in self._pixmaps.keys():
@@ -214,14 +236,15 @@ class mainWindow(QtGui.QMainWindow):
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
-	def recordSelectStartCell(self):
-		if not self._isRecording:
-			self._isRecording = True
-			self._selectPixelEvent.connect(self.selectStartCell)
-
 	def alert(self, message):
+		"""
+		Method to display an alert message. Create just an critical QMessageBox.
+		"""
 		QtGui.QMessageBox.critical(self, "An error occured", message)
 
 	def listspecies(self):
+		"""
+		Method called to display a dialog listing the map's species.
+		"""
 		specieswindow = speciesListDialog(self, self._app)
 		specieswindow.show()
