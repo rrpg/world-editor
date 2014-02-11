@@ -3,10 +3,15 @@
 from PyQt4 import QtGui, QtCore
 
 class speciesListDialog(QtGui.QDialog):
-
+	"""
+	Class to list the current world's species.
+	"""
 	_tableview = None
 
 	def __init__(self, parent, app):
+		"""
+		Initialisation of the window, creates the GUI and displays the window.
+		"""
 		QtGui.QDialog.__init__(self, parent)
 		self._app = app
 		self._parent = parent
@@ -15,6 +20,11 @@ class speciesListDialog(QtGui.QDialog):
 		self.show()
 
 	def initUI(self):
+		"""
+		Creates the GUI.
+		The GUI is composed of a table listing the existing species, a form to
+		add a species and a button to close the window.
+		"""
 		layout = QtGui.QVBoxLayout(self)
 
 		tablemodel = SpeciesTableModel(self._app.map.species, self)
@@ -33,6 +43,10 @@ class speciesListDialog(QtGui.QDialog):
 		self.setLayout(layout)
 
 	def creationForm(self):
+		"""
+		Method which creates the form to add a species.
+		Returns a layout containing the form elements.
+		"""
 		form = QtGui.QGridLayout()
 
 		nameLabel = QtGui.QLabel("Species name")
@@ -55,9 +69,17 @@ class speciesListDialog(QtGui.QDialog):
 		return form
 
 	def updateCreateButton(self):
+		"""
+		Method called when the form's fields are edited. The "create" button is
+		enabled if the name field is not empty.
+		"""
 		self._saveButton.setEnabled(str(self._nameField.text()).strip() != "")
 
 	def createSpecies(self):
+		"""
+		Method called when the "create" button is pressed. The filled data are
+		checked and if they are correct, the species is created.
+		"""
 		name = str(self._nameField.text()).strip()
 		description = str(self._descriptionField.toPlainText()).strip()
 
@@ -71,26 +93,42 @@ class speciesListDialog(QtGui.QDialog):
 
 
 class SpeciesTableModel(QtCore.QAbstractTableModel):
+	"""
+	Model class for the species list
+	"""
 	def __init__(self, datain, parent = None, *args):
 		QtCore.QAbstractTableModel.__init__(self, parent, *args)
 		self.arraydata = datain
 
 	def rowCount(self, parent):
+		"""
+		Method to get the number of rows of the table.
+		"""
 		return len(self.arraydata)
 
 	def columnCount(self, parent):
+		"""
+		Method to get the number of columns of the table.
+		"""
 		if len(self.arraydata) == 0:
 			return 0
 
 		return len(self.arraydata[0])
 
 	def setData(self, index, value, role):
+		"""
+		Method to update a cell of the table, depending on a given role.
+		"""
 		if role == QtCore.Qt.DisplayRole:
 			self.arraydata[index.row()][index.column()] = str(value)
 			return True
 		return False
 
 	def data(self, index, role):
+		"""
+		Method to get the value of a cell of the table, depending on a given
+		role.
+		"""
 		if not index.isValid():
 			return None
 		elif role == QtCore.Qt.EditRole:
@@ -100,10 +138,17 @@ class SpeciesTableModel(QtCore.QAbstractTableModel):
 		return (self.arraydata[index.row()][index.column()])
 
 	def flags(self, index):
+		"""
+		Method to set the table's cells flags
+		"""
 		return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
 
 
 class EditableRowDelegate(QtGui.QItemDelegate):
+	"""
+	Delegate class for the table items.
+	Will create a special text or line edit field when a field is edited.
+	"""
 	_table = None
 
 	def __init__(self, table, *args):
@@ -111,6 +156,11 @@ class EditableRowDelegate(QtGui.QItemDelegate):
 		self._table = table
 
 	def createEditor(self, parent, option, index):
+		"""
+		Method called when a cell is edited, to create the according field.
+		If the cell is a description cell (index 1), a textedit field is
+		created, else a lineedit field is created.
+		"""
 		if index.column() == 1:
 			self._editor = QtGui.QTextEdit(parent)
 			self._editor.textChanged.connect(self.updateValue)
@@ -121,17 +171,23 @@ class EditableRowDelegate(QtGui.QItemDelegate):
 		return self._editor
 
 	def setEditorData(self, editor, index):
+		"""
+		Method to fill the field's value.
+		"""
 		self._editedIndex = index
 		editor.setText(index.model().data(index, QtCore.Qt.EditRole));
 
 	def updateValue(self):
+		"""
+		Method called when a field lose the focus, to update the according
+		species's value.
+		"""
 		try:
 			value = self._editor.text()
 			if value == "":
 				return False
 		except AttributeError:
 			value = self._editor.toPlainText()
-
 
 		self._editedIndex.model().setData(self._editedIndex, value, QtCore.Qt.DisplayRole)
 		self._table.setModel(self._editedIndex.model())

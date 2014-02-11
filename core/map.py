@@ -14,11 +14,19 @@ sys.path.insert(0, config.generator['map']['path'])
 import checks
 
 class map:
+	"""
+	Class to interface with a map DB.
+	The generation and export are done here.
+	"""
 	startCellPosition = None
 	cells = dict()
 	species = [['Humans', '']]
 
 	def generate(self, name, width, height):
+		"""
+		Method which generates a map and load the cells in an attribute of the
+		class.
+		"""
 		command = config.generator['map']['generator'] % (
 			config.tempDir + '/' + name,
 			width,
@@ -34,6 +42,10 @@ class map:
 		self.loadCells(name)
 
 	def loadCells(self, name):
+		"""
+		Method which load a map's cells. The cells are read from a text file
+		and saved in a list.
+		"""
 		# Open text file containing cells infos
 		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
 		nbAreas = 0
@@ -47,20 +59,36 @@ class map:
 			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
 
 	def checkForExport(self):
+		"""
+		Method to check if a cell is ready to be exported (start cell selected)
+		"""
 		if self.startCellPosition is None:
 			raise exception("No start cell selected")
 
 	def setStartCellPosition(self, position):
+		"""
+		Method to set the start cell. The selected position must be a valid
+		position.
+		"""
 		if self.isStartCellValid(position):
 			self.startCellPosition = position
 		else:
 			raise exception("Invalid start cell position")
 
 	def isStartCellValid(self, position):
+		"""
+		Checks if the given position is a valid position for a start cell (must
+		not be a water cell).
+		"""
 		areaTypesCodes = checks.getGroundTypes()
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
 	def export(self, name, thread):
+		"""
+		Function to export the map in a SQLite Db.
+		For each step of the export, the progression will be updated through
+		the given thread.
+		"""
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, name)
 		thread.notifyProgressMain.emit(16, "")
@@ -84,6 +112,9 @@ class map:
 		db.close()
 
 	def _exportPrepareDb(self, thread, name):
+		"""
+		Method to create the DB
+		"""
 		thread.notifyProgressLocal.emit(0, "Database creation")
 		fileName = config.db % (name)
 		dirname = os.path.dirname(fileName)
@@ -102,6 +133,9 @@ class map:
 		return sqlite3.connect(fileName)
 
 	def _exportCreateDbStructure(self, thread, db):
+		"""
+		Method to create the DB structure
+		"""
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Database structure creation")
@@ -112,6 +146,9 @@ class map:
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportCreateGenders(self, thread, db):
+		"""
+		Method to create the genders in DB
+		"""
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Genders creation")
@@ -122,6 +159,9 @@ class map:
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportSpecies(self, thread, db):
+		"""
+		Method to export the world's species in the DB.
+		"""
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Species creation")
@@ -131,8 +171,10 @@ class map:
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
+		"""
+		Method to export the world in the DB.
+		"""
 		c = db.cursor()
-
 
 		thread.notifyProgressLocal.emit(0, "Regions creation")
 		# Create main region
@@ -186,6 +228,9 @@ class map:
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportStartCell(self, thread, db):
+		"""
+		Method to export the start cell in the DB.
+		"""
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Start cell saving")

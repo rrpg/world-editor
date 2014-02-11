@@ -55,14 +55,26 @@ class application(QtGui.QApplication):
 		self.map.generate(name, width, height)
 
 	def initMap(self):
+		"""
+		Method to init the map object
+		"""
 		self.map = map.map()
 
 	def exportMap(self, thread):
+		"""
+		Method to export the map to a usable DB
+		"""
 		self.map.export(self._name, thread)
 
 	def clean(self):
+		"""
+		Method called when the application is closed, to delete the temp folder
+		"""
 		if os.path.exists(config.tempDir):
 			shutil.rmtree(config.tempDir)
 
 	def addSpecies(self, name, description):
+		"""
+		Method to add a species in the world
+		"""
 		self.map.species.append([name, description])
