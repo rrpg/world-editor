@@ -28,6 +28,9 @@ class newMapDialog(QtGui.QDialog):
 	_thread = None
 
 	def __init__(self, parent, app):
+		"""
+		Creates the window GUI and displays the window
+		"""
 		QtGui.QDialog.__init__(self, parent)
 		self._app = app
 		self._parent = parent
@@ -37,6 +40,9 @@ class newMapDialog(QtGui.QDialog):
 		self.show()
 
 	def initUI(self):
+		"""
+		Creates the UI
+		"""
 		layout = QtGui.QGridLayout()
 
 		self._messageLabel = QtGui.QLabel()
@@ -71,6 +77,11 @@ class newMapDialog(QtGui.QDialog):
 		self.setLayout(layout)
 
 	def createMap(self):
+		"""
+		Method called when the "Create" button is pressed.
+		The filled values are checked and if they are correct, a map is
+		generated, in a thread
+		"""
 		valid = True
 		try:
 			self._name = self._mapNameField.text()
@@ -94,10 +105,16 @@ class newMapDialog(QtGui.QDialog):
 			self._thread.start()
 
 	def displayMessage(self, message):
+		"""
+		Method to display a message in the window.
+		"""
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
 	def confirmCreation(self):
+		"""
+		Method called when a map is generated.
+		"""
 		filename = self._name + '.bmp'
 		filename = config.tempDir + '/' + filename
 		self._parent.openMap(self._name, filename)
