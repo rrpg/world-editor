@@ -96,6 +96,9 @@ class menu(QtGui.QMenuBar):
 		worldMenu.addAction(self._listSpeciesAction)
 
 	def enableMenuItems(self):
+		"""
+		Method to enable some menu items when a map is generated or loaded.
+		"""
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
@@ -103,5 +106,8 @@ class menu(QtGui.QMenuBar):
 		self._listSpeciesAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
+		"""
+		Method to enable the zoom buttons depending on the map's zoom value.
+		"""
 		self._zoominAction.setEnabled(scaleFactor < 30.0);
 		self._zoomoutAction.setEnabled(scaleFactor > 0.75);
