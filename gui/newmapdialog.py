@@ -84,12 +84,15 @@ class newMapDialog(QtGui.QDialog):
 		"""
 		valid = True
 		try:
-			self._name = self._mapNameField.text()
+			self._name = str(self._mapNameField.text())
 			width = self._mapWidthField.value()
 			height = self._mapHeightField.value()
 
 			if width <= 0 or height <= 0:
 				self.displayMessage("Positive number expected for the width and the height")
+				valid = False
+			elif self._name.strip() == "":
+				self.displayMessage("A world name must be provided")
 				valid = False
 		except ValueError:
 			self.displayMessage("Positive number expected for the width and the height")
