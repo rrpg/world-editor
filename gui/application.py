@@ -36,10 +36,18 @@ class application(QtGui.QApplication):
 		@param data list of elements to display in the table.
 		@param headers titles of the table's columns.
 		"""
+		self._prepareFolders()
+
 		super(application, self).__init__(sys.argv)
 		self.widget = mainWindow(self)
 
 		self.aboutToQuit.connect(self.clean)
+
+	def _prepareFolders(self):
+		if not os.path.exists(config.tempDir):
+			os.makedirs(config.tempDir)
+		if not os.path.exists(config.exportPath):
+			os.makedirs(config.exportPath)
 
 	def run(self):
 		"""

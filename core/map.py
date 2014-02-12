@@ -32,11 +32,7 @@ class map:
 			width,
 			height
 		)
-		if not os.path.exists(config.tempDir):
-			os.makedirs(config.tempDir)
 
-		while not os.path.exists(config.tempDir):
-			continue
 
 		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 		self.loadCells(name)
@@ -46,6 +42,8 @@ class map:
 		Method which load a map's cells. The cells are read from a text file
 		and saved in a list.
 		"""
+		while not os.path.isfile(config.tempDir + '/' + name + '.txt'):
+			continue
 		# Open text file containing cells infos
 		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
 		nbAreas = 0
@@ -117,16 +115,14 @@ class map:
 		"""
 		thread.notifyProgressLocal.emit(0, "Database creation")
 		fileName = config.db % (name)
-		dirname = os.path.dirname(fileName)
-		if not os.path.exists(dirname):
-			os.makedirs(dirname)
-
-		while not os.path.exists(dirname):
-			continue
+		d = os.path.dirname(fileName)
 
 		# Delete the file if it already exist
 		if os.path.isfile(fileName):
 			os.remove(fileName)
+
+		if not os.path.isdir(d):
+			raise BaseException("The folder %s does not exist" % d)
 
 		thread.notifyProgressLocal.emit(100, "Finished")
 		# Open connection
