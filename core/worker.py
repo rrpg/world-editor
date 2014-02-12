@@ -24,7 +24,7 @@ class generatorThread(QtCore.QThread):
 		try:
 			self._app.createMap(self._name, self._width, self._height)
 			self.generatorSuccess.emit()
-		except OSError as e:
+		except BaseException as e:
 			self.generatorError.emit(str(e))
 			self.exit(1)
 
@@ -46,5 +46,5 @@ class exporterThread(QtCore.QThread):
 	def run(self):
 		try:
 			self._app.exportMap(self)
-		except OSError as e:
+		except BaseException as e:
 			self.exportError.emit(str(e))

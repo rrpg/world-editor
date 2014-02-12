@@ -33,8 +33,12 @@ class map:
 			height
 		)
 
+		p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
-		subprocess.call(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		result = p.communicate()
+		if len(result[1]) > 0:
+			raise BaseException(result[1])
+
 		self.loadCells(name)
 
 	def loadCells(self, name):
