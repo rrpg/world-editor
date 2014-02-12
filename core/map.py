@@ -46,8 +46,6 @@ class map:
 		Method which load a map's cells. The cells are read from a text file
 		and saved in a list.
 		"""
-		while not os.path.isfile(config.tempDir + '/' + name + '.txt'):
-			continue
 		# Open text file containing cells infos
 		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
 		nbAreas = 0
