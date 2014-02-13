@@ -104,7 +104,7 @@ class newMapDialog(QtGui.QDialog):
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._thread = worker.generatorThread(self._app, self._app.getMapFileName(), width, height)
+			self._thread = worker.generatorThread(self._app, width, height)
 			self._thread.generatorError.connect(self.displayMessage)
 			self._thread.generatorSuccess.connect(self.confirmCreation)
 			self._thread.start()

@@ -57,20 +57,17 @@ class application(QtGui.QApplication):
 		"""
 		return self.exec_()
 
-	def createMap(self, name, width, height):
+	def createMap(self, width, height):
 		"""
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
-		self.map.generate(name, width, height)
+		self.map.generate(self._fileName, width, height)
 
-	def initMap(self, mapName=None, fileName=None):
+	def initMap(self):
 		"""
 		Method to init the map object
 		"""
-		if mapName is not None:
-			self._name = mapName
-			self._fileName = fileName
 		self.map = map.map()
 
 	def exportMap(self, thread):

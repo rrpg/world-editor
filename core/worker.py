@@ -13,16 +13,15 @@ class generatorThread(QtCore.QThread):
 	generatorError = QtCore.pyqtSignal(str)
 	generatorSuccess = QtCore.pyqtSignal()
 
-	def __init__(self, app, name, width, height, parent=None):
+	def __init__(self, app, width, height, parent=None):
 		QtCore.QThread.__init__(self, parent)
 		self._app = app
-		self._name = name
 		self._width = width
 		self._height = height
 
 	def run(self):
 		try:
-			self._app.createMap(self._name, self._width, self._height)
+			self._app.createMap(self._width, self._height)
 			self.generatorSuccess.emit()
 		except BaseException as e:
 			self.generatorError.emit(str(e))

@@ -183,7 +183,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
-		self._app.initMap(mapName, os.path.basename(fileName))
+		self._app.initMap()
 
 	def exportMap(self):
 		"""
