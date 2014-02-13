@@ -28,7 +28,7 @@ class map:
 		class.
 		"""
 		command = config.generator['map']['generator'] % (
-			config.tempDir + '/' + name,
+			name,
 			width,
 			height
 		)
@@ -47,7 +47,7 @@ class map:
 		and saved in a list.
 		"""
 		# Open text file containing cells infos
-		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
+		areasFile = open(name + '.txt', "r")
 		nbAreas = 0
 		for area in areasFile:
 			a = area.split(' ')
@@ -83,14 +83,14 @@ class map:
 		areaTypesCodes = checks.getGroundTypes()
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
-	def export(self, name, thread):
+	def export(self, name, fileName, thread):
 		"""
 		Function to export the map in a SQLite Db.
 		For each step of the export, the progression will be updated through
 		the given thread.
 		"""
 		thread.notifyProgressMain.emit(0, "")
-		db = self._exportPrepareDb(thread, name)
+		db = self._exportPrepareDb(thread, fileName)
 		thread.notifyProgressMain.emit(16, "")
 
 		self._exportCreateDbStructure(thread, db)
@@ -176,8 +176,8 @@ class map:
 
 		thread.notifyProgressLocal.emit(0, "Regions creation")
 		# Create main region
-		query = str("INSERT INTO region (region_name) VALUES ('" + name + "')")
-		c.execute(query)
+		query = str("INSERT INTO region (region_name) VALUES (?)")
+		c.execute(query, [name])
 
 		thread.notifyProgressLocal.emit(33, "Area types creation")
 		# Create area types

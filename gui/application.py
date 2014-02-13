@@ -12,6 +12,8 @@ class application(QtGui.QApplication):
 	"""
 	Class for the application. it is here that the main window is created.
 	"""
+	_name = None
+	_fileName = None
 
 	_instance = None
 
@@ -55,12 +57,12 @@ class application(QtGui.QApplication):
 		"""
 		return self.exec_()
 
-	def createMap(self, name, width, height):
+	def createMap(self, width, height):
 		"""
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
-		self.map.generate(name, width, height)
+		self.map.generate(self._fileName, width, height)
 
 	def initMap(self):
 		"""
@@ -72,7 +74,7 @@ class application(QtGui.QApplication):
 		"""
 		Method to export the map to a usable DB
 		"""
-		self.map.export(self._name, thread)
+		self.map.export(self._name, self.escapeName(self._name), thread)
 
 	def clean(self):
 		"""
@@ -86,3 +88,18 @@ class application(QtGui.QApplication):
 		Method to add a species in the world
 		"""
 		self.map.species.append([name, description])
+
+	def escapeName(self, name):
+		return ''.join(e for e in name if e.isalnum())
+
+	def getMapName(self):
+		return self._name
+
+	def getMapFileName(self):
+		return self._fileName
+
+	def setMapName(self, name):
+		self._name = name
+
+	def setMapFileName(self, name):
+		self._fileName = name

@@ -16,7 +16,6 @@ class newMapDialog(QtGui.QDialog):
 	_app = None
 	_parent = None
 
-	_name = None
 	_messageLabel = None
 	_mapNameField = None
 	_mapWidthField = None
@@ -84,14 +83,14 @@ class newMapDialog(QtGui.QDialog):
 		"""
 		valid = True
 		try:
-			self._name = str(self._mapNameField.text())
+			name = str(self._mapNameField.text()).strip()
 			width = self._mapWidthField.value()
 			height = self._mapHeightField.value()
 
 			if width <= 0 or height <= 0:
 				self.displayMessage("Positive number expected for the width and the height")
 				valid = False
-			elif self._name.strip() == "":
+			elif name == "":
 				self.displayMessage("A world name must be provided")
 				valid = False
 		except ValueError:
@@ -99,12 +98,16 @@ class newMapDialog(QtGui.QDialog):
 			valid = False
 
 		if valid:
+			self._app.setMapName(name)
+			name = config.tempDir + '/' + self._app.escapeName(name)
+			self._app.setMapFileName(name)
 			self.displayMessage("Generating...")
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
-			self._thread = worker.generatorThread(self._app, self._name, width, height)
+			self._thread = worker.generatorThread(self._app, width, height)
 			self._thread.generatorError.connect(self.displayMessage)
-			self._thread.generatorSuccess.connect(self.confirmCreation)
+			self._thread.generatorSuccess.connect(self._parent.openMap)
+			self._thread.generatorSuccess.connect(self.close)
 			self._thread.start()
 
 	def displayMessage(self, message):
@@ -114,11 +117,3 @@ class newMapDialog(QtGui.QDialog):
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
-	def confirmCreation(self):
-		"""
-		Method called when a map is generated.
-		"""
-		filename = self._name + '.bmp'
-		filename = config.tempDir + '/' + filename
-		self._parent.openMap(self._name, filename)
-		self.close()
