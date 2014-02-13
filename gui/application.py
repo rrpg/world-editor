@@ -12,6 +12,8 @@ class application(QtGui.QApplication):
 	"""
 	Class for the application. it is here that the main window is created.
 	"""
+	_name = None
+	_fileName = None
 
 	_instance = None
 
@@ -89,3 +91,18 @@ class application(QtGui.QApplication):
 		Method to add a species in the world
 		"""
 		self.map.species.append([name, description])
+
+	def escapeName(self, name):
+		return ''.join(e for e in name if e.isalnum())
+
+	def getMapName(self):
+		return self._name
+
+	def getMapFileName(self):
+		return self._fileName
+
+	def setMapName(self, name):
+		self._name = name
+
+	def setMapFileName(self, name):
+		self._fileName = name
