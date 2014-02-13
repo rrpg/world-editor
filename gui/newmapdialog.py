@@ -106,7 +106,8 @@ class newMapDialog(QtGui.QDialog):
 			self._cancelButton.setEnabled(False)
 			self._thread = worker.generatorThread(self._app, width, height)
 			self._thread.generatorError.connect(self.displayMessage)
-			self._thread.generatorSuccess.connect(self.confirmCreation)
+			self._thread.generatorSuccess.connect(self._parent.openMap)
+			self._thread.generatorSuccess.connect(self.close)
 			self._thread.start()
 
 	def _escapeName(self, name):
@@ -119,10 +120,3 @@ class newMapDialog(QtGui.QDialog):
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
-	def confirmCreation(self):
-		"""
-		Method called when a map is generated.
-		"""
-		filename = self._app.getMapFileName() + '.bmp'
-		self._parent.openMap()
-		self.close()
