@@ -124,5 +124,5 @@ class newMapDialog(QtGui.QDialog):
 		Method called when a map is generated.
 		"""
 		filename = self._app.getMapFileName() + '.bmp'
-		self._parent.openMap(self._app.getMapName(), filename)
+		self._parent.openMap()
 		self.close()

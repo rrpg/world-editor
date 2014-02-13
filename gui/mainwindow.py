@@ -159,10 +159,12 @@ class mainWindow(QtGui.QMainWindow):
 		(x, y) = (int(event.pos().x()), int(event.pos().y()))
 		self._selectPixelEvent.emit(x, y)
 
-	def openMap(self, mapName, fileName):
+	def openMap(self):
 		"""
 		Method to open a map from a filename
 		"""
+		fileName = self._app.getMapFileName() + '.bmp'
+
 		image = QtGui.QImage(fileName)
 		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(
