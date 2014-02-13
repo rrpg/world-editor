@@ -8,6 +8,7 @@ from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from core import worker
 import imghdr
+import os
 
 
 class mainWindow(QtGui.QMainWindow):
@@ -182,8 +183,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
-		self._app.initMap()
-		self._app._name = mapName
+		self._app.initMap(mapName, os.path.basename(fileName))
 
 	def exportMap(self):
 		"""

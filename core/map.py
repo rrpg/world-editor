@@ -83,14 +83,14 @@ class map:
 		areaTypesCodes = checks.getGroundTypes()
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
-	def export(self, name, thread):
+	def export(self, name, fileName, thread):
 		"""
 		Function to export the map in a SQLite Db.
 		For each step of the export, the progression will be updated through
 		the given thread.
 		"""
 		thread.notifyProgressMain.emit(0, "")
-		db = self._exportPrepareDb(thread, name)
+		db = self._exportPrepareDb(thread, fileName)
 		thread.notifyProgressMain.emit(16, "")
 
 		self._exportCreateDbStructure(thread, db)

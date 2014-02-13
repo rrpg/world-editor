@@ -62,17 +62,20 @@ class application(QtGui.QApplication):
 		"""
 		self.map.generate(name, width, height)
 
-	def initMap(self):
+	def initMap(self, mapName=None, fileName=None):
 		"""
 		Method to init the map object
 		"""
+		if mapName is not None:
+			self._name = mapName
+			self._fileName = fileName
 		self.map = map.map()
 
 	def exportMap(self, thread):
 		"""
 		Method to export the map to a usable DB
 		"""
-		self.map.export(self._name, thread)
+		self.map.export(self._name, self._fileName, thread)
 
 	def clean(self):
 		"""
