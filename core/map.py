@@ -176,8 +176,8 @@ class map:
 
 		thread.notifyProgressLocal.emit(0, "Regions creation")
 		# Create main region
-		query = str("INSERT INTO region (region_name) VALUES ('" + name + "')")
-		c.execute(query)
+		query = str("INSERT INTO region (region_name) VALUES (?)")
+		c.execute(query, [name])
 
 		thread.notifyProgressLocal.emit(33, "Area types creation")
 		# Create area types
