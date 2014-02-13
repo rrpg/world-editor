@@ -110,9 +110,6 @@ class newMapDialog(QtGui.QDialog):
 			self._thread.generatorSuccess.connect(self.close)
 			self._thread.start()
 
-	def _escapeName(self, name):
-		return ''.join(e for e in name if e.isalnum())
-
 	def displayMessage(self, message):
 		"""
 		Method to display a message in the window.
