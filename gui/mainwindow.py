@@ -179,6 +179,7 @@ class mainWindow(QtGui.QMainWindow):
 		mapPixmap = QtGui.QGraphicsPixmapItem(mapPixmap, None, self._imageScene)
 		mapPixmap.mousePressEvent = self.pixelSelect
 
+		self._pixmaps = dict()
 		self._pixmaps['map'] = mapPixmap
 
 		self._scaleFactor = 1.0
