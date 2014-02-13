@@ -77,7 +77,7 @@ class application(QtGui.QApplication):
 		"""
 		Method to export the map to a usable DB
 		"""
-		self.map.export(self._name, self._fileName, thread)
+		self.map.export(self._name, self.escapeName(self._name), thread)
 
 	def clean(self):
 		"""

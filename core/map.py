@@ -28,7 +28,7 @@ class map:
 		class.
 		"""
 		command = config.generator['map']['generator'] % (
-			config.tempDir + '/' + name,
+			name,
 			width,
 			height
 		)
@@ -47,7 +47,7 @@ class map:
 		and saved in a list.
 		"""
 		# Open text file containing cells infos
-		areasFile = open(config.tempDir + '/' + name + '.txt', "r")
+		areasFile = open(name + '.txt', "r")
 		nbAreas = 0
 		for area in areasFile:
 			a = area.split(' ')
