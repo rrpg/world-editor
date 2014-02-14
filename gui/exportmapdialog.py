@@ -17,6 +17,7 @@ class exportMapDialog(QtGui.QDialog):
 		QtGui.QDialog.__init__(self, parent)
 		self.initUI()
 		self.setWindowTitle('Export map')
+		self.setModal(True)
 		self.show()
 
 	def setThread(self, thread):

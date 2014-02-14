@@ -17,6 +17,7 @@ class speciesListDialog(QtGui.QDialog):
 		self._parent = parent
 		self.initUI()
 		self.setWindowTitle('List species')
+		self.setModal(True)
 		self.show()
 
 	def initUI(self):

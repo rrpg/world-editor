@@ -36,6 +36,7 @@ class newMapDialog(QtGui.QDialog):
 		self.setFixedWidth(250)
 		self.initUI()
 		self.setWindowTitle('Create new map')
+		self.setModal(True)
 		self.show()
 
 	def initUI(self):
