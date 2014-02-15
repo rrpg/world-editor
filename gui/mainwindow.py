@@ -6,6 +6,8 @@ from gui.menu import menu
 from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
+from gui.addplacedialog import addPlaceDialog
+from gui.placeslist import placesList
 from core import worker
 import imghdr
 import os
@@ -24,8 +26,10 @@ class mainWindow(QtGui.QMainWindow):
 	_isRecording = False
 
 	_selectPixelEvent = QtCore.pyqtSignal(int, int)
-
+	_selectedCellRect = None
 	_pixmaps = dict()
+
+	_placesWidget = None
 
 	_thread = None
 
@@ -78,11 +82,19 @@ class mainWindow(QtGui.QMainWindow):
 		world's map.
 		"""
 
+		splitter = QtGui.QSplitter()
+		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
+
+		self._placesWidget = placesList(self, self._app)
+
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
-		self.setCentralWidget(self._imageView)
+		splitter.addWidget(self._placesWidget)
+		splitter.addWidget(self._imageView)
+		splitter.setStretchFactor(1, 1)
+		self.setCentralWidget(splitter)
 
 	def displayMessage(self, text):
 		"""
@@ -215,9 +227,19 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user has to select a starting cell. A record mode
 		will be enabled and the user will have to click on a cell in the map.
 		"""
-		if not self._isRecording:
-			self._isRecording = True
+		if not self.isRecording():
+			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.selectStartCell)
+
+	def recordAddPlaceCell(self):
+		"""
+		Method called when the user has to select a cell to add a place in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.addPlace)
 
 	def selectStartCell(self, x, y):
 		"""
@@ -236,8 +258,33 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
-		self._isRecording = False
+		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def addPlace(self, x, y):
+		"""
+		Method called when the user click on a cell in the map to add a place.
+		"""
+
+		if not self._app.map.isCellOnLand((x, y)):
+			self.alert("No place can be added in water")
+			return
+
+		dialog = addPlaceDialog(self, self._app, (x, y))
+		dialog.placeAdded.connect(self.displayPlace)
+		dialog.placeAdded.connect(self._placesWidget.refresh)
+
+		self.disableRecordingMode()
+		self._selectPixelEvent.disconnect(self.addPlace)
+
+	def displayPlace(self, x, y):
+		if 'places' not in self._pixmaps.keys():
+			self._pixmaps['places'] = list()
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
+		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		self._pixmaps['places'].append(rect)
 
 	def alert(self, message):
 		"""
@@ -251,3 +298,25 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		specieswindow = speciesListDialog(self, self._app)
 		specieswindow.show()
+
+	def selectCell(self, x, y):
+		if self._selectedCellRect is not None:
+			self.unselectCell()
+
+		self._selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
+
+	def unselectCell(self):
+		self._imageScene.removeItem(self._selectedCellRect)
+		self._selectedCellRect = None
+
+	def isRecording(self):
+		return self._isRecording
+
+	def enableRecordingMode(self):
+		self._isRecording = True
+		self._selectPixelEvent.connect(self.selectCell)
+
+	def disableRecordingMode(self):
+		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectCell)

@@ -14,6 +14,8 @@ class menu(QtGui.QMenuBar):
 	_zoominAction = None
 	_zoomoutAction = None
 	_selectStartCellAction = None
+	_listSpeciesAction = None
+	_addPlaceAction = None
 
 	mapOpened = QtCore.pyqtSignal()
 	mapZoomed = QtCore.pyqtSignal(float)
@@ -68,6 +70,11 @@ class menu(QtGui.QMenuBar):
 		self._selectStartCellAction.setStatusTip('Select the starting cell of the game')
 		self._selectStartCellAction.triggered.connect(window.recordSelectStartCell)
 
+		# Add a place action
+		self._addPlaceAction = QtGui.QAction('Add a place', self)
+		self._addPlaceAction.setStatusTip('Select a cell to add a place there')
+		self._addPlaceAction.triggered.connect(window.recordAddPlaceCell)
+
 		# list species action
 		self._listSpeciesAction = QtGui.QAction('List species...', self)
 		self._listSpeciesAction.setStatusTip('List the existing species of the world')
@@ -78,6 +85,7 @@ class menu(QtGui.QMenuBar):
 		self._zoomoutAction.setEnabled(False)
 		self._selectStartCellAction.setEnabled(False)
 		self._listSpeciesAction.setEnabled(False)
+		self._addPlaceAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
@@ -92,6 +100,7 @@ class menu(QtGui.QMenuBar):
 		mapMenu.addAction(self._zoomoutAction)
 
 		worldMenu.addAction(self._selectStartCellAction)
+		worldMenu.addAction(self._addPlaceAction)
 		worldMenu.addSeparator()
 		worldMenu.addAction(self._listSpeciesAction)
 
@@ -103,6 +112,7 @@ class menu(QtGui.QMenuBar):
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
 		self._selectStartCellAction.setEnabled(True)
+		self._addPlaceAction.setEnabled(True)
 		self._listSpeciesAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
