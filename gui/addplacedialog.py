@@ -61,6 +61,7 @@ class addPlaceDialog(QtGui.QDialog):
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
 
 		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton.clicked.connect(self.createPlace)
 		self._cancelButton = QtGui.QPushButton("Cancel")
 		self._cancelButton.clicked.connect(self.close)
 
@@ -75,6 +76,28 @@ class addPlaceDialog(QtGui.QDialog):
 		layout.addWidget(self._cancelButton, 4, 1)
 
 		self.setLayout(layout)
+
+	def createPlace(self):
+		"""
+		Method called when the "Create" button is pressed.
+		The filled values are checked and if they are correct, a map is
+		generated, in a thread
+		"""
+		valid = True
+		name = str(self._placeNameField.text()).strip()
+
+		if name == "":
+			self.displayMessage("A place name must be provided")
+			valid = False
+
+		if valid:
+			self._app.addPlace({
+				'name': name,
+				'type': self._placeTypeField.currentIndex(),
+				'size': self._placeSizeField.currentIndex(),
+				'coordinates': self._coordinates
+			})
+			self.close()
 
 	def displayMessage(self, message):
 		"""

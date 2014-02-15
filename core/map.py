@@ -20,6 +20,8 @@ class map:
 	"""
 	startCellPosition = None
 	cells = dict()
+	places = list()
+
 	species = [['Humans', '']]
 
 	def generate(self, name, width, height):

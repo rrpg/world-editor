@@ -103,3 +103,6 @@ class application(QtGui.QApplication):
 
 	def setMapFileName(self, name):
 		self._fileName = name
+
+	def addPlace(self, informations):
+		self.map.places.append(informations)
