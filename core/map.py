@@ -24,6 +24,8 @@ class map:
 
 	species = [['Humans', '']]
 
+	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
+
 	def generate(self, name, width, height):
 		"""
 		Method which generates a map and load the cells in an attribute of the
@@ -72,12 +74,12 @@ class map:
 		Method to set the start cell. The selected position must be a valid
 		position.
 		"""
-		if self.isStartCellValid(position):
+		if self.isCellOnLand(position):
 			self.startCellPosition = position
 		else:
 			raise exception("Invalid start cell position")
 
-	def isStartCellValid(self, position):
+	def isCellOnLand(self, position):
 		"""
 		Checks if the given position is a valid position for a start cell (must
 		not be a water cell).
@@ -93,21 +95,24 @@ class map:
 		"""
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, fileName)
-		thread.notifyProgressMain.emit(16, "")
+		thread.notifyProgressMain.emit(14, "")
 
 		self._exportCreateDbStructure(thread, db)
-		thread.notifyProgressMain.emit(33, "")
+		thread.notifyProgressMain.emit(28, "")
 
 		self._exportCreateGenders(thread, db)
-		thread.notifyProgressMain.emit(49, "")
+		thread.notifyProgressMain.emit(42, "")
 
 		self._exportSpecies(thread, db)
-		thread.notifyProgressMain.emit(66, "")
+		thread.notifyProgressMain.emit(56, "")
 
 		self._exportWorldCreation(thread, db, name)
-		thread.notifyProgressMain.emit(82, "")
+		thread.notifyProgressMain.emit(70, "")
 
 		self._exportStartCell(thread, db)
+		thread.notifyProgressMain.emit(84, "")
+
+		self._exportPlaces(thread, db)
 		thread.notifyProgressMain.emit(100, "")
 
 		db.commit()
@@ -186,12 +191,14 @@ class map:
 		query = "INSERT INTO area_type (name) VALUES "
 		areaTypesCodes = checks.getGroundTypes()
 		valuesInsert = list()
-		valuesInsert.append("('dungeon')")
+		for t in self._placesTypes.keys():
+			valuesInsert.append("('" + t + "')")
 		values = list()
 		for t in areaTypesCodes:
 			valuesInsert.append("(?)")
 			values.append(t)
 		query = query + ', '.join(valuesInsert)
+		print valuesInsert
 		c.execute(query, values)
 
 		thread.notifyProgressLocal.emit(66, "Areas creation")
@@ -244,9 +251,76 @@ class map:
 		c.execute(query, [result[0]])
 		thread.notifyProgressLocal.emit(100, "Finished")
 
+	def _exportPlaces(self, thread, db):
+		"""
+		Method to export the map's places in the DB.
+		"""
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Export places")
+		# select start cell ID in DB from coordinates
+		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
+		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
+		result = c.fetchone()
+
+		# insert in setting the id of the starting cell
+		query = str("\
+			INSERT INTO place \
+				(id_area, id_area_type, name, place_size) \
+				VALUES (\
+					(SELECT id_area FROM area WHERE x = ? and y = ?), \
+					(SELECT id_area_type FROM area_type WHERE name = ?), \
+					?,\
+					?\
+				)")
+
+		placeTypePercent = 100 / len(self.places)
+		placeTypesKeys = self._placesTypes.keys()
+		for i, p in enumerate(self.places):
+			c.execute(
+				query,
+				[
+					p['coordinates'][0],
+					p['coordinates'][1],
+					placeTypesKeys[p['type']],
+					p['name'],
+					p['size']
+				]
+			)
+
+			# One-cell place, the area can be directly inserted
+			if p['size'] == 0:
+				placeId = c.lastrowid
+				queryArea = "INSERT INTO area \
+					(id_area_type, id_region, container, x, y, directions) \
+					VALUES (\
+						(SELECT id_area_type FROM area_type WHERE name = ?), \
+						(SELECT id_region FROM area WHERE x = ? and y = ?), \
+						?, \
+						0, 0, 0\
+					)"
+
+				c.execute(
+					queryArea,
+					[
+						placeTypesKeys[p['type']],
+						p['coordinates'][0],
+						p['coordinates'][1],
+						placeTypesKeys[p['type']] + '_' + str(c.lastrowid)
+					]
+				)
+
+				c.execute(
+					"UPDATE place set entrance_id = ? WHERE id_place = ?",
+					[c.lastrowid, placeId]
+				)
+
+			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
+		thread.notifyProgressLocal.emit(100, "Finished")
+
 	@staticmethod
 	def getPlaceTypesLabels():
-		return ['Dungeon', 'Cave']
+		return map._placesTypes.values()
 
 	@staticmethod
 	def getPlaceSizesLabels():
