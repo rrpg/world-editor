@@ -188,12 +188,14 @@ class map:
 		query = "INSERT INTO area_type (name) VALUES "
 		areaTypesCodes = checks.getGroundTypes()
 		valuesInsert = list()
-		valuesInsert.append("('dungeon')")
+		for t in self._placesTypes.keys():
+			valuesInsert.append("('" + t + "')")
 		values = list()
 		for t in areaTypesCodes:
 			valuesInsert.append("(?)")
 			values.append(t)
 		query = query + ', '.join(valuesInsert)
+		print valuesInsert
 		c.execute(query, values)
 
 		thread.notifyProgressLocal.emit(66, "Areas creation")
