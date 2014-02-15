@@ -287,6 +287,34 @@ class map:
 					p['size']
 				]
 			)
+
+			# One-cell place, the area can be directly inserted
+			if p['size'] == 0:
+				placeId = c.lastrowid
+				queryArea = "INSERT INTO area \
+					(id_area_type, id_region, container, x, y, directions) \
+					VALUES (\
+						(SELECT id_area_type FROM area_type WHERE name = ?), \
+						(SELECT id_region FROM area WHERE x = ? and y = ?), \
+						?, \
+						0, 0, 0\
+					)"
+
+				c.execute(
+					queryArea,
+					[
+						placeTypesKeys[p['type']],
+						p['coordinates'][0],
+						p['coordinates'][1],
+						placeTypesKeys[p['type']] + '_' + str(c.lastrowid)
+					]
+				)
+
+				c.execute(
+					"UPDATE place set entrance_id = ? WHERE id_place = ?",
+					[c.lastrowid, placeId]
+				)
+
 			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
 		thread.notifyProgressLocal.emit(100, "Finished")
 
