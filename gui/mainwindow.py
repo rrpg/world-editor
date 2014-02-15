@@ -265,6 +265,9 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
+		self.disableRecordingMode()
+		self._selectPixelEvent.disconnect(self.addPlace)
+
 	def displayPlace(self, x, y):
 		if 'places' not in self._pixmaps.keys():
 			self._pixmaps['places'] = list()
