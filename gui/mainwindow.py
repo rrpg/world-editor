@@ -254,16 +254,13 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method called when the user click on a cell in the map to add a place.
 		"""
-		try:
-			# Open dialog to select
-			# - the place type
-			# - the place name
-			# - if the place must be randomly generated (if not, the place will
-			#		have one cell)
-			dialog = addPlaceDialog(self, self._app, (x, y))
-			dialog.placeAdded.connect(self.displayPlace)
-		except BaseException as e:
-			self.alert(e.message)
+
+		if not self._app.map.isCellOnLand((x, y)):
+			self.alert("No place can be added in water")
+			return
+
+		dialog = addPlaceDialog(self, self._app, (x, y))
+		dialog.placeAdded.connect(self.displayPlace)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
