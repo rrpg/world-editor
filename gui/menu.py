@@ -73,6 +73,7 @@ class menu(QtGui.QMenuBar):
 		# Add a place action
 		self._addPlaceAction = QtGui.QAction('Add a place', self)
 		self._addPlaceAction.setStatusTip('Select a cell to add a place there')
+		self._addPlaceAction.triggered.connect(window.recordAddPlaceCell)
 
 		# list species action
 		self._listSpeciesAction = QtGui.QAction('List species...', self)

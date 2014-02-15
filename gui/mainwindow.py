@@ -219,6 +219,16 @@ class mainWindow(QtGui.QMainWindow):
 			self._isRecording = True
 			self._selectPixelEvent.connect(self.selectStartCell)
 
+	def recordAddPlaceCell(self):
+		"""
+		Method called when the user has to select a cell to add a place in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self._isRecording:
+			self._isRecording = True
+			self._selectPixelEvent.connect(self.addPlace)
+
 	def selectStartCell(self, x, y):
 		"""
 		Method called when the user click on a cell in the map to select a
@@ -238,6 +248,19 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def addPlace(self, x, y):
+		"""
+		Method called when the user click on a cell in the map to add a place.
+		"""
+		try:
+			# Open dialog to select
+			# - the place type
+			# - the place name
+			# - if the place must be randomly generated (if not, the place will
+			#		have one cell)
+		except BaseException as e:
+			self.alert(e.message)
 
 	def alert(self, message):
 		"""
