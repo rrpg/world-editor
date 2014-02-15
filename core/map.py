@@ -72,12 +72,12 @@ class map:
 		Method to set the start cell. The selected position must be a valid
 		position.
 		"""
-		if self.isStartCellValid(position):
+		if self.isCellOnLand(position):
 			self.startCellPosition = position
 		else:
 			raise exception("Invalid start cell position")
 
-	def isStartCellValid(self, position):
+	def isCellOnLand(self, position):
 		"""
 		Checks if the given position is a valid position for a start cell (must
 		not be a water cell).
