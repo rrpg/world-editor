@@ -261,8 +261,18 @@ class mainWindow(QtGui.QMainWindow):
 			# - if the place must be randomly generated (if not, the place will
 			#		have one cell)
 			dialog = addPlaceDialog(self, self._app, (x, y))
+			dialog.placeAdded.connect(self.displayPlace)
 		except BaseException as e:
 			self.alert(e.message)
+
+	def displayPlace(self, x, y):
+		if 'places' not in self._pixmaps.keys():
+			self._pixmaps['places'] = list()
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
+		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		self._pixmaps['places'].append(rect)
 
 	def alert(self, message):
 		"""

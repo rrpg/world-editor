@@ -97,6 +97,7 @@ class addPlaceDialog(QtGui.QDialog):
 				'size': self._placeSizeField.currentIndex(),
 				'coordinates': self._coordinates
 			})
+			self.placeAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.close()
 
 	def displayMessage(self, message):
