@@ -250,7 +250,7 @@ class map:
 
 	@staticmethod
 	def getPlaceTypesLabels():
-		return ['Dungeon', 'Cave']
+		return map._placesTypes.values()
 
 	@staticmethod
 	def getPlaceSizesLabels():
