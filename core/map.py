@@ -274,7 +274,8 @@ class map:
 					?\
 				)")
 
-		for p in self.places:
+		placeTypePercent = 100 / len(self.places)
+		for i, p in enumerate(self.places):
 			c.execute(
 				query,
 				[
@@ -285,6 +286,7 @@ class map:
 					p['size']
 				]
 			)
+			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	@staticmethod
