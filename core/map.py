@@ -24,6 +24,8 @@ class map:
 
 	species = [['Humans', '']]
 
+	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
+
 	def generate(self, name, width, height):
 		"""
 		Method which generates a map and load the cells in an attribute of the
