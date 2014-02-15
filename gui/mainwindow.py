@@ -7,6 +7,7 @@ from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from gui.addplacedialog import addPlaceDialog
+from gui.placeslist import placesList
 from core import worker
 import imghdr
 import os
@@ -27,6 +28,8 @@ class mainWindow(QtGui.QMainWindow):
 	_selectPixelEvent = QtCore.pyqtSignal(int, int)
 	_selectedCellRect = None
 	_pixmaps = dict()
+
+	_placesWidget = None
 
 	_thread = None
 
@@ -79,11 +82,19 @@ class mainWindow(QtGui.QMainWindow):
 		world's map.
 		"""
 
+		splitter = QtGui.QSplitter()
+		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
+
+		self._placesWidget = placesList(self, self._app)
+
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
-		self.setCentralWidget(self._imageView)
+		splitter.addWidget(self._placesWidget)
+		splitter.addWidget(self._imageView)
+		splitter.setStretchFactor(1, 1)
+		self.setCentralWidget(splitter)
 
 	def displayMessage(self, text):
 		"""
@@ -261,6 +272,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		dialog = addPlaceDialog(self, self._app, (x, y))
 		dialog.placeAdded.connect(self.displayPlace)
+		dialog.placeAdded.connect(self._placesWidget.refresh)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
