@@ -216,8 +216,8 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user has to select a starting cell. A record mode
 		will be enabled and the user will have to click on a cell in the map.
 		"""
-		if not self._isRecording:
-			self._isRecording = True
+		if not self.isRecording():
+			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.selectStartCell)
 
 	def recordAddPlaceCell(self):
@@ -226,8 +226,8 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self._isRecording:
-			self._isRecording = True
+		if not self.isRecording():
+			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.addPlace)
 
 	def selectStartCell(self, x, y):
@@ -247,7 +247,7 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
-		self._isRecording = False
+		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
 	def addPlace(self, x, y):
@@ -286,3 +286,12 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		specieswindow = speciesListDialog(self, self._app)
 		specieswindow.show()
+
+	def isRecording(self):
+		return self._isRecording
+
+	def enableRecordingMode(self):
+		self._isRecording = True
+
+	def disableRecordingMode(self):
+		self._isRecording = False
