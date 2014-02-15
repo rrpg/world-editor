@@ -6,6 +6,7 @@ from gui.menu import menu
 from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
+from gui.addplacedialog import addPlaceDialog
 from core import worker
 import imghdr
 import os
@@ -259,6 +260,7 @@ class mainWindow(QtGui.QMainWindow):
 			# - the place name
 			# - if the place must be randomly generated (if not, the place will
 			#		have one cell)
+			dialog = addPlaceDialog(self, self._app, (x, y))
 		except BaseException as e:
 			self.alert(e.message)
 
