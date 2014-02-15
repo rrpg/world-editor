@@ -242,6 +242,14 @@ class map:
 		c.execute(query, [result[0]])
 		thread.notifyProgressLocal.emit(100, "Finished")
 
+	@staticmethod
+	def getPlaceTypesLabels():
+		return ['Dungeon', 'Cave']
+
+	@staticmethod
+	def getPlaceSizesLabels():
+		return ['1 cell', 'Small', 'Medium', 'Large']
+
 
 class exception(BaseException):
 	pass
