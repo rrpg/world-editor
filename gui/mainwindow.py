@@ -290,11 +290,22 @@ class mainWindow(QtGui.QMainWindow):
 		specieswindow = speciesListDialog(self, self._app)
 		specieswindow.show()
 
+	def selectCell(self, x, y):
+		self.selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		#~self.selectedCellRect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0, 255)))
+		self.selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
+
+	def unselectCell(self):
+		self._imageScene.removeItem(self.selectedCellRect)
+		self.selectedCellRect = None
+
 	def isRecording(self):
 		return self._isRecording
 
 	def enableRecordingMode(self):
 		self._isRecording = True
+		self._selectPixelEvent.connect(self.selectCell)
 
 	def disableRecordingMode(self):
 		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectCell)
