@@ -275,13 +275,14 @@ class map:
 				)")
 
 		placeTypePercent = 100 / len(self.places)
+		placeTypesKeys = self._placesTypes.keys()
 		for i, p in enumerate(self.places):
 			c.execute(
 				query,
 				[
 					p['coordinates'][0],
 					p['coordinates'][1],
-					self._placesTypes.keys()[p['type']],
+					placeTypesKeys[p['type']],
 					p['name'],
 					p['size']
 				]
