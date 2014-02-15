@@ -95,21 +95,24 @@ class map:
 		"""
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, fileName)
-		thread.notifyProgressMain.emit(16, "")
+		thread.notifyProgressMain.emit(14, "")
 
 		self._exportCreateDbStructure(thread, db)
-		thread.notifyProgressMain.emit(33, "")
+		thread.notifyProgressMain.emit(28, "")
 
 		self._exportCreateGenders(thread, db)
-		thread.notifyProgressMain.emit(49, "")
+		thread.notifyProgressMain.emit(42, "")
 
 		self._exportSpecies(thread, db)
-		thread.notifyProgressMain.emit(66, "")
+		thread.notifyProgressMain.emit(56, "")
 
 		self._exportWorldCreation(thread, db, name)
-		thread.notifyProgressMain.emit(82, "")
+		thread.notifyProgressMain.emit(70, "")
 
 		self._exportStartCell(thread, db)
+		thread.notifyProgressMain.emit(84, "")
+
+		self._exportPlaces(thread, db)
 		thread.notifyProgressMain.emit(100, "")
 
 		db.commit()
@@ -246,6 +249,42 @@ class map:
 		# insert in setting the id of the starting cell
 		query = str("INSERT INTO settings (key, value) VALUES ('START_CELL_ID', ?)")
 		c.execute(query, [result[0]])
+		thread.notifyProgressLocal.emit(100, "Finished")
+
+	def _exportPlaces(self, thread, db):
+		"""
+		Method to export the map's places in the DB.
+		"""
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Export places")
+		# select start cell ID in DB from coordinates
+		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
+		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
+		result = c.fetchone()
+
+		# insert in setting the id of the starting cell
+		query = str("\
+			INSERT INTO place \
+				(id_area, id_area_type, name, place_size) \
+				VALUES (\
+					(SELECT id_area FROM area WHERE x = ? and y = ?), \
+					(SELECT id_area_type FROM area_type WHERE name = ?), \
+					?,\
+					?\
+				)")
+
+		for p in self.places:
+			c.execute(
+				query,
+				[
+					p['coordinates'][0],
+					p['coordinates'][1],
+					self._placesTypes.keys()[p['type']],
+					p['name'],
+					p['size']
+				]
+			)
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	@staticmethod
