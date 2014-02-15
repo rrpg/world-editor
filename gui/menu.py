@@ -14,6 +14,7 @@ class menu(QtGui.QMenuBar):
 	_zoominAction = None
 	_zoomoutAction = None
 	_selectStartCellAction = None
+	_listSpeciesAction = None
 
 	mapOpened = QtCore.pyqtSignal()
 	mapZoomed = QtCore.pyqtSignal(float)
