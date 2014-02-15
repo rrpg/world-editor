@@ -61,8 +61,10 @@ class addPlaceDialog(QtGui.QDialog):
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
 
 		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton.clicked.connect(self._parent.unselectCell)
 		self._saveButton.clicked.connect(self.createPlace)
 		self._cancelButton = QtGui.QPushButton("Cancel")
+		self._cancelButton.clicked.connect(self._parent.unselectCell)
 		self._cancelButton.clicked.connect(self.close)
 
 		layout.addWidget(self._messageLabel, 0, 0, 1, 2)

@@ -216,8 +216,8 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user has to select a starting cell. A record mode
 		will be enabled and the user will have to click on a cell in the map.
 		"""
-		if not self._isRecording:
-			self._isRecording = True
+		if not self.isRecording():
+			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.selectStartCell)
 
 	def recordAddPlaceCell(self):
@@ -226,8 +226,8 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self._isRecording:
-			self._isRecording = True
+		if not self.isRecording():
+			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.addPlace)
 
 	def selectStartCell(self, x, y):
@@ -247,7 +247,7 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
-		self._isRecording = False
+		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
 	def addPlace(self, x, y):
@@ -264,6 +264,9 @@ class mainWindow(QtGui.QMainWindow):
 			dialog.placeAdded.connect(self.displayPlace)
 		except BaseException as e:
 			self.alert(e.message)
+
+		self.disableRecordingMode()
+		self._selectPixelEvent.disconnect(self.addPlace)
 
 	def displayPlace(self, x, y):
 		if 'places' not in self._pixmaps.keys():
@@ -286,3 +289,23 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		specieswindow = speciesListDialog(self, self._app)
 		specieswindow.show()
+
+	def selectCell(self, x, y):
+		self.selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		#~self.selectedCellRect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0, 255)))
+		self.selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
+
+	def unselectCell(self):
+		self._imageScene.removeItem(self.selectedCellRect)
+		self.selectedCellRect = None
+
+	def isRecording(self):
+		return self._isRecording
+
+	def enableRecordingMode(self):
+		self._isRecording = True
+		self._selectPixelEvent.connect(self.selectCell)
+
+	def disableRecordingMode(self):
+		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectCell)
