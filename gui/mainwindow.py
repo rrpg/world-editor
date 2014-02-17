@@ -157,10 +157,10 @@ class mainWindow(QtGui.QMainWindow):
 		0.75, the zoom out button is disabled and if the scale factor is higher
 		or equal than 30.0, the zoom in button is disabled.
 		"""
-		self._imageView.resetTransform();
-		transform = self._imageView.transform();
-		transform.scale(self._scaleFactor, self._scaleFactor);
-		self._imageView.setTransform(transform);
+		self._imageView.resetTransform()
+		transform = self._imageView.transform()
+		transform.scale(self._scaleFactor, self._scaleFactor)
+		self._imageView.setTransform(transform)
 
 		self.menuBar().mapZoomed.emit(self._scaleFactor)
 
@@ -184,7 +184,7 @@ class mainWindow(QtGui.QMainWindow):
 				"Image Viewer",
 				"Cannot open %s." % (fileName)
 			)
-			return;
+			return
 
 		self._imageScene.clear()
 		mapPixmap = QtGui.QPixmap.fromImage(image)
