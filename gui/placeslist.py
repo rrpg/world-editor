@@ -23,12 +23,6 @@ class placesList(QtGui.QTableWidget):
 		self.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
 		self.setData()
 
-	def refresh(self):
-		tablemodel = placesTableModel(self._setData(), self._columns, self)
-		self.setItemDelegate(showPlaceDelegate(self))
-		self.setModel(tablemodel)
-		self.resizeColumnsToContents()
-
 	def setData(self):
 		for index, row in enumerate(self._app.map.places):
 			self.insertRow(index)
