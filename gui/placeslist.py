@@ -26,8 +26,11 @@ class placesList(QtGui.QTableWidget):
 		self.setData()
 
 	def setData(self):
+		self.clearContents()
+		nbRowsToInsert = len(self._app.map.places)
 		for index, row in enumerate(self._app.map.places):
-			self.insertRow(index)
+			if self.rowCount() < nbRowsToInsert:
+				self.insertRow(index)
 			self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 			self.setItem(index, 1, QtGui.QTableWidgetItem(self._app.map.getPlaceTypesLabels()[row['type']]))
 			self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['coordinates'][0])))
