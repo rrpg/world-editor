@@ -140,27 +140,27 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
 		"""
-		self.scaleImage(1.25);
+		self._scaleFactor *= 1.25
+		self.scaleImage()
 
 	def zoomOutMap(self):
 		"""
 		Wrapper method to zoom out the map, calls scaleImage().
 		"""
-		self.scaleImage(0.75);
+		self._scaleFactor *= 0.75
+		self.scaleImage()
 
-	def scaleImage(self, factor):
+	def scaleImage(self):
 		"""
 		Method to resize the map after a zoom action.
 		Once the map is resized, if the scale factor is lower or equal than
 		0.75, the zoom out button is disabled and if the scale factor is higher
 		or equal than 30.0, the zoom in button is disabled.
 		"""
-		self._scaleFactor *= factor;
-
-		self._imageView.resetTransform();
-		transform = self._imageView.transform();
-		transform.scale(self._scaleFactor, self._scaleFactor);
-		self._imageView.setTransform(transform);
+		self._imageView.resetTransform()
+		transform = self._imageView.transform()
+		transform.scale(self._scaleFactor, self._scaleFactor)
+		self._imageView.setTransform(transform)
 
 		self.menuBar().mapZoomed.emit(self._scaleFactor)
 
@@ -184,7 +184,7 @@ class mainWindow(QtGui.QMainWindow):
 				"Image Viewer",
 				"Cannot open %s." % (fileName)
 			)
-			return;
+			return
 
 		self._imageScene.clear()
 		mapPixmap = QtGui.QPixmap.fromImage(image)
@@ -272,7 +272,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		dialog = addPlaceDialog(self, self._app, (x, y))
 		dialog.placeAdded.connect(self.displayPlace)
-		dialog.placeAdded.connect(self._placesWidget.refresh)
+		dialog.placeAdded.connect(self._placesWidget.setData)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
@@ -320,3 +320,8 @@ class mainWindow(QtGui.QMainWindow):
 	def disableRecordingMode(self):
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectCell)
+
+	def centerMapOnCoordinates(self, coordinates):
+		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
+		self._scaleFactor = 30.0
+		self.scaleImage()

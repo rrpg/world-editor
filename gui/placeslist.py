@@ -4,10 +4,11 @@ from PyQt4 import QtGui
 from PyQt4 import QtCore
 
 
-class placesList(QtGui.QTableView):
+class placesList(QtGui.QTableWidget):
 
-	_columns = ('Name', 'Type', 'X', 'Y')
+	_columns = ('Name', 'Type', 'X', 'Y', 'Locate')
 	_app = None
+	_parent = None
 
 	def __init__(self, parent, app):
 		"""
@@ -15,70 +16,46 @@ class placesList(QtGui.QTableView):
 		"""
 		self._app = app
 		QtGui.QTableView.__init__(self, parent)
-		self.refresh()
+		self._parent = parent
+		self.setColumnCount(len(self._columns))
+		self.setHorizontalHeaderLabels(self._columns)
+		self.verticalHeader().setVisible(False)
+		self.setEditTriggers(QtGui.QAbstractItemView.NoEditTriggers)
+		self.setSelectionBehavior(QtGui.QAbstractItemView.SelectRows)
+		self.setSelectionMode(QtGui.QAbstractItemView.SingleSelection)
+		self.setData()
 
-	def refresh(self):
-		tablemodel = placesTableModel(self._prepareData(), self._columns, self)
-		self.setModel(tablemodel)
-		self.resizeColumnsToContents();
+	def setData(self):
+		self.clearContents()
+		nbRowsToInsert = len(self._app.map.places)
+		for index, row in enumerate(self._app.map.places):
+			if self.rowCount() < nbRowsToInsert:
+				self.insertRow(index)
+			self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
+			self.setItem(index, 1, QtGui.QTableWidgetItem(self._app.map.getPlaceTypesLabels()[row['type']]))
+			self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['coordinates'][0])))
+			self.setItem(index, 3, QtGui.QTableWidgetItem(str(row['coordinates'][1])))
+			self.setCellWidget(index, 4, placeLocatorButton(self, index, "Locate"))
+		self.resizeColumnsToContents()
 
-	def _prepareData(self):
-		data = list()
-		for r in self._app.map.places:
-			data.append([
-				r['name'],
-				self._app.map.getPlaceTypesLabels()[r['type']],
-				r['coordinates'][0],
-				r['coordinates'][1]
-			])
-		return data
+	def getCoordinatesFromIndex(self, index):
+		return (
+			int(self.item(index, 2).text()),
+			int(self.item(index, 3).text())
+		)
 
-class placesTableModel(QtCore.QAbstractTableModel):
-	"""
-	Model class for the places list
-	"""
-	def __init__(self, datain, headerdata, parent = None, *args):
-		QtCore.QAbstractTableModel.__init__(self, parent, *args)
-		self.arraydata = datain
-		self.headerdata = headerdata
 
-	def headerData(self, col, orientation=QtCore.Qt.Horizontal, role=QtCore.Qt.DisplayRole):
-		if orientation == QtCore.Qt.Horizontal and role == QtCore.Qt.DisplayRole and len(self.headerdata) > 0:
-			return self.headerdata[col]
+class placeLocatorButton(QtGui.QPushButton):
+	_table = None
+	_index = None
 
-	def rowCount(self, parent):
-		"""
-		Method to get the number of rows of the table.
-		"""
-		return len(self.arraydata)
+	def __init__(self, table, index, *args):
+		QtGui.QItemDelegate.__init__(self, *args)
+		self._table = table
+		self._index = index
+		self.clicked.connect(self._locatePlace)
 
-	def columnCount(self, parent):
-		"""
-		Method to get the number of columns of the table.
-		"""
-		if len(self.arraydata) == 0:
-			return 0
-
-		return len(self.arraydata[0])
-
-	def setData(self, index, value, role):
-		"""
-		Method to update a cell of the table, depending on a given role.
-		"""
-		if role == QtCore.Qt.DisplayRole:
-			self.arraydata[index.row()][index.column()] = str(value)
-			return True
-		return False
-
-	def data(self, index, role):
-		"""
-		Method to get the value of a cell of the table, depending on a given
-		role.
-		"""
-		if not index.isValid():
-			return None
-		elif role == QtCore.Qt.EditRole:
-			return str(self.arraydata[index.row()][index.column()])
-		elif role != QtCore.Qt.DisplayRole:
-			return None
-		return (self.arraydata[index.row()][index.column()])
+	def _locatePlace(self):
+		self._table._parent.centerMapOnCoordinates(
+			self._table.getCoordinatesFromIndex(self._index)
+		)
