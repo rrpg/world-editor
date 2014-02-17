@@ -8,6 +8,7 @@ class placesList(QtGui.QTableWidget):
 
 	_columns = ('Name', 'Type', 'X', 'Y', 'Locate')
 	_app = None
+	_parent = None
 
 	def __init__(self, parent, app):
 		"""
@@ -15,6 +16,7 @@ class placesList(QtGui.QTableWidget):
 		"""
 		self._app = app
 		QtGui.QTableView.__init__(self, parent)
+		self._parent = parent
 		self.setColumnCount(len(self._columns))
 		self.setHorizontalHeaderLabels(self._columns)
 		self.verticalHeader().setVisible(False)
