@@ -325,3 +325,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
 		self._scaleFactor = 30.0
 		self.scaleImage()
+
+	def saveMapAction(self):
+		pass
+
+	def saveMapAsAction(self):
+		pass
