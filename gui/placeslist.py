@@ -35,5 +35,15 @@ class placesList(QtGui.QTableWidget):
 			self.setItem(index, 1, QtGui.QTableWidgetItem(self._app.map.getPlaceTypesLabels()[row['type']]))
 			self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['coordinates'][0])))
 			self.setItem(index, 3, QtGui.QTableWidgetItem(str(row['coordinates'][1])))
-			self.setCellWidget(index, 4, QtGui.QPushButton("Locate"))
+			self.setCellWidget(index, 4, placeLocatorButton(self, index, "Locate"))
 		self.resizeColumnsToContents()
+
+
+class placeLocatorButton(QtGui.QPushButton):
+	_table = None
+	_index = None
+
+	def __init__(self, table, index, *args):
+		QtGui.QItemDelegate.__init__(self, *args)
+		self._table = table
+		self._index = index
