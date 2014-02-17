@@ -140,23 +140,23 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
 		"""
-		self.scaleImage(1.25);
+		self._scaleFactor *= 1.25
+		self.scaleImage()
 
 	def zoomOutMap(self):
 		"""
 		Wrapper method to zoom out the map, calls scaleImage().
 		"""
-		self.scaleImage(0.75);
+		self._scaleFactor *= 0.75
+		self.scaleImage()
 
-	def scaleImage(self, factor):
+	def scaleImage(self):
 		"""
 		Method to resize the map after a zoom action.
 		Once the map is resized, if the scale factor is lower or equal than
 		0.75, the zoom out button is disabled and if the scale factor is higher
 		or equal than 30.0, the zoom in button is disabled.
 		"""
-		self._scaleFactor *= factor;
-
 		self._imageView.resetTransform();
 		transform = self._imageView.transform();
 		transform.scale(self._scaleFactor, self._scaleFactor);
