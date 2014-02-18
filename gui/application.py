@@ -14,6 +14,7 @@ class application(QtGui.QApplication):
 	"""
 	_name = None
 	_fileName = None
+	_saveFileName = None
 
 	_instance = None
 
@@ -62,6 +63,7 @@ class application(QtGui.QApplication):
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
+		self._saveFileName = None
 		self.initMap()
 		self.map.generate(self._fileName, width, height)
 
@@ -107,3 +109,15 @@ class application(QtGui.QApplication):
 
 	def addPlace(self, informations):
 		self.map.places.append(informations)
+
+	def getSaveFileName(self):
+		return self._saveFileName
+
+	def setSaveMapName(self, name):
+		name = str(name)
+		if not os.path.exists(os.path.dirname(name)):
+			raise BaseException("The selected folder does not exist")
+		elif os.path.exists(name) and not os.path.isfile(name):
+			raise BaseException("The selected path is not a file")
+		self._saveFileName = name
+
