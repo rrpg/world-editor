@@ -352,6 +352,15 @@ class map:
 			arcname=os.path.basename(self._file) + '_places.txt'
 		)
 
+		f = open(self._file + '_start_cell.txt', 'w')
+		if self.startCellPosition is not None:
+			f.write(str(self.startCellPosition[0]) + ' ' + str(self.startCellPosition[1]))
+		f.close()
+		tar.add(
+			self._file + '_start_cell.txt',
+			arcname=os.path.basename(self._file) + '_start_cell.txt'
+		)
+
 		tar.close()
 
 class exception(BaseException):
