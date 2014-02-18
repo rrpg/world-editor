@@ -62,6 +62,7 @@ class application(QtGui.QApplication):
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
+		self.initMap()
 		self.map.generate(self._fileName, width, height)
 
 	def initMap(self):

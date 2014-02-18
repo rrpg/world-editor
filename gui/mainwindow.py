@@ -198,8 +198,6 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
-		self._app.initMap()
-
 	def exportMap(self):
 		"""
 		Method to export a map.
