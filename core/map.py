@@ -18,6 +18,7 @@ class map:
 	Class to interface with a map DB.
 	The generation and export are done here.
 	"""
+	_file = None
 	startCellPosition = None
 	cells = dict()
 	places = list()
@@ -43,15 +44,16 @@ class map:
 		if len(result[1]) > 0:
 			raise BaseException(result[1])
 
-		self.loadCells(name)
+		self._file = name
+		self.loadCells()
 
-	def loadCells(self, name):
+	def loadCells(self):
 		"""
 		Method which load a map's cells. The cells are read from a text file
 		and saved in a list.
 		"""
 		# Open text file containing cells infos
-		areasFile = open(name + '.txt', "r")
+		areasFile = open(self._file + '.txt', "r")
 		nbAreas = 0
 		for area in areasFile:
 			a = area.split(' ')
