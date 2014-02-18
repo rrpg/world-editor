@@ -337,9 +337,20 @@ class map:
 
 		f = open(self._file + '_places.txt', 'w')
 		for p in self.places:
-			f.write('%d %s %d %d %d\n' % (p['type'], p['name'], p['coordinates'][0], p['coordinates'][1], p['size']))
+			f.write(
+				'%d %s %d %d %d\n' % (
+					p['type'],
+					p['name'],
+					p['coordinates'][0],
+					p['coordinates'][1],
+					p['size']
+				)
+			)
 		f.close()
-		tar.add(self._file + '_places.txt', arcname=os.path.basename(self._file) + '_places.txt')
+		tar.add(
+			self._file + '_places.txt',
+			arcname=os.path.basename(self._file) + '_places.txt'
+		)
 
 		tar.close()
 
