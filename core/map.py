@@ -8,6 +8,7 @@ import os
 from core import config
 import sqlite3
 import sys
+import tarfile
 
 # Import an external check class from the generator
 sys.path.insert(0, config.generator['map']['path'])
@@ -328,6 +329,19 @@ class map:
 	def getPlaceSizesLabels():
 		return ['1 cell', 'Small', 'Medium', 'Large']
 
+	def save(self, fileName):
+		tar = tarfile.open(fileName, "w:gz")
+
+		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
+		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
+
+		f = open(self._file + '_places.txt', 'w')
+		for p in self.places:
+			f.write('%d %s %d %d %d\n' % (p['type'], p['name'], p['coordinates'][0], p['coordinates'][1], p['size']))
+		f.close()
+		tar.add(self._file + '_places.txt', arcname=os.path.basename(self._file) + '_places.txt')
+
+		tar.close()
 
 class exception(BaseException):
 	pass

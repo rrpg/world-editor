@@ -325,7 +325,21 @@ class mainWindow(QtGui.QMainWindow):
 		self.scaleImage()
 
 	def saveMapAction(self):
-		pass
+		if self._app.getSaveFileName() is None:
+			self.saveMapAsAction()
+		else:
+			self._app.save()
 
 	def saveMapAsAction(self):
-		pass
+		fileName = QtGui.QFileDialog.getSaveFileName(
+			self,
+			"Select file",
+			QtCore.QDir.currentPath(),
+			"Map (*.map)"
+		)
+
+		if fileName[-4:] != '.map':
+			fileName = fileName + '.map'
+
+		self._app.setSaveMapName(fileName)
+		self._app.save()
