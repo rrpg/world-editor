@@ -390,6 +390,29 @@ class map:
 		tar.close()
 		os.remove(self._file + '_start_cell.txt')
 
+	def open(self, fileName):
+		"""
+		Method to open a filename and instanciate the map object
+		"""
+		tar = tarfile.open(fileName, 'r')
+		tmpDir = config.tempDir + '/'
+
+		try:
+			for item in tar:
+				tar.extract(item, tmpDir)
+				if item.path == '__NAME__':
+					worldNameFile = open(tmpDir + item.path, "r")
+					worldName = worldNameFile.readline()
+					self._file = config.tempDir + '/' + worldName
+					worldNameFile.close()
+
+			self.loadCells()
+			self.loadPlaces()
+		except IOError:
+			raise exception("An error occured during the opening of the map file")
+
+		return self._file
+
 
 class exception(BaseException):
 	pass
