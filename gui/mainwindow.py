@@ -128,7 +128,7 @@ class mainWindow(QtGui.QMainWindow):
 			self,
 			"Open file",
 			QtCore.QDir.currentPath(),
-			"Images (*.bmp)"
+			"Maps (*.map)"
 		)
 
 		if fileName == "":
