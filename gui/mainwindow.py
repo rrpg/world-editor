@@ -54,6 +54,7 @@ class mainWindow(QtGui.QMainWindow):
 		self.addWidget = None
 		#creation of the UI
 		self.initUI()
+		self.initSignals()
 
 	def initUI(self):
 		"""
@@ -73,6 +74,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._setWindowInfos()
 		#display the Whole Thing
 		self.show()
+
+	def initSignals(self):
+		self._app.mapOpened.connect(self._placesWidget.setData)
 
 	def _create(self):
 		"""

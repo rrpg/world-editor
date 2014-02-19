@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from gui.mainwindow import mainWindow
 from core import map, config
 import sys
@@ -17,6 +17,7 @@ class application(QtGui.QApplication):
 	_saveFileName = None
 
 	_instance = None
+	mapOpened = QtCore.pyqtSignal()
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
