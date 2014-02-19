@@ -48,6 +48,10 @@ class application(QtGui.QApplication):
 		self.aboutToQuit.connect(self.clean)
 
 	def _prepareFolders(self):
+		"""
+		Method called when the application is started.
+		It creates the temp and the maps folders if they don't exist
+		"""
 		if not os.path.exists(config.tempDir):
 			os.makedirs(config.tempDir)
 		if not os.path.exists(config.exportPath):
@@ -103,27 +107,52 @@ class application(QtGui.QApplication):
 		self.map.species.append([name, description])
 
 	def escapeName(self, name):
+		"""
+		Method to escape a world name to remove any non alnum characters.
+		The escaped name is used for the different needed filenames.
+		"""
 		return ''.join(e for e in name if e.isalnum())
 
 	def getMapName(self):
+		"""
+		Return the world's name, unescaped
+		"""
 		return self._name
 
 	def getMapFileName(self):
+		"""
+		Return the world's file name, escaped
+		"""
 		return self._fileName
 
 	def setMapName(self, name):
+		"""
+		Set the world's name, unescaped
+		"""
 		self._name = name
 
 	def setMapFileName(self, name):
+		"""
+		Set the world's file name
+		"""
 		self._fileName = name
 
 	def addPlace(self, informations):
+		"""
+		Add a place to the map's places list
+		"""
 		self.map.places.append(informations)
 
 	def getSaveFileName(self):
+		"""
+		Return the map's name used to save the map
+		"""
 		return self._saveFileName
 
 	def setSaveMapName(self, name):
+		"""
+		Set the map's name used to save the map
+		"""
 		name = str(name)
 		if not os.path.exists(os.path.dirname(name)):
 			raise BaseException("The selected folder does not exist")
@@ -132,6 +161,10 @@ class application(QtGui.QApplication):
 		self._saveFileName = name
 
 	def saveMap(self):
+		"""
+		Method which save the map in a .map file. A .map file can be reopened later
+		to be edited.
+		"""
 		if self._saveFileName is None:
 			raise BaseException("No file name defined to save the map")
 
