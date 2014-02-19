@@ -1,6 +1,6 @@
 # rRpg World Editor
 
-Program to create and edit worlds for my game (https://github.com/rrpg/world-editor).
+Program to create and edit worlds for my game (https://github.com/rrpg/engine).
 
 ## Requirements
 
