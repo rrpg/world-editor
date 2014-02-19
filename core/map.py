@@ -8,6 +8,7 @@ import os
 from core import config
 import sqlite3
 import sys
+import tarfile
 
 # Import an external check class from the generator
 sys.path.insert(0, config.generator['map']['path'])
@@ -18,6 +19,7 @@ class map:
 	Class to interface with a map DB.
 	The generation and export are done here.
 	"""
+	_file = None
 	startCellPosition = None
 	cells = dict()
 	places = list()
@@ -43,15 +45,16 @@ class map:
 		if len(result[1]) > 0:
 			raise BaseException(result[1])
 
-		self.loadCells(name)
+		self._file = name
+		self.loadCells()
 
-	def loadCells(self, name):
+	def loadCells(self):
 		"""
 		Method which load a map's cells. The cells are read from a text file
 		and saved in a list.
 		"""
 		# Open text file containing cells infos
-		areasFile = open(name + '.txt', "r")
+		areasFile = open(self._file + '.txt', "r")
 		nbAreas = 0
 		for area in areasFile:
 			a = area.split(' ')
@@ -61,6 +64,22 @@ class map:
 				self.cells[a[1]] = dict()
 
 			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
+
+	def loadPlaces(self):
+		"""
+		Method to load the world's places from a text file
+		"""
+		placesFile = open(self._file + '_places.txt', "r")
+		nbPlaces = 0
+		for place in placesFile:
+			p = place.split(' ')
+			self.places.append({
+				'type': int(p[0]),
+				'name': p[1],
+				'coordinates': (int(p[2]), int(p[3])),
+				'size': int(p[4])
+			})
+
 
 	def checkForExport(self):
 		"""
@@ -325,6 +344,82 @@ class map:
 	@staticmethod
 	def getPlaceSizesLabels():
 		return ['1 cell', 'Small', 'Medium', 'Large']
+
+	def save(self, fileName):
+		if os.path.exists(fileName):
+			os.remove(fileName)
+
+		tar = tarfile.open(fileName, "w:gz")
+
+		nameFile = os.path.dirname(self._file) + '/__NAME__'
+		f = open(nameFile, 'w')
+		f.write(os.path.basename(self._file))
+		f.close()
+		tar.add(nameFile, arcname=os.path.basename(nameFile))
+		os.remove(nameFile)
+
+		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
+		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
+
+		f = open(self._file + '_places.txt', 'w')
+		for p in self.places:
+			f.write(
+				'%d %s %d %d %d\n' % (
+					p['type'],
+					p['name'],
+					p['coordinates'][0],
+					p['coordinates'][1],
+					p['size']
+				)
+			)
+		f.close()
+		tar.add(
+			self._file + '_places.txt',
+			arcname=os.path.basename(self._file) + '_places.txt'
+		)
+		os.remove(self._file + '_places.txt')
+
+		f = open(self._file + '_start_cell.txt', 'w')
+		if self.startCellPosition is not None:
+			f.write(str(self.startCellPosition[0]) + ' ' + str(self.startCellPosition[1]))
+		f.close()
+		tar.add(
+			self._file + '_start_cell.txt',
+			arcname=os.path.basename(self._file) + '_start_cell.txt'
+		)
+		tar.close()
+		os.remove(self._file + '_start_cell.txt')
+
+	def open(self, fileName):
+		"""
+		Method to open a filename and instanciate the map object
+		"""
+		tar = tarfile.open(fileName, 'r')
+		tmpDir = config.tempDir + '/'
+
+		try:
+			for item in tar:
+				tar.extract(item, tmpDir)
+				if item.path == '__NAME__':
+					worldNameFile = open(tmpDir + item.path, "r")
+					worldName = worldNameFile.readline()
+					self._file = config.tempDir + '/' + worldName
+					worldNameFile.close()
+				elif item.path[-15:] == '_start_cell.txt':
+					startCellFile = open(tmpDir + item.path, "r")
+					startCell = startCellFile.readline()
+
+					if startCell != '':
+						startCell = startCell.split()
+						self.startCellPosition = (int(startCell[0]), int(startCell[1]))
+					startCellFile.close()
+
+			self.loadCells()
+			self.loadPlaces()
+		except IOError:
+			raise exception("An error occured during the opening of the map file")
+
+		return self._file
 
 
 class exception(BaseException):

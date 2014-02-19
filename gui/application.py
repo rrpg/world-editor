@@ -1,6 +1,6 @@
 # -*- coding: utf8 -*-
 
-from PyQt4 import QtGui
+from PyQt4 import QtGui, QtCore
 from gui.mainwindow import mainWindow
 from core import map, config
 import sys
@@ -14,8 +14,10 @@ class application(QtGui.QApplication):
 	"""
 	_name = None
 	_fileName = None
+	_saveFileName = None
 
 	_instance = None
+	mapOpened = QtCore.pyqtSignal()
 
 	def __new__(cls, *args, **kwargs):
 		if not cls._instance:
@@ -62,6 +64,8 @@ class application(QtGui.QApplication):
 		must call a map class's method to generate the map with the external
 		generator, and then open the map in the editor
 		"""
+		self._saveFileName = None
+		self.initMap()
 		self.map.generate(self._fileName, width, height)
 
 	def initMap(self):
@@ -69,6 +73,15 @@ class application(QtGui.QApplication):
 		Method to init the map object
 		"""
 		self.map = map.map()
+
+	def openMap(self, fileName):
+		"""
+		Method to open an existing map (.map file)
+		"""
+		self.initMap()
+		self.setSaveMapName(str(fileName))
+		self.setMapFileName(self.map.open(self._saveFileName))
+		self.mapOpened.emit()
 
 	def exportMap(self, thread):
 		"""
@@ -106,3 +119,20 @@ class application(QtGui.QApplication):
 
 	def addPlace(self, informations):
 		self.map.places.append(informations)
+
+	def getSaveFileName(self):
+		return self._saveFileName
+
+	def setSaveMapName(self, name):
+		name = str(name)
+		if not os.path.exists(os.path.dirname(name)):
+			raise BaseException("The selected folder does not exist")
+		elif os.path.exists(name) and not os.path.isfile(name):
+			raise BaseException("The selected path is not a file")
+		self._saveFileName = name
+
+	def saveMap(self):
+		if self._saveFileName is None:
+			raise BaseException("No file name defined to save the map")
+
+		self.map.save(self._saveFileName)

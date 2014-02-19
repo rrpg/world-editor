@@ -11,6 +11,8 @@ class menu(QtGui.QMenuBar):
 
 	# actions
 	_exportAction = None
+	_saveAction = None
+	_saveAsAction = None
 	_zoominAction = None
 	_zoomoutAction = None
 	_selectStartCellAction = None
@@ -34,6 +36,17 @@ class menu(QtGui.QMenuBar):
 		newAction.setShortcut('Ctrl+N')
 		newAction.setStatusTip('Create new map')
 		newAction.triggered.connect(window.newMap)
+
+		# save action
+		self._saveAction = QtGui.QAction('&Save', window)
+		self._saveAction.setShortcut('Ctrl+S')
+		self._saveAction.setStatusTip('Save map')
+		self._saveAction.triggered.connect(window.saveMapAction)
+
+		# save as action
+		self._saveAsAction = QtGui.QAction('&Save as...', window)
+		self._saveAsAction.setStatusTip('Save map as')
+		self._saveAsAction.triggered.connect(window.saveMapAsAction)
 
 		# open action
 		openAction = QtGui.QAction('&Open...', window)
@@ -80,6 +93,8 @@ class menu(QtGui.QMenuBar):
 		self._listSpeciesAction.setStatusTip('List the existing species of the world')
 		self._listSpeciesAction.triggered.connect(window.listspecies)
 
+		self._saveAction.setEnabled(False)
+		self._saveAsAction.setEnabled(False)
 		self._exportAction.setEnabled(False)
 		self._zoominAction.setEnabled(False)
 		self._zoomoutAction.setEnabled(False)
@@ -92,8 +107,12 @@ class menu(QtGui.QMenuBar):
 		worldMenu = self.addMenu('&World')
 
 		fileMenu.addAction(newAction)
-		#~fileMenu.addAction(openAction)
+		fileMenu.addAction(openAction)
+		fileMenu.addSeparator()
+		fileMenu.addAction(self._saveAction)
+		fileMenu.addAction(self._saveAsAction)
 		fileMenu.addAction(self._exportAction)
+		fileMenu.addSeparator()
 		fileMenu.addAction(exitAction)
 
 		mapMenu.addAction(self._zoominAction)
@@ -111,6 +130,8 @@ class menu(QtGui.QMenuBar):
 		self._zoominAction.setEnabled(True)
 		self._zoomoutAction.setEnabled(True)
 		self._exportAction.setEnabled(True)
+		self._saveAction.setEnabled(True)
+		self._saveAsAction.setEnabled(True)
 		self._selectStartCellAction.setEnabled(True)
 		self._addPlaceAction.setEnabled(True)
 		self._listSpeciesAction.setEnabled(True)

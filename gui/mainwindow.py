@@ -54,6 +54,7 @@ class mainWindow(QtGui.QMainWindow):
 		self.addWidget = None
 		#creation of the UI
 		self.initUI()
+		self.initSignals()
 
 	def initUI(self):
 		"""
@@ -73,6 +74,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._setWindowInfos()
 		#display the Whole Thing
 		self.show()
+
+	def initSignals(self):
+		self._app.mapOpened.connect(self._placesWidget.setData)
 
 	def _create(self):
 		"""
@@ -128,13 +132,17 @@ class mainWindow(QtGui.QMainWindow):
 			self,
 			"Open file",
 			QtCore.QDir.currentPath(),
-			"Images (*.bmp)"
+			"Maps (*.map)"
 		)
 
 		if fileName == "":
 			return
 
-		self.openMap("tmpname", fileName)
+		try:
+			self._app.openMap(fileName)
+			self.openMap()
+		except BaseException as e:
+			self.alert(e.message)
 
 	def zoomInMap(self):
 		"""
@@ -194,11 +202,15 @@ class mainWindow(QtGui.QMainWindow):
 		self._pixmaps = dict()
 		self._pixmaps['map'] = mapPixmap
 
+		for p in self._app.map.places:
+			self.displayPlace(p['coordinates'][0], p['coordinates'][0])
+
+		if self._app.map.startCellPosition is not None:
+			self.displayStartCell(self._app.map.startCellPosition[0], self._app.map.startCellPosition[1])
+
 		self._scaleFactor = 1.0
 
 		self.menuBar().mapOpened.emit()
-
-		self._app.initMap()
 
 	def exportMap(self):
 		"""
@@ -248,18 +260,21 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		try:
 			self._app.map.setStartCellPosition((x, y))
-			if 'start-cell' in self._pixmaps.keys():
-				self._imageScene.removeItem(self._pixmaps['start-cell'])
-				self._pixmaps['start-cell'] = None
-
-			rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-			rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
-			self._pixmaps['start-cell'] = rect
+			self.displayStartCell(x, y)
 		except BaseException as e:
 			self.alert(e.message)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def displayStartCell(self, x, y):
+		if 'start-cell' in self._pixmaps.keys():
+			self._imageScene.removeItem(self._pixmaps['start-cell'])
+			self._pixmaps['start-cell'] = None
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+		self._pixmaps['start-cell'] = rect
 
 	def addPlace(self, x, y):
 		"""
@@ -325,3 +340,23 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
 		self._scaleFactor = 30.0
 		self.scaleImage()
+
+	def saveMapAction(self):
+		if self._app.getSaveFileName() is None:
+			self.saveMapAsAction()
+		else:
+			self._app.saveMap()
+
+	def saveMapAsAction(self):
+		fileName = QtGui.QFileDialog.getSaveFileName(
+			self,
+			"Select file",
+			QtCore.QDir.currentPath(),
+			"Map (*.map)"
+		)
+
+		if fileName[-4:] != '.map':
+			fileName = fileName + '.map'
+
+		self._app.setSaveMapName(fileName)
+		self._app.saveMap()
