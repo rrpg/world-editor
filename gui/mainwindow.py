@@ -202,6 +202,12 @@ class mainWindow(QtGui.QMainWindow):
 		self._pixmaps = dict()
 		self._pixmaps['map'] = mapPixmap
 
+		for p in self._app.map.places:
+			self.displayPlace(p['coordinates'][0], p['coordinates'][0])
+
+		if self._app.map.startCellPosition is not None:
+			self.displayStartCell(self._app.map.startCellPosition[0], self._app.map.startCellPosition[1])
+
 		self._scaleFactor = 1.0
 
 		self.menuBar().mapOpened.emit()
