@@ -74,6 +74,15 @@ class application(QtGui.QApplication):
 		"""
 		self.map = map.map()
 
+	def openMap(self, fileName):
+		"""
+		Method to open an existing map (.map file)
+		"""
+		self.initMap()
+		self.setSaveMapName(str(fileName))
+		self.setMapFileName(self.map.open(self._saveFileName))
+		self.mapOpened.emit()
+
 	def exportMap(self, thread):
 		"""
 		Method to export the map to a usable DB

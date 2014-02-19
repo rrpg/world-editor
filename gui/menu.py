@@ -107,7 +107,7 @@ class menu(QtGui.QMenuBar):
 		worldMenu = self.addMenu('&World')
 
 		fileMenu.addAction(newAction)
-		#~fileMenu.addAction(openAction)
+		fileMenu.addAction(openAction)
 		fileMenu.addSeparator()
 		fileMenu.addAction(self._saveAction)
 		fileMenu.addAction(self._saveAsAction)

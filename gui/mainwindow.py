@@ -138,7 +138,11 @@ class mainWindow(QtGui.QMainWindow):
 		if fileName == "":
 			return
 
-		self.openMap("tmpname", fileName)
+		try:
+			self._app.openMap(fileName)
+			self.openMap()
+		except BaseException as e:
+			self.alert(e.message)
 
 	def zoomInMap(self):
 		"""
