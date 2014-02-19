@@ -121,7 +121,7 @@ class application(QtGui.QApplication):
 			raise BaseException("The selected path is not a file")
 		self._saveFileName = name
 
-	def save(self):
+	def saveMap(self):
 		if self._saveFileName is None:
 			raise BaseException("No file name defined to save the map")
 

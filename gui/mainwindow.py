@@ -328,7 +328,7 @@ class mainWindow(QtGui.QMainWindow):
 		if self._app.getSaveFileName() is None:
 			self.saveMapAsAction()
 		else:
-			self._app.save()
+			self._app.saveMap()
 
 	def saveMapAsAction(self):
 		fileName = QtGui.QFileDialog.getSaveFileName(
@@ -342,4 +342,4 @@ class mainWindow(QtGui.QMainWindow):
 			fileName = fileName + '.map'
 
 		self._app.setSaveMapName(fileName)
-		self._app.save()
+		self._app.saveMap()
