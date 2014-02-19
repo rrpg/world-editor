@@ -76,6 +76,12 @@ class mainWindow(QtGui.QMainWindow):
 		self.show()
 
 	def initSignals(self):
+		"""
+		Method which initialise some signals.
+		For the moment, the only signal is the application's mapOpened,
+		triggered when a map file is opened. At this moment, the places' widget
+		is populated to list the existing places.
+		"""
 		self._app.mapOpened.connect(self._placesWidget.setData)
 
 	def _create(self):
@@ -268,6 +274,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._selectPixelEvent.disconnect(self.selectStartCell)
 
 	def displayStartCell(self, x, y):
+		"""
+		Here the start cell is displayed in the map, as a new pixmap
+		"""
 		if 'start-cell' in self._pixmaps.keys():
 			self._imageScene.removeItem(self._pixmaps['start-cell'])
 			self._pixmaps['start-cell'] = None
@@ -293,6 +302,9 @@ class mainWindow(QtGui.QMainWindow):
 		self._selectPixelEvent.disconnect(self.addPlace)
 
 	def displayPlace(self, x, y):
+		"""
+		This method creates a pixmap in the map for each place of the map.
+		"""
 		if 'places' not in self._pixmaps.keys():
 			self._pixmaps['places'] = list()
 
@@ -315,6 +327,11 @@ class mainWindow(QtGui.QMainWindow):
 		specieswindow.show()
 
 	def selectCell(self, x, y):
+		"""
+		This method is called when the record mode is enabled and a cell of
+		the map is clicked. At this moment, the cell is highlighted with a
+		black border arround it.
+		"""
 		if self._selectedCellRect is not None:
 			self.unselectCell()
 
@@ -322,32 +339,56 @@ class mainWindow(QtGui.QMainWindow):
 		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
 
 	def unselectCell(self):
+		"""
+		Method to remove the pixel of the previously selected cell.
+		"""
 		self._imageScene.removeItem(self._selectedCellRect)
 		self._selectedCellRect = None
 
 	def isRecording(self):
+		"""
+		Method to know if the recording mode is enabled.
+		"""
 		return self._isRecording
 
 	def enableRecordingMode(self):
+		"""
+		Method to enable the recording mode.
+		"""
 		self._isRecording = True
 		self._selectPixelEvent.connect(self.selectCell)
 
 	def disableRecordingMode(self):
+		"""
+		Method to disable the recording mode.
+		"""
 		self._isRecording = False
 		self._selectPixelEvent.disconnect(self.selectCell)
 
 	def centerMapOnCoordinates(self, coordinates):
+		"""
+		This method does a maximum zoom on a selected cell of the map.
+		"""
 		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
 		self._scaleFactor = 30.0
 		self.scaleImage()
 
 	def saveMapAction(self):
+		"""
+		This method is called when the "Save" button from the menu is pressed.
+		If the map's save file name is set, the map is saved in this file,
+		else the "Save as" action is called.
+		"""
 		if self._app.getSaveFileName() is None:
 			self.saveMapAsAction()
 		else:
 			self._app.saveMap()
 
 	def saveMapAsAction(self):
+		"""
+		This method asks the user to select a file on his computer, and then
+		save the map in this file.`
+		"""
 		fileName = QtGui.QFileDialog.getSaveFileName(
 			self,
 			"Select file",
