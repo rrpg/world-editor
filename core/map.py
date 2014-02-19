@@ -405,6 +405,14 @@ class map:
 					worldName = worldNameFile.readline()
 					self._file = config.tempDir + '/' + worldName
 					worldNameFile.close()
+				elif item.path[-15:] == '_start_cell.txt':
+					startCellFile = open(tmpDir + item.path, "r")
+					startCell = startCellFile.readline()
+
+					if startCell != '':
+						startCell = startCell.split()
+						self.startCellPosition = (int(startCell[0]), int(startCell[1]))
+					startCellFile.close()
 
 			self.loadCells()
 			self.loadPlaces()
