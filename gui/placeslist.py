@@ -26,6 +26,9 @@ class placesList(QtGui.QTableWidget):
 		self.setData()
 
 	def setData(self):
+		"""
+		This methods populates the table with the places list from self._app.map
+		"""
 		self.clearContents()
 		nbRowsToInsert = len(self._app.map.places)
 		for index, row in enumerate(self._app.map.places):
@@ -39,6 +42,9 @@ class placesList(QtGui.QTableWidget):
 		self.resizeColumnsToContents()
 
 	def getCoordinatesFromIndex(self, index):
+		"""
+		This methods return a place's coordinates from its index in the table.
+		"""
 		return (
 			int(self.item(index, 2).text()),
 			int(self.item(index, 3).text())
@@ -46,16 +52,26 @@ class placesList(QtGui.QTableWidget):
 
 
 class placeLocatorButton(QtGui.QPushButton):
+	"""
+	QPushButton extended to connect the action _locatePlace when it is clicked.
+	"""
 	_table = None
 	_index = None
 
 	def __init__(self, table, index, *args):
+		"""
+		Construct
+		"""
 		QtGui.QItemDelegate.__init__(self, *args)
 		self._table = table
 		self._index = index
 		self.clicked.connect(self._locatePlace)
 
 	def _locatePlace(self):
+		"""
+		When a locate button is clicked, the map is centered on the
+		corresponding place.
+		"""
 		self._table._parent.centerMapOnCoordinates(
 			self._table.getCoordinatesFromIndex(self._index)
 		)
