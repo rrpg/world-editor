@@ -335,6 +335,13 @@ class map:
 
 		tar = tarfile.open(fileName, "w:gz")
 
+		nameFile = os.path.dirname(self._file) + '/__NAME__'
+		f = open(nameFile, 'w')
+		f.write(os.path.basename(self._file))
+		f.close()
+		tar.add(nameFile, arcname=os.path.basename(nameFile))
+		os.remove(nameFile)
+
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
 		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
 
