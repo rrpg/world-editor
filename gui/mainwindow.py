@@ -254,18 +254,21 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		try:
 			self._app.map.setStartCellPosition((x, y))
-			if 'start-cell' in self._pixmaps.keys():
-				self._imageScene.removeItem(self._pixmaps['start-cell'])
-				self._pixmaps['start-cell'] = None
-
-			rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-			rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
-			self._pixmaps['start-cell'] = rect
+			self.displayStartCell(x, y)
 		except BaseException as e:
 			self.alert(e.message)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
+
+	def displayStartCell(self, x, y):
+		if 'start-cell' in self._pixmaps.keys():
+			self._imageScene.removeItem(self._pixmaps['start-cell'])
+			self._pixmaps['start-cell'] = None
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+		self._pixmaps['start-cell'] = rect
 
 	def addPlace(self, x, y):
 		"""
