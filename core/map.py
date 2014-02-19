@@ -65,6 +65,22 @@ class map:
 
 			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
 
+	def loadPlaces(self):
+		"""
+		Method to load the world's places from a text file
+		"""
+		placesFile = open(self._file + '_places.txt', "r")
+		nbPlaces = 0
+		for place in placesFile:
+			p = place.split(' ')
+			self.places.append({
+				'type': int(p[0]),
+				'name': p[1],
+				'coordinates': (int(p[2]), int(p[3])),
+				'size': int(p[4])
+			})
+
+
 	def checkForExport(self):
 		"""
 		Method to check if a cell is ready to be exported (start cell selected)
