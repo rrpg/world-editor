@@ -1,7 +1,6 @@
-# RPG World Editor
+# rRpg World Editor
 
-Program to create and edit worlds for my game (https://github.com/padawin/Rpg).
-Uses a map generator to create the world (https://github.com/padawin/map-generator-simplex)
+Program to create and edit worlds for my game (https://github.com/rrpg/world-editor).
 
 ## Requirements
 
@@ -11,8 +10,7 @@ Uses a map generator to create the world (https://github.com/padawin/map-generat
 ## Setup
 
 This program uses submodules. First thing to do is to compile the map generator:
-
-```
+```bash
 git submodule init
 git submodule update
 
@@ -23,7 +21,6 @@ cd ..
 ```
 
 Then, run the editor:
-
 ```
 ./main.py
 ```
