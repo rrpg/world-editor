@@ -330,6 +330,9 @@ class map:
 		return ['1 cell', 'Small', 'Medium', 'Large']
 
 	def save(self, fileName):
+		if os.path.exists(fileName):
+			os.remove(fileName)
+
 		tar = tarfile.open(fileName, "w:gz")
 
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
