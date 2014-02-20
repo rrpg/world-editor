@@ -9,6 +9,7 @@ from core import config
 import sqlite3
 import sys
 import tarfile
+import csv
 
 # Import an external check class from the generator
 sys.path.insert(0, config.generator['map']['path'])
@@ -69,15 +70,16 @@ class map:
 		"""
 		Method to load the world's places from a text file
 		"""
-		placesFile = open(self._file + '_places.txt', "r")
+		placesFile = open(self._file + '_places.csv', "r")
 		nbPlaces = 0
-		for place in placesFile:
-			p = place.split(' ')
+		csvreader = csv.reader(placesFile, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for place in csvreader:
 			self.places.append({
-				'type': int(p[0]),
-				'name': p[1],
-				'coordinates': (int(p[2]), int(p[3])),
-				'size': int(p[4])
+				'type': int(place[0]),
+				'name': place[1],
+				'coordinates': (int(place[2]), int(place[3])),
+				'size': int(place[4])
 			})
 
 
@@ -371,23 +373,23 @@ class map:
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
 		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
 
-		f = open(self._file + '_places.txt', 'w')
+		f = open(self._file + '_places.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for p in self.places:
-			f.write(
-				'%d %s %d %d %d\n' % (
-					p['type'],
-					p['name'],
-					p['coordinates'][0],
-					p['coordinates'][1],
-					p['size']
-				)
-			)
+			csvwriter.writerow((
+				p['type'],
+				p['name'],
+				p['coordinates'][0],
+				p['coordinates'][1],
+				p['size']
+			))
 		f.close()
 		tar.add(
-			self._file + '_places.txt',
-			arcname=os.path.basename(self._file) + '_places.txt'
+			self._file + '_places.csv',
+			arcname=os.path.basename(self._file) + '_places.csv'
 		)
-		os.remove(self._file + '_places.txt')
+		os.remove(self._file + '_places.csv')
 
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
