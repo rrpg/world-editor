@@ -339,13 +339,23 @@ class map:
 
 	@staticmethod
 	def getPlaceTypesLabels():
+		"""
+		Method to get the list of the place types.
+		"""
 		return map._placesTypes.values()
 
 	@staticmethod
 	def getPlaceSizesLabels():
+		"""
+		Method to get the list of the place sizes.
+		"""
 		return ['1 cell', 'Small', 'Medium', 'Large']
 
 	def save(self, fileName):
+		"""
+		Method to save the map in a .map file, which is just a .tar.gz renamed
+		file.
+		"""
 		if os.path.exists(fileName):
 			os.remove(fileName)
 
