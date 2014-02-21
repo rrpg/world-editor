@@ -8,6 +8,7 @@ from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from gui.addplacedialog import addPlaceDialog
 from gui.placeslist import placesList
+from gui.npclist import npcList
 from core import worker
 import imghdr
 import os
@@ -30,6 +31,7 @@ class mainWindow(QtGui.QMainWindow):
 	_pixmaps = dict()
 
 	_placesWidget = None
+	_npcWidget = None
 
 	_thread = None
 
@@ -96,12 +98,17 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
 		self._placesWidget = placesList(self, self._app)
+		self._npcWidget = npcList(self, self._app)
+
+		tabWidget = QtGui.QTabWidget()
+		tabWidget.addTab(self._placesWidget, 'Places')
+		tabWidget.addTab(self._npcWidget, 'NPC')
 
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
-		splitter.addWidget(self._placesWidget)
+		splitter.addWidget(tabWidget)
 		splitter.addWidget(self._imageView)
 		splitter.setStretchFactor(1, 1)
 		self.setCentralWidget(splitter)

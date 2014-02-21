@@ -24,6 +24,7 @@ class map:
 	startCellPosition = None
 	cells = dict()
 	places = list()
+	npc = list()
 
 	species = [['Humans', '']]
 
