@@ -88,6 +88,10 @@ class menu(QtGui.QMenuBar):
 		self._addPlaceAction.setStatusTip('Select a cell to add a place there')
 		self._addPlaceAction.triggered.connect(window.recordAddPlaceCell)
 
+		# Add a npc action
+		self._addNpcAction = QtGui.QAction('Add a NPC', self)
+		self._addNpcAction.setStatusTip('Select a cell to add a NPC there')
+
 		# list species action
 		self._listSpeciesAction = QtGui.QAction('List species...', self)
 		self._listSpeciesAction.setStatusTip('List the existing species of the world')
@@ -101,6 +105,7 @@ class menu(QtGui.QMenuBar):
 		self._selectStartCellAction.setEnabled(False)
 		self._listSpeciesAction.setEnabled(False)
 		self._addPlaceAction.setEnabled(False)
+		self._addNpcAction.setEnabled(False)
 
 		fileMenu = self.addMenu('&File')
 		mapMenu = self.addMenu('&Map')
@@ -120,6 +125,7 @@ class menu(QtGui.QMenuBar):
 
 		worldMenu.addAction(self._selectStartCellAction)
 		worldMenu.addAction(self._addPlaceAction)
+		worldMenu.addAction(self._addNpcAction)
 		worldMenu.addSeparator()
 		worldMenu.addAction(self._listSpeciesAction)
 
@@ -134,6 +140,7 @@ class menu(QtGui.QMenuBar):
 		self._saveAsAction.setEnabled(True)
 		self._selectStartCellAction.setEnabled(True)
 		self._addPlaceAction.setEnabled(True)
+		self._addNpcAction.setEnabled(True)
 		self._listSpeciesAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
