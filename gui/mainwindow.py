@@ -302,8 +302,8 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = addPlaceDialog(self, self._app, (x, y))
-		dialog.placeAdded.connect(self.displayPlace)
-		dialog.placeAdded.connect(self._placesWidget.setData)
+		dialog.itemAdded.connect(self.displayPlace)
+		dialog.itemAdded.connect(self._placesWidget.setData)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
