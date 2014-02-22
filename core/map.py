@@ -354,6 +354,19 @@ class map:
 		"""
 		return ['1 cell', 'Small', 'Medium', 'Large']
 
+	@staticmethod
+	def getGenders():
+		"""
+		Method to get the list of the available genders.
+		"""
+		return map._genders
+
+	def getSpeciesNames(self):
+		"""
+		Return the list of species' names
+		"""
+		return list(s[0] for s in self.species)
+
 	def save(self, fileName):
 		"""
 		Method to save the map in a .map file, which is just a .tar.gz renamed
