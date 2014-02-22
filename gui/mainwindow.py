@@ -7,6 +7,7 @@ from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from gui.addplacedialog import addPlaceDialog
+from gui.addnpcdialog import addNpcDialog
 from gui.placeslist import placesList
 from gui.npclist import npcList
 from core import worker
@@ -266,6 +267,16 @@ class mainWindow(QtGui.QMainWindow):
 			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.addPlace)
 
+	def recordAddNpcCell(self):
+		"""
+		Method called when the user has to select a cell to add a NPC in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.addNpc)
+
 	def selectStartCell(self, x, y):
 		"""
 		Method called when the user click on a cell in the map to select a
@@ -307,6 +318,22 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
+
+	def addNpc(self, x, y):
+		"""
+		Method called when the user click on a cell in the map to add a NPC.
+		"""
+
+		if not self._app.map.isCellOnLand((x, y)):
+			self.alert("No NPC can be added in water")
+			return
+
+		dialog = addNpcDialog(self, self._app, (x, y))
+		dialog.itemAdded.connect(self.displayPlace)
+		dialog.itemAdded.connect(self._npcWidget.setData)
+
+		self.disableRecordingMode()
+		self._selectPixelEvent.disconnect(self.addNpc)
 
 	def displayPlace(self, x, y):
 		"""

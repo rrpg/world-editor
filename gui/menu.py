@@ -91,6 +91,7 @@ class menu(QtGui.QMenuBar):
 		# Add a npc action
 		self._addNpcAction = QtGui.QAction('Add a NPC', self)
 		self._addNpcAction.setStatusTip('Select a cell to add a NPC there')
+		self._addNpcAction.triggered.connect(window.recordAddNpcCell)
 
 		# list species action
 		self._listSpeciesAction = QtGui.QAction('List species...', self)
