@@ -313,6 +313,7 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = addPlaceDialog(self, self._app, (x, y))
+		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayPlace)
 		dialog.itemAdded.connect(self._placesWidget.setData)
 
@@ -329,6 +330,7 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = addNpcDialog(self, self._app, (x, y))
+		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
 

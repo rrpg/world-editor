@@ -47,7 +47,6 @@ class addItemDialog(QtGui.QDialog):
 		fieldsLayout = self.getFields()
 
 		self._saveButton = QtGui.QPushButton("Create")
-		self._saveButton.clicked.connect(self._parent.unselectCell)
 		self._saveButton.clicked.connect(self.createItem)
 		self._cancelButton = QtGui.QPushButton("Cancel")
 		self._cancelButton.clicked.connect(self._parent.unselectCell)
