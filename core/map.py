@@ -220,7 +220,6 @@ class map:
 			valuesInsert.append("(?)")
 			values.append(t)
 		query = query + ', '.join(valuesInsert)
-		print valuesInsert
 		c.execute(query, values)
 
 		thread.notifyProgressLocal.emit(66, "Areas creation")
