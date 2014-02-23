@@ -329,7 +329,7 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = addNpcDialog(self, self._app, (x, y))
-		dialog.itemAdded.connect(self.displayPlace)
+		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
 
 		self.disableRecordingMode()
@@ -346,6 +346,18 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
 		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
 		self._pixmaps['places'].append(rect)
+
+	def displayNpc(self, x, y):
+		"""
+		This method creates a pixmap in the map for each place of the map.
+		"""
+		if 'npc' not in self._pixmaps.keys():
+			self._pixmaps['npc'] = list()
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
+		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		self._pixmaps['npc'].append(rect)
 
 	def alert(self, message):
 		"""
