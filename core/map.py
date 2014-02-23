@@ -24,10 +24,12 @@ class map:
 	startCellPosition = None
 	cells = dict()
 	places = list()
+	npc = list()
 
 	species = [['Humans', '']]
 
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
+	_genders = ['Male', 'Female']
 
 	def generate(self, name, width, height):
 		"""
@@ -178,10 +180,9 @@ class map:
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Genders creation")
-		query = str("INSERT INTO gender (name) VALUES ('male')")
-		c.execute(query)
-		query = str("INSERT INTO gender (name) VALUES ('female')")
-		c.execute(query)
+		query = str("INSERT INTO gender (name) VALUES (?)")
+		for g in self._genders:
+			c.execute(query, [g])
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportSpecies(self, thread, db):
@@ -352,6 +353,19 @@ class map:
 		Method to get the list of the place sizes.
 		"""
 		return ['1 cell', 'Small', 'Medium', 'Large']
+
+	@staticmethod
+	def getGenders():
+		"""
+		Method to get the list of the available genders.
+		"""
+		return map._genders
+
+	def getSpeciesNames(self):
+		"""
+		Return the list of species' names
+		"""
+		return list(s[0] for s in self.species)
 
 	def save(self, fileName):
 		"""

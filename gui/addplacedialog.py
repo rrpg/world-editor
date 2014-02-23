@@ -2,9 +2,10 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
+import gui.additemdialog
 
 
-class addPlaceDialog(QtGui.QDialog):
+class addPlaceDialog(gui.additemdialog.addItemDialog):
 	"""
 	Window to fill some informations to create a place
 	label place type	place type field
@@ -12,42 +13,18 @@ class addPlaceDialog(QtGui.QDialog):
 	label place size	place size field
 	create button		cancel button
 	"""
-	_app = None
-	_parent = None
-	_coordinates = None
 
-	_messageLabel = None
 	_placeTypeField = None
 	_placeNameField = None
 	_placeSizeField = None
 
-	_saveButton = None
-	_cancelButton = None
+	_title = "Create a new place"
 
-	placeAdded = QtCore.pyqtSignal(int, int)
-
-	def __init__(self, parent, app, coordinates):
-		"""
-		Creates the window GUI and displays the window
-		"""
-		QtGui.QDialog.__init__(self, parent)
-		self._app = app
-		self._parent = parent
-		self._coordinates = coordinates
-		self.setFixedWidth(250)
-		self.initUI()
-		self.setWindowTitle('Create new place')
-		self.setModal(True)
-		self.show()
-
-	def initUI(self):
+	def getFields(self):
 		"""
 		Creates the UI
 		"""
 		layout = QtGui.QGridLayout()
-
-		self._messageLabel = QtGui.QLabel()
-		self._messageLabel.setWordWrap(True)
 
 		placeTypeLabel = QtGui.QLabel("Place type")
 		self._placeTypeField = QtGui.QComboBox()
@@ -60,30 +37,19 @@ class addPlaceDialog(QtGui.QDialog):
 		self._placeSizeField = QtGui.QComboBox()
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
 
-		self._saveButton = QtGui.QPushButton("Create")
-		self._saveButton.clicked.connect(self._parent.unselectCell)
-		self._saveButton.clicked.connect(self.createPlace)
-		self._cancelButton = QtGui.QPushButton("Cancel")
-		self._cancelButton.clicked.connect(self._parent.unselectCell)
-		self._cancelButton.clicked.connect(self.close)
+		layout.addWidget(placeTypeLabel, 0, 0)
+		layout.addWidget(self._placeTypeField, 0, 1)
+		layout.addWidget(placeNameLabel, 1, 0)
+		layout.addWidget(self._placeNameField, 1, 1)
+		layout.addWidget(placeSizeLabel, 2, 0)
+		layout.addWidget(self._placeSizeField, 2, 1)
 
-		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
-		layout.addWidget(placeTypeLabel, 1, 0)
-		layout.addWidget(self._placeTypeField, 1, 1)
-		layout.addWidget(placeNameLabel, 2, 0)
-		layout.addWidget(self._placeNameField, 2, 1)
-		layout.addWidget(placeSizeLabel, 3, 0)
-		layout.addWidget(self._placeSizeField, 3, 1)
-		layout.addWidget(self._saveButton, 4, 0)
-		layout.addWidget(self._cancelButton, 4, 1)
+		return layout
 
-		self.setLayout(layout)
-
-	def createPlace(self):
+	def createItem(self):
 		"""
 		Method called when the "Create" button is pressed.
-		The filled values are checked and if they are correct, a map is
-		generated, in a thread
+		The filled values are checked and if they are correct, a place is created
 		"""
 		valid = True
 		name = str(self._placeNameField.text()).strip()
@@ -99,13 +65,5 @@ class addPlaceDialog(QtGui.QDialog):
 				'size': self._placeSizeField.currentIndex(),
 				'coordinates': self._coordinates
 			})
-			self.placeAdded.emit(self._coordinates[0], self._coordinates[1])
+			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.close()
-
-	def displayMessage(self, message):
-		"""
-		Method to display a message in the window.
-		"""
-		self._messageLabel.setText(message)
-		self.adjustSize()
-

@@ -7,7 +7,9 @@ from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from gui.addplacedialog import addPlaceDialog
+from gui.addnpcdialog import addNpcDialog
 from gui.placeslist import placesList
+from gui.npclist import npcList
 from core import worker
 import imghdr
 import os
@@ -30,6 +32,7 @@ class mainWindow(QtGui.QMainWindow):
 	_pixmaps = dict()
 
 	_placesWidget = None
+	_npcWidget = None
 
 	_thread = None
 
@@ -96,12 +99,17 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
 		self._placesWidget = placesList(self, self._app)
+		self._npcWidget = npcList(self, self._app)
+
+		tabWidget = QtGui.QTabWidget()
+		tabWidget.addTab(self._placesWidget, 'Places')
+		tabWidget.addTab(self._npcWidget, 'NPC')
 
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
-		splitter.addWidget(self._placesWidget)
+		splitter.addWidget(tabWidget)
 		splitter.addWidget(self._imageView)
 		splitter.setStretchFactor(1, 1)
 		self.setCentralWidget(splitter)
@@ -259,6 +267,16 @@ class mainWindow(QtGui.QMainWindow):
 			self.enableRecordingMode()
 			self._selectPixelEvent.connect(self.addPlace)
 
+	def recordAddNpcCell(self):
+		"""
+		Method called when the user has to select a cell to add a NPC in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.addNpc)
+
 	def selectStartCell(self, x, y):
 		"""
 		Method called when the user click on a cell in the map to select a
@@ -295,11 +313,29 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = addPlaceDialog(self, self._app, (x, y))
-		dialog.placeAdded.connect(self.displayPlace)
-		dialog.placeAdded.connect(self._placesWidget.setData)
+		dialog.itemAdded.connect(self.unselectCell)
+		dialog.itemAdded.connect(self.displayPlace)
+		dialog.itemAdded.connect(self._placesWidget.setData)
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addPlace)
+
+	def addNpc(self, x, y):
+		"""
+		Method called when the user click on a cell in the map to add a NPC.
+		"""
+
+		if not self._app.map.isCellOnLand((x, y)):
+			self.alert("No NPC can be added in water")
+			return
+
+		dialog = addNpcDialog(self, self._app, (x, y))
+		dialog.itemAdded.connect(self.unselectCell)
+		dialog.itemAdded.connect(self.displayNpc)
+		dialog.itemAdded.connect(self._npcWidget.setData)
+
+		self.disableRecordingMode()
+		self._selectPixelEvent.disconnect(self.addNpc)
 
 	def displayPlace(self, x, y):
 		"""
@@ -312,6 +348,18 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
 		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
 		self._pixmaps['places'].append(rect)
+
+	def displayNpc(self, x, y):
+		"""
+		This method creates a pixmap in the map for each place of the map.
+		"""
+		if 'npc' not in self._pixmaps.keys():
+			self._pixmaps['npc'] = list()
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
+		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		self._pixmaps['npc'].append(rect)
 
 	def alert(self, message):
 		"""

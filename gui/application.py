@@ -143,6 +143,12 @@ class application(QtGui.QApplication):
 		"""
 		self.map.places.append(informations)
 
+	def addNpc(self, informations):
+		"""
+		Add a npc to the map's npc list
+		"""
+		self.map.npc.append(informations)
+
 	def getSaveFileName(self):
 		"""
 		Return the map's name used to save the map
