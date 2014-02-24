@@ -84,7 +84,6 @@ class map:
 				'size': int(place[4])
 			})
 
-
 	def checkForExport(self):
 		"""
 		Method to check if a cell is ready to be exported (start cell selected)
