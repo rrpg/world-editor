@@ -51,6 +51,20 @@ class application(QtGui.QApplication):
 		"""
 		return self.exec_()
 
+	def clean(self):
+		"""
+		Method called when the application is closed, to delete the temp folder
+		"""
+		if os.path.exists(config.tempDir):
+			shutil.rmtree(config.tempDir)
+
+# Operations on the map files
+	def initMap(self):
+		"""
+		Method to init the map object
+		"""
+		self.map = map.map()
+
 	def createMap(self, width, height):
 		"""
 		must call a map class's method to generate the map with the external
@@ -59,12 +73,6 @@ class application(QtGui.QApplication):
 		self._saveFileName = None
 		self.initMap()
 		self.map.generate(self._fileName, width, height)
-
-	def initMap(self):
-		"""
-		Method to init the map object
-		"""
-		self.map = map.map()
 
 	def openMap(self, fileName):
 		"""
@@ -81,19 +89,38 @@ class application(QtGui.QApplication):
 		"""
 		self.map.export(self._name, self.escapeName(self._name), thread)
 
-	def clean(self):
+	def saveMap(self):
 		"""
-		Method called when the application is closed, to delete the temp folder
+		Method which save the map in a .map file. A .map file can be reopened later
+		to be edited.
 		"""
-		if os.path.exists(config.tempDir):
-			shutil.rmtree(config.tempDir)
+		if self._saveFileName is None:
+			raise BaseException("No file name defined to save the map")
 
+		self.map.save(self._saveFileName)
+# End Operations on the map files
+
+# Methods to add elements in the map
 	def addSpecies(self, name, description):
 		"""
 		Method to add a species in the world
 		"""
 		self.map.species.append([name, description])
 
+	def addPlace(self, informations):
+		"""
+		Add a place to the map's places list
+		"""
+		self.map.places.append(informations)
+
+	def addNpc(self, informations):
+		"""
+		Add a npc to the map's npc list
+		"""
+		self.map.npc.append(informations)
+# End Methods to add elements in the map
+
+# Names operations (file names, map name...)
 	def escapeName(self, name):
 		"""
 		Method to escape a world name to remove any non alnum characters.
@@ -125,18 +152,6 @@ class application(QtGui.QApplication):
 		"""
 		self._fileName = name
 
-	def addPlace(self, informations):
-		"""
-		Add a place to the map's places list
-		"""
-		self.map.places.append(informations)
-
-	def addNpc(self, informations):
-		"""
-		Add a npc to the map's npc list
-		"""
-		self.map.npc.append(informations)
-
 	def getSaveFileName(self):
 		"""
 		Return the map's name used to save the map
@@ -153,13 +168,4 @@ class application(QtGui.QApplication):
 		elif os.path.exists(name) and not os.path.isfile(name):
 			raise BaseException("The selected path is not a file")
 		self._saveFileName = name
-
-	def saveMap(self):
-		"""
-		Method which save the map in a .map file. A .map file can be reopened later
-		to be edited.
-		"""
-		if self._saveFileName is None:
-			raise BaseException("No file name defined to save the map")
-
-		self.map.save(self._saveFileName)
+# end Names operations (file names, map name...)
