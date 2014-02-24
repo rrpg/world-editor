@@ -20,7 +20,6 @@ class mainWindow(QtGui.QMainWindow):
 	Class for the main window of the application.
 	"""
 
-	_instance = None
 	_imageScene = None
 	_scrollArea = None
 	_scaleFactor = 1.0
@@ -35,16 +34,6 @@ class mainWindow(QtGui.QMainWindow):
 	_npcWidget = None
 
 	_thread = None
-
-	def __new__(cls, *args, **kwargs):
-		if not cls._instance:
-			cls._instance = super(mainWindow, cls).__new__(
-								cls, *args, **kwargs)
-		return cls._instance
-
-	@classmethod
-	def getInstance(cls):
-		return cls._instance
 
 	def __init__(self, app):
 		"""
