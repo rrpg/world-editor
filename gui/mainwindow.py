@@ -103,21 +103,27 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setStretchFactor(1, 1)
 		self.setCentralWidget(splitter)
 
-	def displayMessage(self, text):
-		"""
-		Displays a message in the status bar.
-		"""
-		self.statusBar().showMessage(text)
-
 	def _setWindowInfos(self):
 		"""
 		Define window informations
 		"""
 		# default size
 		self.setGeometry(300, 300, 600, 600)
-		#~ self.setWidth()
 		self.setWindowTitle('World editor')
 
+	def displayMessage(self, text):
+		"""
+		Displays a message in the status bar.
+		"""
+		self.statusBar().showMessage(text)
+
+	def alert(self, message):
+		"""
+		Method to display an alert message. Create just an critical QMessageBox.
+		"""
+		QtGui.QMessageBox.critical(self, "An error occured", message)
+
+# Actions
 	def newMapAction(self):
 		"""
 		Action triggered when the menu's "new" button is pressed.
@@ -147,6 +153,42 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
+	def saveMapAction(self):
+		"""
+		This method is called when the "Save" button from the menu is pressed.
+		If the map's save file name is set, the map is saved in this file,
+		else the "Save as" action is called.
+		"""
+		if self._app.getSaveFileName() is None:
+			self.saveMapAsAction()
+		else:
+			self._app.saveMap()
+
+	def saveMapAsAction(self):
+		"""
+		This method asks the user to select a file on his computer, and then
+		save the map in this file.`
+		"""
+		fileName = QtGui.QFileDialog.getSaveFileName(
+			self,
+			"Select file",
+			QtCore.QDir.currentPath(),
+			"Map (*.map)"
+		)
+
+		if fileName[-4:] != '.map':
+			fileName = fileName + '.map'
+
+		self._app.setSaveMapName(fileName)
+		self._app.saveMap()
+
+	def listSpeciesAction(self):
+		"""
+		Method called to display a dialog listing the map's species.
+		"""
+		specieswindow = speciesListDialog(self, self._app)
+		specieswindow.show()
+
 	def zoomInMapAction(self):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
@@ -161,27 +203,83 @@ class mainWindow(QtGui.QMainWindow):
 		self._scaleFactor *= 0.75
 		self.scaleImage()
 
-	def scaleImage(self):
+	def exportMapAction(self):
 		"""
-		Method to resize the map after a zoom action.
-		Once the map is resized, if the scale factor is lower or equal than
-		0.75, the zoom out button is disabled and if the scale factor is higher
-		or equal than 30.0, the zoom in button is disabled.
+		Method to export a map.
+		Will check if the map can be exported, and if it is, the export will be
+		run and a dialog will be displayed with a progress bar to show the
+		export progression.
 		"""
-		self._imageView.resetTransform()
-		transform = self._imageView.transform()
-		transform.scale(self._scaleFactor, self._scaleFactor)
-		self._imageView.setTransform(transform)
+		try:
+			self._app.map.checkForExport()
+		except BaseException as e:
+			self.alert(e.message)
+			return
 
-		self.menuBar().mapZoomed.emit(self._scaleFactor)
+		exportDialog = exportMapDialog(self)
 
-	def pixelSelect(self, event):
-		"""
-		Action called when the map is clicked, to get the clicked pixel.
-		"""
-		(x, y) = (int(event.pos().x()), int(event.pos().y()))
-		self._selectPixelEvent.emit(x, y)
+		self._thread = worker.exporterThread(self._app)
+		self._thread.finished.connect(exportDialog.close)
+		self._thread.exportError.connect(self.alert)
 
+		exportDialog.setThread(self._thread)
+		self._thread.start()
+# End Actions
+
+# Actions to interact on the map to add elements
+	def recordSelectStartCell(self):
+		"""
+		Method called when the user has to select a starting cell. A record mode
+		will be enabled and the user will have to click on a cell in the map.
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.selectStartCell)
+
+	def recordAddPlaceCell(self):
+		"""
+		Method called when the user has to select a cell to add a place in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.addPlace)
+
+	def recordAddNpcCell(self):
+		"""
+		Method called when the user has to select a cell to add a NPC in the
+		world. A record mode will be enabled and the user will have to click on
+		a cell in the map
+		"""
+		if not self.isRecording():
+			self.enableRecordingMode()
+			self._selectPixelEvent.connect(self.addNpc)
+# End Actions to interact on the map to add elements
+
+# Recording methods
+	def isRecording(self):
+		"""
+		Method to know if the recording mode is enabled.
+		"""
+		return self._isRecording
+
+	def enableRecordingMode(self):
+		"""
+		Method to enable the recording mode.
+		"""
+		self._isRecording = True
+		self._selectPixelEvent.connect(self.selectCell)
+
+	def disableRecordingMode(self):
+		"""
+		Method to disable the recording mode.
+		"""
+		self._isRecording = False
+		self._selectPixelEvent.disconnect(self.selectCell)
+# End Recording methods
+
+# Map operations
 	def openMap(self):
 		"""
 		Method to open a map from a filename
@@ -215,57 +313,56 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
-	def exportMapAction(self):
+	def scaleImage(self):
 		"""
-		Method to export a map.
-		Will check if the map can be exported, and if it is, the export will be
-		run and a dialog will be displayed with a progress bar to show the
-		export progression.
+		Method to resize the map after a zoom action.
+		Once the map is resized, if the scale factor is lower or equal than
+		0.75, the zoom out button is disabled and if the scale factor is higher
+		or equal than 30.0, the zoom in button is disabled.
 		"""
-		try:
-			self._app.map.checkForExport()
-		except BaseException as e:
-			self.alert(e.message)
-			return
+		self._imageView.resetTransform()
+		transform = self._imageView.transform()
+		transform.scale(self._scaleFactor, self._scaleFactor)
+		self._imageView.setTransform(transform)
 
-		exportDialog = exportMapDialog(self)
+		self.menuBar().mapZoomed.emit(self._scaleFactor)
 
-		self._thread = worker.exporterThread(self._app)
-		self._thread.finished.connect(exportDialog.close)
-		self._thread.exportError.connect(self.alert)
+	def pixelSelect(self, event):
+		"""
+		Action called when the map is clicked, to get the clicked pixel.
+		"""
+		(x, y) = (int(event.pos().x()), int(event.pos().y()))
+		self._selectPixelEvent.emit(x, y)
 
-		exportDialog.setThread(self._thread)
-		self._thread.start()
+	def centerMapOnCoordinates(self, coordinates):
+		"""
+		This method does a maximum zoom on a selected cell of the map.
+		"""
+		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
+		self._scaleFactor = 30.0
+		self.scaleImage()
 
-	def recordSelectStartCell(self):
+	def selectCell(self, x, y):
 		"""
-		Method called when the user has to select a starting cell. A record mode
-		will be enabled and the user will have to click on a cell in the map.
+		This method is called when the record mode is enabled and a cell of
+		the map is clicked. At this moment, the cell is highlighted with a
+		black border arround it.
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.selectStartCell)
+		if self._selectedCellRect is not None:
+			self.unselectCell()
 
-	def recordAddPlaceCell(self):
-		"""
-		Method called when the user has to select a cell to add a place in the
-		world. A record mode will be enabled and the user will have to click on
-		a cell in the map
-		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.addPlace)
+		self._selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
 
-	def recordAddNpcCell(self):
+	def unselectCell(self):
 		"""
-		Method called when the user has to select a cell to add a NPC in the
-		world. A record mode will be enabled and the user will have to click on
-		a cell in the map
+		Method to remove the pixel of the previously selected cell.
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.addNpc)
+		self._imageScene.removeItem(self._selectedCellRect)
+		self._selectedCellRect = None
+# End Map operations
 
+# Methods to add elements on the map
 	def selectStartCell(self, x, y):
 		"""
 		Method called when the user click on a cell in the map to select a
@@ -279,18 +376,6 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
-
-	def displayStartCell(self, x, y):
-		"""
-		Here the start cell is displayed in the map, as a new pixmap
-		"""
-		if 'start-cell' in self._pixmaps.keys():
-			self._imageScene.removeItem(self._pixmaps['start-cell'])
-			self._pixmaps['start-cell'] = None
-
-		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
-		self._pixmaps['start-cell'] = rect
 
 	def addPlace(self, x, y):
 		"""
@@ -325,6 +410,20 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.addNpc)
+# End Methods to add elements on the map
+
+# Methods to display an element on the map
+	def displayStartCell(self, x, y):
+		"""
+		Here the start cell is displayed in the map, as a new pixmap
+		"""
+		if 'start-cell' in self._pixmaps.keys():
+			self._imageScene.removeItem(self._pixmaps['start-cell'])
+			self._pixmaps['start-cell'] = None
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+		self._pixmaps['start-cell'] = rect
 
 	def displayPlace(self, x, y):
 		"""
@@ -349,92 +448,4 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
 		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
 		self._pixmaps['npc'].append(rect)
-
-	def alert(self, message):
-		"""
-		Method to display an alert message. Create just an critical QMessageBox.
-		"""
-		QtGui.QMessageBox.critical(self, "An error occured", message)
-
-	def listSpeciesAction(self):
-		"""
-		Method called to display a dialog listing the map's species.
-		"""
-		specieswindow = speciesListDialog(self, self._app)
-		specieswindow.show()
-
-	def selectCell(self, x, y):
-		"""
-		This method is called when the record mode is enabled and a cell of
-		the map is clicked. At this moment, the cell is highlighted with a
-		black border arround it.
-		"""
-		if self._selectedCellRect is not None:
-			self.unselectCell()
-
-		self._selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
-
-	def unselectCell(self):
-		"""
-		Method to remove the pixel of the previously selected cell.
-		"""
-		self._imageScene.removeItem(self._selectedCellRect)
-		self._selectedCellRect = None
-
-	def isRecording(self):
-		"""
-		Method to know if the recording mode is enabled.
-		"""
-		return self._isRecording
-
-	def enableRecordingMode(self):
-		"""
-		Method to enable the recording mode.
-		"""
-		self._isRecording = True
-		self._selectPixelEvent.connect(self.selectCell)
-
-	def disableRecordingMode(self):
-		"""
-		Method to disable the recording mode.
-		"""
-		self._isRecording = False
-		self._selectPixelEvent.disconnect(self.selectCell)
-
-	def centerMapOnCoordinates(self, coordinates):
-		"""
-		This method does a maximum zoom on a selected cell of the map.
-		"""
-		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
-		self._scaleFactor = 30.0
-		self.scaleImage()
-
-	def saveMapAction(self):
-		"""
-		This method is called when the "Save" button from the menu is pressed.
-		If the map's save file name is set, the map is saved in this file,
-		else the "Save as" action is called.
-		"""
-		if self._app.getSaveFileName() is None:
-			self.saveMapAsAction()
-		else:
-			self._app.saveMap()
-
-	def saveMapAsAction(self):
-		"""
-		This method asks the user to select a file on his computer, and then
-		save the map in this file.`
-		"""
-		fileName = QtGui.QFileDialog.getSaveFileName(
-			self,
-			"Select file",
-			QtCore.QDir.currentPath(),
-			"Map (*.map)"
-		)
-
-		if fileName[-4:] != '.map':
-			fileName = fileName + '.map'
-
-		self._app.setSaveMapName(fileName)
-		self._app.saveMap()
+# End Methods to display an element on the map
