@@ -118,7 +118,7 @@ class mainWindow(QtGui.QMainWindow):
 		#~ self.setWidth()
 		self.setWindowTitle('World editor')
 
-	def newMap(self):
+	def newMapAction(self):
 		"""
 		Action triggered when the menu's "new" button is pressed.
 		The user is then invited to select a map name and size.
@@ -147,14 +147,14 @@ class mainWindow(QtGui.QMainWindow):
 		except BaseException as e:
 			self.alert(e.message)
 
-	def zoomInMap(self):
+	def zoomInMapAction(self):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
 		"""
 		self._scaleFactor *= 1.25
 		self.scaleImage()
 
-	def zoomOutMap(self):
+	def zoomOutMapAction(self):
 		"""
 		Wrapper method to zoom out the map, calls scaleImage().
 		"""
@@ -215,7 +215,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
-	def exportMap(self):
+	def exportMapAction(self):
 		"""
 		Method to export a map.
 		Will check if the map can be exported, and if it is, the export will be
@@ -356,7 +356,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		QtGui.QMessageBox.critical(self, "An error occured", message)
 
-	def listspecies(self):
+	def listSpeciesAction(self):
 		"""
 		Method called to display a dialog listing the map's species.
 		"""

@@ -35,7 +35,7 @@ class menu(QtGui.QMenuBar):
 		newAction = QtGui.QAction('&New...', window)
 		newAction.setShortcut('Ctrl+N')
 		newAction.setStatusTip('Create new map')
-		newAction.triggered.connect(window.newMap)
+		newAction.triggered.connect(window.newMapAction)
 
 		# save action
 		self._saveAction = QtGui.QAction('&Save', window)
@@ -58,7 +58,7 @@ class menu(QtGui.QMenuBar):
 		self._exportAction = QtGui.QAction('&Export', self)
 		self._exportAction.setShortcut('Ctrl+E')
 		self._exportAction.setStatusTip('Export map')
-		self._exportAction.triggered.connect(window.exportMap)
+		self._exportAction.triggered.connect(window.exportMapAction)
 
 		# exit action
 		exitAction = QtGui.QAction('&Exit', window)
@@ -70,13 +70,13 @@ class menu(QtGui.QMenuBar):
 		self._zoominAction = QtGui.QAction('Zoom &in', self)
 		self._zoominAction.setShortcut('Ctrl++')
 		self._zoominAction.setStatusTip('Zoom in')
-		self._zoominAction.triggered.connect(window.zoomInMap)
+		self._zoominAction.triggered.connect(window.zoomInMapAction)
 
 		# zoom out action
 		self._zoomoutAction = QtGui.QAction('Zoom o&ut', self)
 		self._zoomoutAction.setShortcut('Ctrl+-')
 		self._zoomoutAction.setStatusTip('Zoom out')
-		self._zoomoutAction.triggered.connect(window.zoomOutMap)
+		self._zoomoutAction.triggered.connect(window.zoomOutMapAction)
 
 		# select start cell action
 		self._selectStartCellAction = QtGui.QAction('Select start cell', self)
@@ -96,7 +96,7 @@ class menu(QtGui.QMenuBar):
 		# list species action
 		self._listSpeciesAction = QtGui.QAction('List species...', self)
 		self._listSpeciesAction.setStatusTip('List the existing species of the world')
-		self._listSpeciesAction.triggered.connect(window.listspecies)
+		self._listSpeciesAction.triggered.connect(window.listSpeciesAction)
 
 		self._saveAction.setEnabled(False)
 		self._saveAsAction.setEnabled(False)
