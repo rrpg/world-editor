@@ -16,20 +16,7 @@ class application(QtGui.QApplication):
 	_fileName = None
 	_saveFileName = None
 
-	_instance = None
 	mapOpened = QtCore.pyqtSignal()
-
-	def __new__(cls, *args, **kwargs):
-		if not cls._instance:
-			cls._instance = super(application, cls).__new__(
-								cls, *args, **kwargs)
-			cls._instance.initMap()
-
-		return cls._instance
-
-	@classmethod
-	def getInstance(cls):
-		return cls._instance
 
 	def __init__(self):
 		"""
@@ -43,6 +30,7 @@ class application(QtGui.QApplication):
 		self._prepareFolders()
 
 		super(application, self).__init__(sys.argv)
+		self.initMap()
 		self.widget = mainWindow(self)
 
 		self.aboutToQuit.connect(self.clean)
