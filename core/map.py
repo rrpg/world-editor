@@ -117,24 +117,27 @@ class map:
 		"""
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, fileName)
-		thread.notifyProgressMain.emit(14, "")
+		thread.notifyProgressMain.emit(12, "")
 
 		self._exportCreateDbStructure(thread, db)
-		thread.notifyProgressMain.emit(28, "")
+		thread.notifyProgressMain.emit(25, "")
 
 		self._exportCreateGenders(thread, db)
-		thread.notifyProgressMain.emit(42, "")
+		thread.notifyProgressMain.emit(37, "")
 
 		self._exportSpecies(thread, db)
-		thread.notifyProgressMain.emit(56, "")
+		thread.notifyProgressMain.emit(50, "")
 
 		self._exportWorldCreation(thread, db, name)
-		thread.notifyProgressMain.emit(70, "")
+		thread.notifyProgressMain.emit(62, "")
 
 		self._exportStartCell(thread, db)
-		thread.notifyProgressMain.emit(84, "")
+		thread.notifyProgressMain.emit(75, "")
 
 		self._exportPlaces(thread, db)
+		thread.notifyProgressMain.emit(87, "")
+
+		self._exportNpc(thread, db)
 		thread.notifyProgressMain.emit(100, "")
 
 		db.commit()
