@@ -34,6 +34,8 @@ class itemList(QtGui.QTableWidget):
 			if self.rowCount() < nbRowsToInsert:
 				self.insertRow(index)
 			self.insertItem(index, row)
+		while self.rowCount() > nbRowsToInsert:
+			self.removeRow(self.rowCount() - 1)
 		self.resizeColumnsToContents()
 
 	def getCoordinatesFromIndex(self, index):
