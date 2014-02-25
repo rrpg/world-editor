@@ -281,12 +281,8 @@ class map:
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Export places")
-		# select start cell ID in DB from coordinates
-		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
-		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
-		result = c.fetchone()
 
-		# insert in setting the id of the starting cell
+		# query to insert places
 		query = str("\
 			INSERT INTO place \
 				(id_area, id_area_type, name, place_size) \
