@@ -33,6 +33,7 @@ class addItemDialog(QtGui.QDialog):
 		self.initUI()
 		self.setWindowTitle(self._title)
 		self.setModal(True)
+		self.connectSignals()
 		self.show()
 
 	def initUI(self):
@@ -58,6 +59,12 @@ class addItemDialog(QtGui.QDialog):
 		layout.addWidget(self._cancelButton, 2, 1)
 
 		self.setLayout(layout)
+
+	def connectSignals(self):
+		"""
+		Connect a signal to unselect the cell if the window is rejected
+		"""
+		self.rejected.connect(self._parent.unselectCell)
 
 	def displayMessage(self, message):
 		"""

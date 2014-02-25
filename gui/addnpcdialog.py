@@ -73,4 +73,5 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 				'coordinates': self._coordinates
 			})
 			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
+			self.accept()
 			self.close()
