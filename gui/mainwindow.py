@@ -306,6 +306,9 @@ class mainWindow(QtGui.QMainWindow):
 		for p in self._app.map.places:
 			self.displayPlace(p['coordinates'][0], p['coordinates'][1])
 
+		for p in self._app.map.npc:
+			self.displayNpc(p['coordinates'][0], p['coordinates'][1])
+
 		if self._app.map.startCellPosition is not None:
 			self.displayStartCell(self._app.map.startCellPosition[0], self._app.map.startCellPosition[1])
 
