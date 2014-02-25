@@ -35,8 +35,8 @@ class map:
 		self._file = None
 		self.startCellPosition = None
 		self.cells = dict()
-		self.places = list()
-		self.npc = list()
+		self.places = dict()
+		self.npc = dict()
 
 	def generate(self, name, width, height):
 		"""
