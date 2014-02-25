@@ -18,4 +18,4 @@ class placesList(gui.itemlist.itemList):
 		self.resizeColumnsToContents()
 
 	def getData(self):
-		return self._app.map.places
+		return self._app.map.places.values()

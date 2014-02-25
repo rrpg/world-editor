@@ -23,7 +23,7 @@ class map:
 	_file = None
 	startCellPosition = None
 	cells = dict()
-	places = list()
+	places = dict()
 	npc = list()
 
 	species = [['Humans', '']]

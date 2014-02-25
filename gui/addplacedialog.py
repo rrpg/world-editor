@@ -14,8 +14,9 @@ class addPlaceDialog(gui.additemdialog.addItemDialog):
 	create button		cancel button
 	"""
 
-	_placeTypeField = None
+	_placeInternalNameField = None
 	_placeNameField = None
+	_placeTypeField = None
 	_placeSizeField = None
 
 	_title = "Create a new place"
@@ -26,23 +27,28 @@ class addPlaceDialog(gui.additemdialog.addItemDialog):
 		"""
 		layout = QtGui.QGridLayout()
 
-		placeTypeLabel = QtGui.QLabel("Place type")
-		self._placeTypeField = QtGui.QComboBox()
-		self._placeTypeField.addItems(map.map.getPlaceTypesLabels())
+		placeInternalNameLabel = QtGui.QLabel("Place internal name")
+		self._placeInternalNameField = QtGui.QLineEdit()
 
 		placeNameLabel = QtGui.QLabel("Place name")
 		self._placeNameField = QtGui.QLineEdit()
+
+		placeTypeLabel = QtGui.QLabel("Place type")
+		self._placeTypeField = QtGui.QComboBox()
+		self._placeTypeField.addItems(map.map.getPlaceTypesLabels())
 
 		placeSizeLabel = QtGui.QLabel("Place size")
 		self._placeSizeField = QtGui.QComboBox()
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
 
-		layout.addWidget(placeTypeLabel, 0, 0)
-		layout.addWidget(self._placeTypeField, 0, 1)
+		layout.addWidget(placeInternalNameLabel, 0, 0)
+		layout.addWidget(self._placeInternalNameField, 0, 1)
 		layout.addWidget(placeNameLabel, 1, 0)
 		layout.addWidget(self._placeNameField, 1, 1)
-		layout.addWidget(placeSizeLabel, 2, 0)
-		layout.addWidget(self._placeSizeField, 2, 1)
+		layout.addWidget(placeTypeLabel, 2, 0)
+		layout.addWidget(self._placeTypeField, 2, 1)
+		layout.addWidget(placeSizeLabel, 3, 0)
+		layout.addWidget(self._placeSizeField, 3, 1)
 
 		return layout
 
@@ -53,13 +59,20 @@ class addPlaceDialog(gui.additemdialog.addItemDialog):
 		"""
 		valid = True
 		name = str(self._placeNameField.text()).strip()
+		internalName = str(self._placeInternalNameField.text()).strip()
 
+		if internalName == "":
+			self.displayMessage("A place internal name must be provided")
+			valid = False
+		elif self._app.hasPlaceWithName(internalName):
+			self.displayMessage("A place internal name must be unique")
+			valid = False
 		if name == "":
 			self.displayMessage("A place name must be provided")
 			valid = False
 
 		if valid:
-			self._app.addPlace({
+			self._app.addPlace(internalName, {
 				'name': name,
 				'type': self._placeTypeField.currentIndex(),
 				'size': self._placeSizeField.currentIndex(),

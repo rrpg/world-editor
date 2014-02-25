@@ -107,11 +107,11 @@ class application(QtGui.QApplication):
 		"""
 		self.map.species.append([name, description])
 
-	def addPlace(self, informations):
+	def addPlace(self, key, informations):
 		"""
 		Add a place to the map's places list
 		"""
-		self.map.places.append(informations)
+		self.map.places[key] = informations
 
 	def addNpc(self, informations):
 		"""
@@ -169,3 +169,6 @@ class application(QtGui.QApplication):
 			raise BaseException("The selected path is not a file")
 		self._saveFileName = name
 # end Names operations (file names, map name...)
+
+	def hasPlaceWithName(self, name):
+		return name in self.map.places.keys()
