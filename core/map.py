@@ -275,6 +275,9 @@ class map:
 		"""
 		Method to export the map's places in the DB.
 		"""
+		if len(self.places) == 0:
+			return
+
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Export places")
