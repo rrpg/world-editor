@@ -337,6 +337,44 @@ class map:
 			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
 		thread.notifyProgressLocal.emit(100, "Finished")
 
+	def _exportNpc(self, thread, db):
+		"""
+		Method to export the NPCs in the DB.
+		"""
+		if len(self.npc) == 0:
+			return
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Start NPC saving")
+		# query to insert places
+		query = str("\
+			INSERT INTO `character` \
+				(name, id_species, id_gender, id_area) \
+				VALUES (\
+					?,\
+					(SELECT id_species FROM species WHERE name = ?), \
+					(SELECT id_gender FROM gender WHERE name = ?), \
+					(SELECT id_area FROM area WHERE x = ? and y = ?)\
+				)")
+
+		npcPercent = 100 / len(self.npc)
+		speciesNames = self.getSpeciesNames()
+		genders = map.getGenders()
+		for i, p in enumerate(self.npc):
+			c.execute(
+				query,
+				[
+					p['name'],
+					speciesNames[p['species']],
+					genders[p['gender']],
+					p['coordinates'][0],
+					p['coordinates'][1]
+				]
+			)
+
+			thread.notifyProgressLocal.emit((i + 1) * npcPercent, "")
+		thread.notifyProgressLocal.emit(100, "Finished")
+
 	@staticmethod
 	def getPlaceTypesLabels():
 		"""
