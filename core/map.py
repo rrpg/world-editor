@@ -117,24 +117,27 @@ class map:
 		"""
 		thread.notifyProgressMain.emit(0, "")
 		db = self._exportPrepareDb(thread, fileName)
-		thread.notifyProgressMain.emit(14, "")
+		thread.notifyProgressMain.emit(12, "")
 
 		self._exportCreateDbStructure(thread, db)
-		thread.notifyProgressMain.emit(28, "")
+		thread.notifyProgressMain.emit(25, "")
 
 		self._exportCreateGenders(thread, db)
-		thread.notifyProgressMain.emit(42, "")
+		thread.notifyProgressMain.emit(37, "")
 
 		self._exportSpecies(thread, db)
-		thread.notifyProgressMain.emit(56, "")
+		thread.notifyProgressMain.emit(50, "")
 
 		self._exportWorldCreation(thread, db, name)
-		thread.notifyProgressMain.emit(70, "")
+		thread.notifyProgressMain.emit(62, "")
 
 		self._exportStartCell(thread, db)
-		thread.notifyProgressMain.emit(84, "")
+		thread.notifyProgressMain.emit(75, "")
 
 		self._exportPlaces(thread, db)
+		thread.notifyProgressMain.emit(87, "")
+
+		self._exportNpc(thread, db)
 		thread.notifyProgressMain.emit(100, "")
 
 		db.commit()
@@ -275,15 +278,14 @@ class map:
 		"""
 		Method to export the map's places in the DB.
 		"""
+		if len(self.places) == 0:
+			return
+
 		c = db.cursor()
 
 		thread.notifyProgressLocal.emit(0, "Export places")
-		# select start cell ID in DB from coordinates
-		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
-		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
-		result = c.fetchone()
 
-		# insert in setting the id of the starting cell
+		# query to insert places
 		query = str("\
 			INSERT INTO place \
 				(id_area, id_area_type, name, place_size) \
@@ -336,6 +338,44 @@ class map:
 				)
 
 			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
+		thread.notifyProgressLocal.emit(100, "Finished")
+
+	def _exportNpc(self, thread, db):
+		"""
+		Method to export the NPCs in the DB.
+		"""
+		if len(self.npc) == 0:
+			return
+		c = db.cursor()
+
+		thread.notifyProgressLocal.emit(0, "Start NPC saving")
+		# query to insert places
+		query = str("\
+			INSERT INTO `character` \
+				(name, id_species, id_gender, id_area) \
+				VALUES (\
+					?,\
+					(SELECT id_species FROM species WHERE name = ?), \
+					(SELECT id_gender FROM gender WHERE name = ?), \
+					(SELECT id_area FROM area WHERE x = ? and y = ?)\
+				)")
+
+		npcPercent = 100 / len(self.npc)
+		speciesNames = self.getSpeciesNames()
+		genders = map.getGenders()
+		for i, p in enumerate(self.npc):
+			c.execute(
+				query,
+				[
+					p['name'],
+					speciesNames[p['species']],
+					genders[p['gender']],
+					p['coordinates'][0],
+					p['coordinates'][1]
+				]
+			)
+
+			thread.notifyProgressLocal.emit((i + 1) * npcPercent, "")
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	@staticmethod
