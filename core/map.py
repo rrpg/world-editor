@@ -31,6 +31,13 @@ class map:
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
 
+	def __init__(self):
+		self._file = None
+		self.startCellPosition = None
+		self.cells = dict()
+		self.places = list()
+		self.npc = list()
+
 	def generate(self, name, width, height):
 		"""
 		Method which generates a map and load the cells in an attribute of the
