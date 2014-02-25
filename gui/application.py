@@ -113,11 +113,11 @@ class application(QtGui.QApplication):
 		"""
 		self.map.places[key] = informations
 
-	def addNpc(self, informations):
+	def addNpc(self, key, informations):
 		"""
 		Add a npc to the map's npc list
 		"""
-		self.map.npc.append(informations)
+		self.map.npc[key] = informations
 # End Methods to add elements in the map
 
 # Names operations (file names, map name...)
@@ -172,3 +172,6 @@ class application(QtGui.QApplication):
 
 	def hasPlaceWithName(self, name):
 		return name in self.map.places.keys()
+
+	def hasNpcWithName(self, name):
+		return name in self.map.npc.keys()

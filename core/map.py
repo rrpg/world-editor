@@ -24,7 +24,7 @@ class map:
 	startCellPosition = None
 	cells = dict()
 	places = dict()
-	npc = list()
+	npc = dict()
 
 	species = [['Humans', '']]
 
@@ -370,7 +370,7 @@ class map:
 		npcPercent = 100 / len(self.npc)
 		speciesNames = self.getSpeciesNames()
 		genders = map.getGenders()
-		for i, p in enumerate(self.npc):
+		for i, p in enumerate(self.npc.values()):
 			c.execute(
 				query,
 				[

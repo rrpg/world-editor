@@ -17,4 +17,4 @@ class npcList(gui.itemlist.itemList):
 		self.resizeColumnsToContents()
 
 	def getData(self):
-		return self._app.map.npc
+		return self._app.map.npc.values()
