@@ -305,7 +305,7 @@ class map:
 
 		placeTypePercent = 100 / len(self.places)
 		placeTypesKeys = self._placesTypes.keys()
-		for i, p in enumerate(self.places):
+		for i, p in enumerate(self.places.values()):
 			c.execute(
 				query,
 				[
