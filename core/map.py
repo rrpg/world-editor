@@ -92,6 +92,23 @@ class map:
 				'internalName': place[5]
 			}
 
+	def loadNPC(self):
+		"""
+		Method to load the world's NPC from a text file
+		"""
+		placesFile = open(self._file + '_npc.csv', "r")
+		nbPlaces = 0
+		csvreader = csv.reader(placesFile, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for npc in csvreader:
+			self.npc[npc[5]] = {
+				'name': npc[0],
+				'gender': int(npc[1]),
+				'species': int(npc[2]),
+				'coordinates': (int(npc[3]), int(npc[4])),
+				'internalName': npc[5]
+			}
+
 	def checkForExport(self):
 		"""
 		Method to check if a cell is ready to be exported (start cell selected)
@@ -452,6 +469,25 @@ class map:
 		)
 		os.remove(self._file + '_places.csv')
 
+		f = open(self._file + '_npc.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for p in self.npc.values():
+			csvwriter.writerow((
+				p['name'],
+				p['gender'],
+				p['species'],
+				p['coordinates'][0],
+				p['coordinates'][1],
+				p['internalName']
+			))
+		f.close()
+		tar.add(
+			self._file + '_npc.csv',
+			arcname=os.path.basename(self._file) + '_npc.csv'
+		)
+		os.remove(self._file + '_npc.csv')
+
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
 			f.write(str(self.startCellPosition[0]) + ' ' + str(self.startCellPosition[1]))
@@ -489,6 +525,7 @@ class map:
 
 			self.loadCells()
 			self.loadPlaces()
+			self.loadNPC()
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 
