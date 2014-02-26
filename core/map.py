@@ -84,12 +84,13 @@ class map:
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for place in csvreader:
-			self.places.append({
+			self.places[place[5]] = {
 				'type': int(place[0]),
 				'name': place[1],
 				'coordinates': (int(place[2]), int(place[3])),
-				'size': int(place[4])
-			})
+				'size': int(place[4]),
+				'internalName': place[5]
+			}
 
 	def checkForExport(self):
 		"""
@@ -435,13 +436,14 @@ class map:
 		f = open(self._file + '_places.csv', 'wb')
 		csvwriter = csv.writer(f, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.places:
+		for p in self.places.values():
 			csvwriter.writerow((
 				p['type'],
 				p['name'],
 				p['coordinates'][0],
 				p['coordinates'][1],
-				p['size']
+				p['size'],
+				p['internalName']
 			))
 		f.close()
 		tar.add(
