@@ -76,7 +76,8 @@ class addPlaceDialog(gui.additemdialog.addItemDialog):
 				'name': name,
 				'type': self._placeTypeField.currentIndex(),
 				'size': self._placeSizeField.currentIndex(),
-				'coordinates': self._coordinates
+				'coordinates': self._coordinates,
+				'internalName': internalName
 			})
 			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.accept()

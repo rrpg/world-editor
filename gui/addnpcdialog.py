@@ -83,7 +83,8 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 				'name': name,
 				'gender': self._npcGenderField.currentIndex(),
 				'species': self._npcSpeciesField.currentIndex(),
-				'coordinates': self._coordinates
+				'coordinates': self._coordinates,
+				'internalName': internalName
 			})
 			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.accept()
