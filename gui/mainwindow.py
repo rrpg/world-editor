@@ -32,6 +32,7 @@ class mainWindow(QtGui.QMainWindow):
 
 	_placesWidget = None
 	_npcWidget = None
+	_recordingLabel = None
 
 	_thread = None
 
@@ -84,6 +85,8 @@ class mainWindow(QtGui.QMainWindow):
 		world's map.
 		"""
 
+		self._recordingLabel = QtGui.QLabel("")
+
 		splitter = QtGui.QSplitter()
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
@@ -98,10 +101,20 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
+		layout = QtGui.QVBoxLayout()
+		layout.setSpacing(0)
+		layout.setMargin(0)
+		layout.addWidget(self._recordingLabel)
+		layout.addWidget(self._imageView)
+
+		viewWidget = QtGui.QWidget()
+		viewWidget.setLayout(layout)
+
 		splitter.addWidget(tabWidget)
-		splitter.addWidget(self._imageView)
+		splitter.addWidget(viewWidget)
 		splitter.setStretchFactor(1, 1)
-		self.setCentralWidget(splitter)
+
+		self.setCentralWidget(splitter);
 
 	def _setWindowInfos(self):
 		"""
@@ -269,6 +282,7 @@ class mainWindow(QtGui.QMainWindow):
 		Method to enable the recording mode.
 		"""
 		self._isRecording = True
+		self._recordingLabel.setText("Recording")
 		self._selectPixelEvent.connect(self.selectCell)
 
 	def disableRecordingMode(self):
@@ -276,6 +290,7 @@ class mainWindow(QtGui.QMainWindow):
 		Method to disable the recording mode.
 		"""
 		self._isRecording = False
+		self._recordingLabel.setText("")
 		self._selectPixelEvent.disconnect(self.selectCell)
 # End Recording methods
 
