@@ -393,6 +393,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.displayStartCell(x, y)
 		except BaseException as e:
 			self.alert(e.message)
+			return
 
 		self.disableRecordingMode()
 		self._selectPixelEvent.disconnect(self.selectStartCell)
