@@ -84,9 +84,6 @@ class mainWindow(QtGui.QMainWindow):
 		For the moment, the window contains only a QGraphicsView displaying the
 		world's map.
 		"""
-
-		self._recordingLabel = QtGui.QLabel("")
-
 		splitter = QtGui.QSplitter()
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
@@ -104,7 +101,16 @@ class mainWindow(QtGui.QMainWindow):
 		layout = QtGui.QVBoxLayout()
 		layout.setSpacing(0)
 		layout.setMargin(0)
-		layout.addWidget(self._recordingLabel)
+
+		messageLayout = QtGui.QHBoxLayout()
+		messageLayout.setSpacing(4)
+		messageLayout.setMargin(3)
+		viewTopWidget = QtGui.QWidget()
+		self._recordingLabel = QtGui.QLabel("")
+		messageLayout.addWidget(self._recordingLabel)
+		viewTopWidget.setLayout(messageLayout)
+
+		layout.addWidget(viewTopWidget)
 		layout.addWidget(self._imageView)
 
 		viewWidget = QtGui.QWidget()
