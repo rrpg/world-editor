@@ -36,6 +36,8 @@ class mainWindow(QtGui.QMainWindow):
 
 	_thread = None
 
+	_selectCellSpecificAction = None
+
 	def __init__(self, app):
 		"""
 		Class's construct.
@@ -251,9 +253,11 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user has to select a starting cell. A record mode
 		will be enabled and the user will have to click on a cell in the map.
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode("Select the starting cell")
-			self._selectPixelEvent.connect(self.selectStartCell)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.selectStartCell
+		self.enableRecordingMode("Select the starting cell")
 
 	def recordAddPlaceCell(self):
 		"""
@@ -261,9 +265,12 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode("Select a cell to add a place")
-			self._selectPixelEvent.connect(self.addPlace)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.addPlace
+		self.enableRecordingMode("Select a cell to add a place")
+		print "connect _selectPixelEvent"
 
 	def recordAddNpcCell(self):
 		"""
@@ -271,9 +278,11 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode("Select a cell to add a NPC")
-			self._selectPixelEvent.connect(self.addNpc)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.addNpc
+		self.enableRecordingMode("Select a cell to add a NPC")
 # End Actions to interact on the map to add elements
 
 # Recording methods
@@ -291,13 +300,21 @@ class mainWindow(QtGui.QMainWindow):
 		self._recordingLabel.setText(message)
 		self._selectPixelEvent.connect(self.selectCell)
 
+		if self._selectCellSpecificAction is not None:
+			self._selectPixelEvent.connect(self._selectCellSpecificAction)
+
+
 	def disableRecordingMode(self):
 		"""
 		Method to disable the recording mode.
 		"""
 		self._isRecording = False
 		self._recordingLabel.setText("")
+		if self._selectCellSpecificAction is not None:
+			self._selectPixelEvent.disconnect(self._selectCellSpecificAction)
+			self._selectCellSpecificAction = None
 		self._selectPixelEvent.disconnect(self.selectCell)
+
 # End Recording methods
 
 # Map operations
@@ -402,7 +419,6 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.selectStartCell)
 
 	def addPlace(self, x, y):
 		"""
@@ -419,7 +435,6 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self._placesWidget.setData)
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.addPlace)
 
 	def addNpc(self, x, y):
 		"""
@@ -436,7 +451,6 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self._npcWidget.setData)
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.addNpc)
 # End Methods to add elements on the map
 
 # Methods to display an element on the map
