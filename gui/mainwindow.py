@@ -246,7 +246,7 @@ class mainWindow(QtGui.QMainWindow):
 		will be enabled and the user will have to click on a cell in the map.
 		"""
 		if not self.isRecording():
-			self.enableRecordingMode()
+			self.enableRecordingMode("Select the starting cell")
 			self._selectPixelEvent.connect(self.selectStartCell)
 
 	def recordAddPlaceCell(self):
@@ -256,7 +256,7 @@ class mainWindow(QtGui.QMainWindow):
 		a cell in the map
 		"""
 		if not self.isRecording():
-			self.enableRecordingMode()
+			self.enableRecordingMode("Select a cell to add a place")
 			self._selectPixelEvent.connect(self.addPlace)
 
 	def recordAddNpcCell(self):
@@ -266,7 +266,7 @@ class mainWindow(QtGui.QMainWindow):
 		a cell in the map
 		"""
 		if not self.isRecording():
-			self.enableRecordingMode()
+			self.enableRecordingMode("Select a cell to add a NPC")
 			self._selectPixelEvent.connect(self.addNpc)
 # End Actions to interact on the map to add elements
 
@@ -277,12 +277,12 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		return self._isRecording
 
-	def enableRecordingMode(self):
+	def enableRecordingMode(self, message):
 		"""
 		Method to enable the recording mode.
 		"""
 		self._isRecording = True
-		self._recordingLabel.setText("Recording")
+		self._recordingLabel.setText(message)
 		self._selectPixelEvent.connect(self.selectCell)
 
 	def disableRecordingMode(self):
