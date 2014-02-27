@@ -26,7 +26,7 @@ class map:
 	places = dict()
 	npc = dict()
 
-	species = [['Humans', '']]
+	species = {'humans': ['Humans', '', 'human']}
 
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
@@ -220,8 +220,8 @@ class map:
 
 		thread.notifyProgressLocal.emit(0, "Species creation")
 		query = str("INSERT INTO species (name, description) VALUES (?, ?)")
-		for s in self.species:
-			c.execute(query, s)
+		for s in self.species.values():
+			c.execute(query, (s[0], s[1]))
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
@@ -428,7 +428,7 @@ class map:
 		"""
 		Return the list of species' names
 		"""
-		return list(s[0] for s in self.species)
+		return list(s[0] for s in self.species.values())
 
 	def save(self, fileName):
 		"""

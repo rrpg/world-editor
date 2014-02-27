@@ -28,7 +28,7 @@ class speciesListDialog(QtGui.QDialog):
 		"""
 		layout = QtGui.QVBoxLayout(self)
 
-		tablemodel = SpeciesTableModel(self._app.map.species, self)
+		tablemodel = SpeciesTableModel(self._app.map.species.values(), self)
 		self._tableview = QtGui.QTableView()
 		self._tableview.setItemDelegate(EditableRowDelegate(self._tableview))
 		self._tableview.setModel(tablemodel)
@@ -53,6 +53,10 @@ class speciesListDialog(QtGui.QDialog):
 		nameLabel = QtGui.QLabel("Species name")
 		self._nameField = QtGui.QLineEdit()
 		self._nameField.textChanged.connect(self.updateCreateButton)
+
+		internalNameLabel = QtGui.QLabel("Species internal name")
+		self._internalNameField = QtGui.QLineEdit()
+		self._internalNameField.textChanged.connect(self.updateCreateButton)
 		descriptionLabel = QtGui.QLabel("Species Description")
 		self._descriptionField = QtGui.QTextEdit()
 		self._descriptionField.textChanged.connect(self.updateCreateButton)
@@ -61,11 +65,13 @@ class speciesListDialog(QtGui.QDialog):
 		self._saveButton.setEnabled(False)
 		self._saveButton.clicked.connect(self.createSpecies)
 
-		form.addWidget(nameLabel, 0, 0)
-		form.addWidget(self._nameField, 0, 1)
-		form.addWidget(descriptionLabel, 1, 0)
-		form.addWidget(self._descriptionField, 1, 1)
-		form.addWidget(self._saveButton, 2, 1)
+		form.addWidget(internalNameLabel, 0, 0)
+		form.addWidget(self._internalNameField, 0, 1)
+		form.addWidget(nameLabel, 1, 0)
+		form.addWidget(self._nameField, 1, 1)
+		form.addWidget(descriptionLabel, 2, 0)
+		form.addWidget(self._descriptionField, 2, 1)
+		form.addWidget(self._saveButton, 3, 1)
 
 		return form
 
@@ -74,22 +80,26 @@ class speciesListDialog(QtGui.QDialog):
 		Method called when the form's fields are edited. The "create" button is
 		enabled if the name field is not empty.
 		"""
-		self._saveButton.setEnabled(str(self._nameField.text()).strip() != "")
+		self._saveButton.setEnabled(
+			str(self._nameField.text()).strip() != ""
+			and str(self._internalNameField.text()).strip() != ""
+		)
 
 	def createSpecies(self):
 		"""
 		Method called when the "create" button is pressed. The filled data are
 		checked and if they are correct, the species is created.
 		"""
+		internalName = str(self._nameField.text()).strip()
 		name = str(self._nameField.text()).strip()
 		description = str(self._descriptionField.toPlainText()).strip()
 
-		if name is "":
+		if name is "" or internalName is "":
 			return False
 
-		self._app.addSpecies(name, description)
+		self._app.addSpecies(internalName, name, description)
 
-		tablemodel = SpeciesTableModel(self._app.map.species, self)
+		tablemodel = SpeciesTableModel(self._app.map.species.values(), self)
 		self._tableview.setModel(tablemodel)
 
 
