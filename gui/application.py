@@ -175,3 +175,7 @@ class application(QtGui.QApplication):
 
 	def hasNpcWithName(self, name):
 		return name in self.map.npc.keys()
+
+	def hasSpeciesWithName(self, name):
+		print self.map.species
+		return name in self.map.species.keys()

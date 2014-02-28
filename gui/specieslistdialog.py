@@ -49,6 +49,9 @@ class speciesListDialog(QtGui.QDialog):
 		"""
 		form = QtGui.QGridLayout()
 
+		self._messageLabel = QtGui.QLabel()
+		self._messageLabel.setWordWrap(True)
+
 		nameLabel = QtGui.QLabel("Species name")
 		self._nameField = QtGui.QLineEdit()
 		self._nameField.textChanged.connect(self.updateCreateButton)
@@ -64,13 +67,14 @@ class speciesListDialog(QtGui.QDialog):
 		self._saveButton.setEnabled(False)
 		self._saveButton.clicked.connect(self.createSpecies)
 
-		form.addWidget(internalNameLabel, 0, 0)
-		form.addWidget(self._internalNameField, 0, 1)
-		form.addWidget(nameLabel, 1, 0)
-		form.addWidget(self._nameField, 1, 1)
-		form.addWidget(descriptionLabel, 2, 0)
-		form.addWidget(self._descriptionField, 2, 1)
-		form.addWidget(self._saveButton, 3, 1)
+		form.addWidget(self._messageLabel, 0, 0, 1, 2)
+		form.addWidget(internalNameLabel, 1, 0)
+		form.addWidget(self._internalNameField, 1, 1)
+		form.addWidget(nameLabel, 2, 0)
+		form.addWidget(self._nameField, 2, 1)
+		form.addWidget(descriptionLabel, 3, 0)
+		form.addWidget(self._descriptionField, 3, 1)
+		form.addWidget(self._saveButton, 4, 1)
 
 		return form
 
@@ -96,6 +100,10 @@ class speciesListDialog(QtGui.QDialog):
 		if name is "" or internalName is "":
 			return False
 
+		if self._app.hasSpeciesWithName(internalName):
+			self.displayMessage("A species already exists with this internal name")
+			return False
+
 		self._app.addSpecies(internalName, {
 			'name': name,
 			'description': description,
@@ -103,3 +111,10 @@ class speciesListDialog(QtGui.QDialog):
 		})
 
 		self._table.setData()
+
+	def displayMessage(self, message):
+		"""
+		Method to display a message in the window.
+		"""
+		self._messageLabel.setText(message)
+		self.adjustSize()
