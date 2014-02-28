@@ -14,7 +14,7 @@ class itemList(QtGui.QTableWidget):
 		Initialisation of the widget, creates the GUI and displays the widget.
 		"""
 		self._app = app
-		QtGui.QTableView.__init__(self, parent)
+		QtGui.QTableWidget.__init__(self, parent)
 		self._parent = parent
 		self.setColumnCount(len(self._columns))
 		self.setHorizontalHeaderLabels(self._columns)

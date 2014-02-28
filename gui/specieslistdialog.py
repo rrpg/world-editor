@@ -1,12 +1,14 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui, QtCore
+from gui.specieslist import speciesList
+
 
 class speciesListDialog(QtGui.QDialog):
 	"""
 	Class to list the current world's species.
 	"""
-	_tableview = None
+	_table = None
 
 	def __init__(self, parent, app):
 		"""
@@ -28,17 +30,15 @@ class speciesListDialog(QtGui.QDialog):
 		"""
 		layout = QtGui.QVBoxLayout(self)
 
-		tablemodel = SpeciesTableModel(self._app.map.species.values(), self)
-		self._tableview = QtGui.QTableView()
-		self._tableview.setItemDelegate(EditableRowDelegate(self._tableview))
-		self._tableview.setModel(tablemodel)
+		self._table = speciesList(self, self._app)
+		self._table.setItemDelegate(EditableRowDelegate(self._table))
 
 		closeButton = QtGui.QPushButton("Close")
 		closeButton.clicked.connect(self.close)
 
 		form = self.creationForm()
 
-		layout.addWidget(self._tableview)
+		layout.addWidget(self._table)
 		layout.addLayout(form)
 		layout.addWidget(closeButton)
 		self.setLayout(layout)
@@ -90,69 +90,20 @@ class speciesListDialog(QtGui.QDialog):
 		Method called when the "create" button is pressed. The filled data are
 		checked and if they are correct, the species is created.
 		"""
-		internalName = str(self._nameField.text()).strip()
+		internalName = str(self._internalNameField.text()).strip()
 		name = str(self._nameField.text()).strip()
 		description = str(self._descriptionField.toPlainText()).strip()
 
 		if name is "" or internalName is "":
 			return False
 
-		self._app.addSpecies(internalName, name, description)
+		self._app.addSpecies(internalName, {
+			'name': name,
+			'description': description,
+			'internalName': internalName
+		})
 
-		tablemodel = SpeciesTableModel(self._app.map.species.values(), self)
-		self._tableview.setModel(tablemodel)
-
-
-class SpeciesTableModel(QtCore.QAbstractTableModel):
-	"""
-	Model class for the species list
-	"""
-	def __init__(self, datain, parent = None, *args):
-		QtCore.QAbstractTableModel.__init__(self, parent, *args)
-		self.arraydata = datain
-
-	def rowCount(self, parent):
-		"""
-		Method to get the number of rows of the table.
-		"""
-		return len(self.arraydata)
-
-	def columnCount(self, parent):
-		"""
-		Method to get the number of columns of the table.
-		"""
-		if len(self.arraydata) == 0:
-			return 0
-
-		return len(self.arraydata[0])
-
-	def setData(self, index, value, role):
-		"""
-		Method to update a cell of the table, depending on a given role.
-		"""
-		if role == QtCore.Qt.DisplayRole:
-			self.arraydata[index.row()][index.column()] = str(value)
-			return True
-		return False
-
-	def data(self, index, role):
-		"""
-		Method to get the value of a cell of the table, depending on a given
-		role.
-		"""
-		if not index.isValid():
-			return None
-		elif role == QtCore.Qt.EditRole:
-			return str(self.arraydata[index.row()][index.column()])
-		elif role != QtCore.Qt.DisplayRole:
-			return None
-		return (self.arraydata[index.row()][index.column()])
-
-	def flags(self, index):
-		"""
-		Method to set the table's cells flags
-		"""
-		return QtCore.Qt.ItemIsEditable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsSelectable
+		self._table.setData()
 
 
 class EditableRowDelegate(QtGui.QItemDelegate):

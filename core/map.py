@@ -26,7 +26,7 @@ class map:
 	places = dict()
 	npc = dict()
 
-	species = {'humans': ['Humans', '', 'human']}
+	species = {'humans': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
 
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
