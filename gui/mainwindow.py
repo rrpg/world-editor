@@ -32,8 +32,11 @@ class mainWindow(QtGui.QMainWindow):
 
 	_placesWidget = None
 	_npcWidget = None
+	_recordingLabel = None
 
 	_thread = None
+
+	_selectCellSpecificAction = None
 
 	def __init__(self, app):
 		"""
@@ -83,7 +86,6 @@ class mainWindow(QtGui.QMainWindow):
 		For the moment, the window contains only a QGraphicsView displaying the
 		world's map.
 		"""
-
 		splitter = QtGui.QSplitter()
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
@@ -98,10 +100,29 @@ class mainWindow(QtGui.QMainWindow):
 		self._imageView = QtGui.QGraphicsView()
 		self._imageView.setScene(self._imageScene)
 
+		layout = QtGui.QVBoxLayout()
+		layout.setSpacing(0)
+		layout.setMargin(0)
+
+		messageLayout = QtGui.QHBoxLayout()
+		messageLayout.setSpacing(4)
+		messageLayout.setMargin(3)
+		viewTopWidget = QtGui.QWidget()
+		self._recordingLabel = QtGui.QLabel("")
+		messageLayout.addWidget(self._recordingLabel)
+		viewTopWidget.setLayout(messageLayout)
+
+		layout.addWidget(viewTopWidget)
+		layout.addWidget(self._imageView)
+
+		viewWidget = QtGui.QWidget()
+		viewWidget.setLayout(layout)
+
 		splitter.addWidget(tabWidget)
-		splitter.addWidget(self._imageView)
+		splitter.addWidget(viewWidget)
 		splitter.setStretchFactor(1, 1)
-		self.setCentralWidget(splitter)
+
+		self.setCentralWidget(splitter);
 
 	def _setWindowInfos(self):
 		"""
@@ -232,9 +253,11 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user has to select a starting cell. A record mode
 		will be enabled and the user will have to click on a cell in the map.
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.selectStartCell)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.selectStartCell
+		self.enableRecordingMode("Select the starting cell")
 
 	def recordAddPlaceCell(self):
 		"""
@@ -242,9 +265,12 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.addPlace)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.addPlace
+		self.enableRecordingMode("Select a cell to add a place")
+		print "connect _selectPixelEvent"
 
 	def recordAddNpcCell(self):
 		"""
@@ -252,9 +278,11 @@ class mainWindow(QtGui.QMainWindow):
 		world. A record mode will be enabled and the user will have to click on
 		a cell in the map
 		"""
-		if not self.isRecording():
-			self.enableRecordingMode()
-			self._selectPixelEvent.connect(self.addNpc)
+		if self.isRecording():
+			self.disableRecordingMode()
+
+		self._selectCellSpecificAction = self.addNpc
+		self.enableRecordingMode("Select a cell to add a NPC")
 # End Actions to interact on the map to add elements
 
 # Recording methods
@@ -264,19 +292,29 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		return self._isRecording
 
-	def enableRecordingMode(self):
+	def enableRecordingMode(self, message):
 		"""
 		Method to enable the recording mode.
 		"""
 		self._isRecording = True
+		self._recordingLabel.setText(message)
 		self._selectPixelEvent.connect(self.selectCell)
+
+		if self._selectCellSpecificAction is not None:
+			self._selectPixelEvent.connect(self._selectCellSpecificAction)
+
 
 	def disableRecordingMode(self):
 		"""
 		Method to disable the recording mode.
 		"""
 		self._isRecording = False
+		self._recordingLabel.setText("")
+		if self._selectCellSpecificAction is not None:
+			self._selectPixelEvent.disconnect(self._selectCellSpecificAction)
+			self._selectCellSpecificAction = None
 		self._selectPixelEvent.disconnect(self.selectCell)
+
 # End Recording methods
 
 # Map operations
@@ -378,9 +416,9 @@ class mainWindow(QtGui.QMainWindow):
 			self.displayStartCell(x, y)
 		except BaseException as e:
 			self.alert(e.message)
+			return
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.selectStartCell)
 
 	def addPlace(self, x, y):
 		"""
@@ -397,7 +435,6 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self._placesWidget.setData)
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.addPlace)
 
 	def addNpc(self, x, y):
 		"""
@@ -414,7 +451,6 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self._npcWidget.setData)
 
 		self.disableRecordingMode()
-		self._selectPixelEvent.disconnect(self.addNpc)
 # End Methods to add elements on the map
 
 # Methods to display an element on the map
