@@ -109,8 +109,13 @@ class speciesListDialog(QtGui.QDialog):
 			'description': description,
 			'internalName': internalName
 		})
-
+		self._cleanForm()
 		self._table.setData()
+
+	def _cleanForm(self):
+		self._internalNameField.setText('')
+		self._nameField.setText('')
+		self._descriptionField.setText('')
 
 	def displayMessage(self, message):
 		"""
