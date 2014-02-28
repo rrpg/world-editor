@@ -23,10 +23,9 @@ class map:
 	_file = None
 	startCellPosition = None
 	cells = dict()
-	places = list()
-	npc = list()
-
-	species = [['Humans', '']]
+	places = dict()
+	npc = dict()
+	species = {'human': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
 
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
@@ -35,8 +34,8 @@ class map:
 		self._file = None
 		self.startCellPosition = None
 		self.cells = dict()
-		self.places = list()
-		self.npc = list()
+		self.places = dict()
+		self.npc = dict()
 
 	def generate(self, name, width, height):
 		"""
@@ -84,12 +83,46 @@ class map:
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for place in csvreader:
-			self.places.append({
+			self.places[place[5]] = {
 				'type': int(place[0]),
 				'name': place[1],
 				'coordinates': (int(place[2]), int(place[3])),
-				'size': int(place[4])
-			})
+				'size': int(place[4]),
+				'internalName': place[5]
+			}
+
+	def loadNPC(self):
+		"""
+		Method to load the world's NPC from a text file
+		"""
+		placesFile = open(self._file + '_npc.csv', "r")
+		nbPlaces = 0
+		csvreader = csv.reader(placesFile, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for npc in csvreader:
+			self.npc[npc[5]] = {
+				'name': npc[0],
+				'gender': int(npc[1]),
+				'species': int(npc[2]),
+				'coordinates': (int(npc[3]), int(npc[4])),
+				'internalName': npc[5]
+			}
+
+	def loadSpecies(self):
+		"""
+		Method to load the world's species from a text file
+		"""
+		placesFile = open(self._file + '_species.csv', "r")
+		nbPlaces = 0
+		csvreader = csv.reader(placesFile, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		self.species = dict()
+		for s in csvreader:
+			self.species[s[2]] = {
+				'name': s[0],
+				'description': s[1],
+				'internalName': s[2]
+			}
 
 	def checkForExport(self):
 		"""
@@ -202,8 +235,8 @@ class map:
 
 		thread.notifyProgressLocal.emit(0, "Species creation")
 		query = str("INSERT INTO species (name, description) VALUES (?, ?)")
-		for s in self.species:
-			c.execute(query, s)
+		for s in self.species.values():
+			c.execute(query, (s[0], s[1]))
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
@@ -305,7 +338,7 @@ class map:
 
 		placeTypePercent = 100 / len(self.places)
 		placeTypesKeys = self._placesTypes.keys()
-		for i, p in enumerate(self.places):
+		for i, p in enumerate(self.places.values()):
 			c.execute(
 				query,
 				[
@@ -370,7 +403,7 @@ class map:
 		npcPercent = 100 / len(self.npc)
 		speciesNames = self.getSpeciesNames()
 		genders = map.getGenders()
-		for i, p in enumerate(self.npc):
+		for i, p in enumerate(self.npc.values()):
 			c.execute(
 				query,
 				[
@@ -410,7 +443,7 @@ class map:
 		"""
 		Return the list of species' names
 		"""
-		return list(s[0] for s in self.species)
+		return list(s['name'] for s in self.species.values())
 
 	def save(self, fileName):
 		"""
@@ -435,13 +468,14 @@ class map:
 		f = open(self._file + '_places.csv', 'wb')
 		csvwriter = csv.writer(f, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.places:
+		for p in self.places.values():
 			csvwriter.writerow((
 				p['type'],
 				p['name'],
 				p['coordinates'][0],
 				p['coordinates'][1],
-				p['size']
+				p['size'],
+				p['internalName']
 			))
 		f.close()
 		tar.add(
@@ -449,6 +483,41 @@ class map:
 			arcname=os.path.basename(self._file) + '_places.csv'
 		)
 		os.remove(self._file + '_places.csv')
+
+		f = open(self._file + '_npc.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for p in self.npc.values():
+			csvwriter.writerow((
+				p['name'],
+				p['gender'],
+				p['species'],
+				p['coordinates'][0],
+				p['coordinates'][1],
+				p['internalName']
+			))
+		f.close()
+		tar.add(
+			self._file + '_npc.csv',
+			arcname=os.path.basename(self._file) + '_npc.csv'
+		)
+		os.remove(self._file + '_npc.csv')
+
+		f = open(self._file + '_species.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for p in self.species.values():
+			csvwriter.writerow((
+				p['name'],
+				p['description'],
+				p['internalName']
+			))
+		f.close()
+		tar.add(
+			self._file + '_species.csv',
+			arcname=os.path.basename(self._file) + '_species.csv'
+		)
+		os.remove(self._file + '_species.csv')
 
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
@@ -487,6 +556,8 @@ class map:
 
 			self.loadCells()
 			self.loadPlaces()
+			self.loadNPC()
+			self.loadSpecies()
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 

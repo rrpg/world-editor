@@ -13,8 +13,9 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 	label npc gender    npc gender field
 	create button       cancel button
 	"""
-	_npcTypeField = None
+	_npcInternalNameField = None
 	_npcNameField = None
+	_npcTypeField = None
 	_npcSizeField = None
 
 	_title = "Create a new NPC"
@@ -24,6 +25,9 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 		Creates the UI
 		"""
 		layout = QtGui.QGridLayout()
+
+		npcInternalNameLabel = QtGui.QLabel("NPC internal name")
+		self._npcInternalNameField = QtGui.QLineEdit()
 
 		npcNameLabel = QtGui.QLabel("NPC Name")
 		self._npcNameField = QtGui.QLineEdit()
@@ -36,12 +40,14 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 		self._npcGenderField = QtGui.QComboBox()
 		self._npcGenderField.addItems(map.map.getGenders())
 
-		layout.addWidget(npcNameLabel, 0, 0)
-		layout.addWidget(self._npcNameField, 0, 1)
-		layout.addWidget(npcSpeciesLabel, 1, 0)
-		layout.addWidget(self._npcSpeciesField, 1, 1)
-		layout.addWidget(npcGenderLabel, 2, 0)
-		layout.addWidget(self._npcGenderField, 2, 1)
+		layout.addWidget(npcInternalNameLabel, 0, 0)
+		layout.addWidget(self._npcInternalNameField, 0, 1)
+		layout.addWidget(npcNameLabel, 1, 0)
+		layout.addWidget(self._npcNameField, 1, 1)
+		layout.addWidget(npcSpeciesLabel, 2, 0)
+		layout.addWidget(self._npcSpeciesField, 2, 1)
+		layout.addWidget(npcGenderLabel, 3, 0)
+		layout.addWidget(self._npcGenderField, 3, 1)
 
 		return layout
 
@@ -51,12 +57,19 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 		The filled values are checked and if they are correct, a npc is created
 		"""
 		valid = True
+		internalName = str(self._npcInternalNameField.text()).strip()
 		name = str(self._npcNameField.text()).strip()
 		species = int(self._npcSpeciesField.currentIndex())
 		gender = int(self._npcGenderField.currentIndex())
 
+		if internalName == "":
+			self.displayMessage("A npc internal name must be provided")
+			valid = False
+		elif self._app.hasNpcWithName(internalName):
+			self.displayMessage("A npc internal name must be unique")
+			valid = False
 		if name == "":
-			self.displayMessage("A place name must be provided")
+			self.displayMessage("A npc name must be provided")
 			valid = False
 		if species < 0 or species >= len(self._app.map.getSpeciesNames()):
 			self.displayMessage("The selected species is not valid")
@@ -66,11 +79,12 @@ class addNpcDialog(gui.additemdialog.addItemDialog):
 			valid = False
 
 		if valid:
-			self._app.addNpc({
+			self._app.addNpc(internalName, {
 				'name': name,
 				'gender': self._npcGenderField.currentIndex(),
 				'species': self._npcSpeciesField.currentIndex(),
-				'coordinates': self._coordinates
+				'coordinates': self._coordinates,
+				'internalName': internalName
 			})
 			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.accept()

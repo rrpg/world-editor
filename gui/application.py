@@ -101,23 +101,23 @@ class application(QtGui.QApplication):
 # End Operations on the map files
 
 # Methods to add elements in the map
-	def addSpecies(self, name, description):
+	def addSpecies(self, key, informations):
 		"""
 		Method to add a species in the world
 		"""
-		self.map.species.append([name, description])
+		self.map.species[key] = informations
 
-	def addPlace(self, informations):
+	def addPlace(self, key, informations):
 		"""
 		Add a place to the map's places list
 		"""
-		self.map.places.append(informations)
+		self.map.places[key] = informations
 
-	def addNpc(self, informations):
+	def addNpc(self, key, informations):
 		"""
 		Add a npc to the map's npc list
 		"""
-		self.map.npc.append(informations)
+		self.map.npc[key] = informations
 # End Methods to add elements in the map
 
 # Names operations (file names, map name...)
@@ -169,3 +169,13 @@ class application(QtGui.QApplication):
 			raise BaseException("The selected path is not a file")
 		self._saveFileName = name
 # end Names operations (file names, map name...)
+
+	def hasPlaceWithName(self, name):
+		return name in self.map.places.keys()
+
+	def hasNpcWithName(self, name):
+		return name in self.map.npc.keys()
+
+	def hasSpeciesWithName(self, name):
+		print self.map.species
+		return name in self.map.species.keys()
