@@ -443,7 +443,7 @@ class map:
 		"""
 		Return the list of species' names
 		"""
-		return list(s[0] for s in self.species.values())
+		return list(s['name'] for s in self.species.values())
 
 	def save(self, fileName):
 		"""
