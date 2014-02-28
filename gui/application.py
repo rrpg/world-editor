@@ -101,11 +101,11 @@ class application(QtGui.QApplication):
 # End Operations on the map files
 
 # Methods to add elements in the map
-	def addSpecies(self, key, name, description):
+	def addSpecies(self, key, informations):
 		"""
 		Method to add a species in the world
 		"""
-		self.map.species[key] = [name, description, key]
+		self.map.species[key] = informations
 
 	def addPlace(self, key, informations):
 		"""
