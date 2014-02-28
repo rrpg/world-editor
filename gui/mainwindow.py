@@ -109,7 +109,6 @@ class mainWindow(QtGui.QMainWindow):
 		messageLayout.setMargin(3)
 		viewTopWidget = QtGui.QWidget()
 		self._recordingLabel = QtGui.QLabel("")
-		self._recordingLabel.setAlignment(QtCore.Qt.AlignRight)
 		messageLayout.addWidget(self._recordingLabel)
 		viewTopWidget.setLayout(messageLayout)
 
