@@ -25,7 +25,6 @@ class map:
 	cells = dict()
 	places = dict()
 	npc = dict()
-
 	species = {'humans': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
 
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
@@ -107,6 +106,22 @@ class map:
 				'species': int(npc[2]),
 				'coordinates': (int(npc[3]), int(npc[4])),
 				'internalName': npc[5]
+			}
+
+	def loadSpecies(self):
+		"""
+		Method to load the world's species from a text file
+		"""
+		placesFile = open(self._file + '_species.csv', "r")
+		nbPlaces = 0
+		csvreader = csv.reader(placesFile, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		self.species = dict()
+		for s in csvreader:
+			self.species[s[2]] = {
+				'name': s[0],
+				'description': s[1],
+				'internalName': s[2]
 			}
 
 	def checkForExport(self):
@@ -488,6 +503,22 @@ class map:
 		)
 		os.remove(self._file + '_npc.csv')
 
+		f = open(self._file + '_species.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		for p in self.species.values():
+			csvwriter.writerow((
+				p['name'],
+				p['description'],
+				p['internalName']
+			))
+		f.close()
+		tar.add(
+			self._file + '_species.csv',
+			arcname=os.path.basename(self._file) + '_species.csv'
+		)
+		os.remove(self._file + '_species.csv')
+
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
 			f.write(str(self.startCellPosition[0]) + ' ' + str(self.startCellPosition[1]))
@@ -526,6 +557,7 @@ class map:
 			self.loadCells()
 			self.loadPlaces()
 			self.loadNPC()
+			self.loadSpecies()
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 
