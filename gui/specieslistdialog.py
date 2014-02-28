@@ -97,11 +97,11 @@ class speciesListDialog(QtGui.QDialog):
 		if name is "" or internalName is "":
 			return False
 
-		self._app.addSpecies(internalName, [
-			name,
-			description,
-			internalName
-		])
+		self._app.addSpecies(internalName, {
+			'name': name,
+			'description': description,
+			'internalName': internalName
+		})
 
 		self._table.setData()
 

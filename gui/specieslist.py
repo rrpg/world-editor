@@ -10,9 +10,9 @@ class speciesList(gui.itemlist.itemList):
 	_columns = ('Name', 'Description', 'Internal name')
 
 	def insertItem(self, index, row):
-		self.setItem(index, 0, QtGui.QTableWidgetItem(row[0]))
-		self.setItem(index, 1, QtGui.QTableWidgetItem(row[0]))
-		self.setItem(index, 2, QtGui.QTableWidgetItem(row[0]))
+		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
+		self.setItem(index, 1, QtGui.QTableWidgetItem(row['description']))
+		self.setItem(index, 2, QtGui.QTableWidgetItem(row['internalName']))
 		self.resizeColumnsToContents()
 
 	def getData(self):
