@@ -90,7 +90,7 @@ class speciesListDialog(QtGui.QDialog):
 		Method called when the "create" button is pressed. The filled data are
 		checked and if they are correct, the species is created.
 		"""
-		internalName = str(self._nameField.text()).strip()
+		internalName = str(self._internalNameField.text()).strip()
 		name = str(self._nameField.text()).strip()
 		description = str(self._descriptionField.toPlainText()).strip()
 
