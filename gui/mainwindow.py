@@ -304,11 +304,11 @@ class mainWindow(QtGui.QMainWindow):
 		self._pixmaps['map'] = mapPixmap
 
 		self._placesWidget.setData()
-		for p in self._app.map.places:
+		for p in self._app.map.places.values():
 			self.displayPlace(p['coordinates'][0], p['coordinates'][1])
 
 		self._npcWidget.setData()
-		for p in self._app.map.npc:
+		for p in self._app.map.npc.values():
 			self.displayNpc(p['coordinates'][0], p['coordinates'][1])
 
 		if self._app.map.startCellPosition is not None:
