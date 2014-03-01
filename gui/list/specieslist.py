@@ -2,10 +2,10 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-import gui.itemlist
+import gui.list.itemlist
 
 
-class speciesList(gui.itemlist.itemList):
+class speciesList(gui.list.itemlist.itemList):
 
 	_columns = ('Name', 'Description', 'Internal name')
 

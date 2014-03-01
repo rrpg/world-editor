@@ -8,8 +8,8 @@ from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
 from gui.form.placedialog import formPlaceDialog
 from gui.form.npcdialog import formNpcDialog
-from gui.placeslist import placesList
-from gui.npclist import npcList
+from gui.list.placeslist import placesList
+from gui.list.npclist import npcList
 from core import worker
 import imghdr
 import os
