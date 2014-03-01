@@ -441,59 +441,9 @@ class map:
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
 		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
 
-		f = open(self._file + '_places.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.places.values():
-			csvwriter.writerow((
-				p['internalName'],
-				p['type'],
-				p['name'],
-				p['x'],
-				p['y'],
-				p['size']
-			))
-		f.close()
-		tar.add(
-			self._file + '_places.csv',
-			arcname=os.path.basename(self._file) + '_places.csv'
-		)
-		os.remove(self._file + '_places.csv')
-
-		f = open(self._file + '_npc.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.npc.values():
-			csvwriter.writerow((
-				p['internalName'],
-				p['name'],
-				p['gender'],
-				p['species'],
-				p['x'],
-				p['y']
-			))
-		f.close()
-		tar.add(
-			self._file + '_npc.csv',
-			arcname=os.path.basename(self._file) + '_npc.csv'
-		)
-		os.remove(self._file + '_npc.csv')
-
-		f = open(self._file + '_species.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.species.values():
-			csvwriter.writerow((
-				p['internalName'],
-				p['name'],
-				p['description']
-			))
-		f.close()
-		tar.add(
-			self._file + '_species.csv',
-			arcname=os.path.basename(self._file) + '_species.csv'
-		)
-		os.remove(self._file + '_species.csv')
+		self.saveEntity(tar, 'places', self.places.values())
+		self.saveEntity(tar, 'npc', self.npc.values())
+		self.saveEntity(tar, 'species', self.species.values())
 
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
@@ -505,6 +455,23 @@ class map:
 		)
 		tar.close()
 		os.remove(self._file + '_start_cell.txt')
+
+	def saveEntity(self, tar, entityName, values):
+		"""
+		Method to save the values of an entity
+		"""
+		f = open(self._file + '_' + entityName + '.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		entityFields = [e[0] for e in self._entitiesDesc[entityName]]
+		for p in values:
+			csvwriter.writerow([p[v] for v in entityFields])
+		f.close()
+		tar.add(
+			self._file + '_' + entityName + '.csv',
+			arcname=os.path.basename(self._file) + '_' + entityName + '.csv'
+		)
+		os.remove(self._file + '_' + entityName + '.csv')
 
 	def open(self, fileName, tempFolder):
 		"""
