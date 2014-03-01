@@ -80,7 +80,9 @@ class application(QtGui.QApplication):
 		"""
 		self.initMap()
 		self.setSaveMapName(str(fileName))
-		self.setMapFileName(self.map.open(self._saveFileName))
+		(fileName, worldName) = self.map.open(self._saveFileName)
+		self.setMapFileName(fileName)
+		self.setMapName(worldName)
 		self.mapOpened.emit()
 
 	def exportMap(self, thread):

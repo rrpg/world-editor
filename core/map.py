@@ -561,7 +561,7 @@ class map:
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 
-		return self._file
+		return (self._file, worldName)
 
 
 class exception(BaseException):
