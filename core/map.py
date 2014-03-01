@@ -27,6 +27,11 @@ class map:
 	npc = dict()
 	species = {'human': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
 
+	_entitiesDesc = {
+		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
+		'npc': (('internalName', 'str'), ('name', 'str'), ('gender', 'int'), ('species', 'int'), ('x', 'int'), ('y', 'int')),
+		'species': (('internalName', 'str'), ('name', 'str'), ('description', 'str'))
+	}
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
 
@@ -74,54 +79,26 @@ class map:
 
 			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
 
-	def loadPlaces(self):
-		"""
-		Method to load the world's places from a text file
-		"""
-		placesFile = open(self._file + '_places.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for place in csvreader:
-			self.places[place[0]] = {
-				'internalName': place[0],
-				'type': int(place[1]),
-				'name': place[2],
-				'x': int(place[3]),
-				'y': int(place[4]),
-				'size': int(place[5])
-			}
-
-	def loadNPC(self):
+	def loadEntity(self, entity):
 		"""
 		Method to load the world's NPC from a text file
-		"""
-		placesFile = open(self._file + '_npc.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for npc in csvreader:
-			self.npc[npc[0]] = {
-				'internalName': npc[0],
-				'name': npc[1],
-				'gender': int(npc[2]),
-				'species': int(npc[3]),
-				'x': int(npc[4]),
-				'y': int(npc[5])
-			}
 
-	def loadSpecies(self):
+		@param entity (npc|places|species)
 		"""
-		Method to load the world's species from a text file
-		"""
-		placesFile = open(self._file + '_species.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
+		f = open(self._file + '_' + entity + '.csv', "r")
+		entities = dict()
+		csvreader = csv.reader(f, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		self.species = dict()
-		for s in csvreader:
-			self.species[s[0]] = {
-				'internalName': s[0],
-				'name': s[1],
-				'description': s[2]
-			}
+		entityFields = [e[0] for e in self._entitiesDesc[entity]]
+		entityTypes = [e[1] for e in self._entitiesDesc[entity]]
+		for e in csvreader:
+			entities[e[0]] = dict(zip(
+				entityFields,
+				# Cast the values if integers are expected
+				[int(v) if entityTypes[k] == 'int' else v for k, v in enumerate(e)]
+			))
+
+		return entities
 
 	def checkForExport(self):
 		"""
@@ -554,9 +531,9 @@ class map:
 					startCellFile.close()
 
 			self.loadCells()
-			self.loadPlaces()
-			self.loadNPC()
-			self.loadSpecies()
+			self.places = self.loadEntity('places')
+			self.npc = self.loadEntity('npc')
+			self.species = self.loadEntity('species')
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 
