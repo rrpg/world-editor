@@ -197,6 +197,9 @@ class mainWindow(QtGui.QMainWindow):
 			"Map (*.map)"
 		)
 
+		if fileName == "":
+			return
+
 		if fileName[-4:] != '.map':
 			fileName = fileName + '.map'
 
