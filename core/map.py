@@ -82,13 +82,13 @@ class map:
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for place in csvreader:
-			self.places[place[5]] = {
-				'type': int(place[0]),
-				'name': place[1],
-				'x': int(place[2]),
-				'y': int(place[3]),
-				'size': int(place[4]),
-				'internalName': place[5]
+			self.places[place[0]] = {
+				'internalName': place[0],
+				'type': int(place[1]),
+				'name': place[2],
+				'x': int(place[3]),
+				'y': int(place[4]),
+				'size': int(place[5])
 			}
 
 	def loadNPC(self):
@@ -99,13 +99,13 @@ class map:
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for npc in csvreader:
-			self.npc[npc[5]] = {
-				'name': npc[0],
-				'gender': int(npc[1]),
-				'species': int(npc[2]),
-				'x': int(npc[3]),
-				'y': int(npc[4]),
-				'internalName': npc[5]
+			self.npc[npc[0]] = {
+				'internalName': npc[0],
+				'name': npc[1],
+				'gender': int(npc[2]),
+				'species': int(npc[3]),
+				'x': int(npc[4]),
+				'y': int(npc[5])
 			}
 
 	def loadSpecies(self):
@@ -117,10 +117,10 @@ class map:
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		self.species = dict()
 		for s in csvreader:
-			self.species[s[2]] = {
-				'name': s[0],
-				'description': s[1],
-				'internalName': s[2]
+			self.species[s[0]] = {
+				'internalName': s[0],
+				'name': s[1],
+				'description': s[2]
 			}
 
 	def checkForExport(self):
@@ -469,12 +469,12 @@ class map:
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for p in self.places.values():
 			csvwriter.writerow((
+				p['internalName'],
 				p['type'],
 				p['name'],
 				p['x'],
 				p['y'],
-				p['size'],
-				p['internalName']
+				p['size']
 			))
 		f.close()
 		tar.add(
@@ -488,12 +488,12 @@ class map:
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for p in self.npc.values():
 			csvwriter.writerow((
+				p['internalName'],
 				p['name'],
 				p['gender'],
 				p['species'],
 				p['x'],
-				p['y'],
-				p['internalName']
+				p['y']
 			))
 		f.close()
 		tar.add(
@@ -507,9 +507,9 @@ class map:
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for p in self.species.values():
 			csvwriter.writerow((
+				p['internalName'],
 				p['name'],
-				p['description'],
-				p['internalName']
+				p['description']
 			))
 		f.close()
 		tar.add(
