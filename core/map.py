@@ -530,12 +530,12 @@ class map:
 		tar.close()
 		os.remove(self._file + '_start_cell.txt')
 
-	def open(self, fileName):
+	def open(self, fileName, tempFolder):
 		"""
 		Method to open a filename and instanciate the map object
 		"""
 		tar = tarfile.open(fileName, 'r')
-		tmpDir = config.tempDir + '/'
+		tmpDir = tempFolder + '/'
 
 		try:
 			for item in tar:
@@ -543,7 +543,7 @@ class map:
 				if item.path == '__NAME__':
 					worldNameFile = open(tmpDir + item.path, "r")
 					worldName = worldNameFile.readline()
-					self._file = config.tempDir + '/' + worldName
+					self._file = tmpDir + worldName
 					worldNameFile.close()
 				elif item.path[-15:] == '_start_cell.txt':
 					startCellFile = open(tmpDir + item.path, "r")
