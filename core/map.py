@@ -236,7 +236,7 @@ class map:
 		thread.notifyProgressLocal.emit(0, "Species creation")
 		query = str("INSERT INTO species (name, description) VALUES (?, ?)")
 		for s in self.species.values():
-			c.execute(query, (s[0], s[1]))
+			c.execute(query, (s['name'], s['description']))
 		thread.notifyProgressLocal.emit(100, "Finished")
 
 	def _exportWorldCreation(self, thread, db, name):
