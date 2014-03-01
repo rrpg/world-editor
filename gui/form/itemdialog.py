@@ -4,7 +4,7 @@ from PyQt4 import QtGui, QtCore
 from core import map
 
 
-class addItemDialog(QtGui.QDialog):
+class itemDialog(QtGui.QDialog):
 	"""
 	Window to fill some informations to create an item
 	label npc gender	npc gender field

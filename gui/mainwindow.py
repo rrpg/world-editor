@@ -6,8 +6,8 @@ from gui.menu import menu
 from gui.newmapdialog import newMapDialog
 from gui.exportmapdialog import exportMapDialog
 from gui.specieslistdialog import speciesListDialog
-from gui.addplacedialog import addPlaceDialog
-from gui.addnpcdialog import addNpcDialog
+from gui.form.placedialog import formPlaceDialog
+from gui.form.npcdialog import formNpcDialog
 from gui.placeslist import placesList
 from gui.npclist import npcList
 from core import worker
@@ -428,7 +428,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.alert("No place can be added in water")
 			return
 
-		dialog = addPlaceDialog(self, self._app, (x, y))
+		dialog = formPlaceDialog(self, self._app, (x, y))
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayPlace)
 		dialog.itemAdded.connect(self._placesWidget.setData)
@@ -444,7 +444,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.alert("No NPC can be added in water")
 			return
 
-		dialog = addNpcDialog(self, self._app, (x, y))
+		dialog = formNpcDialog(self, self._app, (x, y))
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
