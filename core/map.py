@@ -85,7 +85,8 @@ class map:
 			self.places[place[5]] = {
 				'type': int(place[0]),
 				'name': place[1],
-				'coordinates': (int(place[2]), int(place[3])),
+				'x': int(place[2]),
+				'y': int(place[3]),
 				'size': int(place[4]),
 				'internalName': place[5]
 			}
@@ -102,7 +103,8 @@ class map:
 				'name': npc[0],
 				'gender': int(npc[1]),
 				'species': int(npc[2]),
-				'coordinates': (int(npc[3]), int(npc[4])),
+				'x': int(npc[3]),
+				'y': int(npc[4]),
 				'internalName': npc[5]
 			}
 
@@ -339,8 +341,8 @@ class map:
 			c.execute(
 				query,
 				[
-					p['coordinates'][0],
-					p['coordinates'][1],
+					p['x'],
+					p['y'],
 					placeTypesKeys[p['type']],
 					p['name'],
 					p['size']
@@ -363,8 +365,8 @@ class map:
 					queryArea,
 					[
 						placeTypesKeys[p['type']],
-						p['coordinates'][0],
-						p['coordinates'][1],
+						p['x'],
+						p['y'],
 						placeTypesKeys[p['type']] + '_' + str(c.lastrowid)
 					]
 				)
@@ -407,8 +409,8 @@ class map:
 					p['name'],
 					speciesNames[p['species']],
 					genders[p['gender']],
-					p['coordinates'][0],
-					p['coordinates'][1]
+					p['x'],
+					p['y']
 				]
 			)
 
@@ -469,8 +471,8 @@ class map:
 			csvwriter.writerow((
 				p['type'],
 				p['name'],
-				p['coordinates'][0],
-				p['coordinates'][1],
+				p['x'],
+				p['y'],
 				p['size'],
 				p['internalName']
 			))
@@ -489,8 +491,8 @@ class map:
 				p['name'],
 				p['gender'],
 				p['species'],
-				p['coordinates'][0],
-				p['coordinates'][1],
+				p['x'],
+				p['y'],
 				p['internalName']
 			))
 		f.close()

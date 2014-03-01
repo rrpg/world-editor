@@ -11,8 +11,8 @@ class npcList(gui.itemlist.itemList):
 
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
-		self.setItem(index, 1, QtGui.QTableWidgetItem(str(row['coordinates'][0])))
-		self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['coordinates'][1])))
+		self.setItem(index, 1, QtGui.QTableWidgetItem(str(row['x'])))
+		self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['y'])))
 		self.setItem(index, 3, QtGui.QTableWidgetItem(row['internalName']))
 		self.setCellWidget(index, 4, gui.itemlist.itemLocatorButton(self, index, "Locate"))
 		self.resizeColumnsToContents()
