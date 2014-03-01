@@ -2,10 +2,10 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-import gui.itemlist
+import gui.list.itemlist
 
 
-class placesList(gui.itemlist.itemList):
+class placesList(gui.list.itemlist.itemList):
 
 	_columns = ('Name', 'Type', 'X', 'Y', 'Internal name', 'Locate')
 
@@ -15,7 +15,7 @@ class placesList(gui.itemlist.itemList):
 		self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['x'])))
 		self.setItem(index, 3, QtGui.QTableWidgetItem(str(row['y'])))
 		self.setItem(index, 4, QtGui.QTableWidgetItem(row['internalName']))
-		self.setCellWidget(index, 5, gui.itemlist.itemLocatorButton(self, index, "Locate"))
+		self.setCellWidget(index, 5, gui.list.itemlist.itemLocatorButton(self, index, "Locate"))
 		self.resizeColumnsToContents()
 
 	def getData(self):

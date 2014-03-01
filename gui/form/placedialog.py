@@ -2,10 +2,10 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
-import gui.additemdialog
+import gui.form.itemdialog
 
 
-class addPlaceDialog(gui.additemdialog.addItemDialog):
+class formPlaceDialog(gui.form.itemdialog.itemDialog):
 	"""
 	Window to fill some informations to create a place
 	label place type	place type field

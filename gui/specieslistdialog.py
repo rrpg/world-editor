@@ -1,7 +1,7 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui, QtCore
-from gui.specieslist import speciesList
+from gui.list.specieslist import speciesList
 
 
 class speciesListDialog(QtGui.QDialog):

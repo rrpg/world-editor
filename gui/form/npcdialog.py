@@ -2,10 +2,10 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
-import gui.additemdialog
+import gui.form.itemdialog
 
 
-class addNpcDialog(gui.additemdialog.addItemDialog):
+class formNpcDialog(gui.form.itemdialog.itemDialog):
 	"""
 	Window to fill some informations to create a NPC
 	label npc name      npc name field

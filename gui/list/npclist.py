@@ -2,10 +2,10 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-import gui.itemlist
+import gui.list.itemlist
 
 
-class npcList(gui.itemlist.itemList):
+class npcList(gui.list.itemlist.itemList):
 
 	_columns = ('Name', 'X', 'Y', 'Internal name', 'Locate')
 
@@ -14,7 +14,7 @@ class npcList(gui.itemlist.itemList):
 		self.setItem(index, 1, QtGui.QTableWidgetItem(str(row['x'])))
 		self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['y'])))
 		self.setItem(index, 3, QtGui.QTableWidgetItem(row['internalName']))
-		self.setCellWidget(index, 4, gui.itemlist.itemLocatorButton(self, index, "Locate"))
+		self.setCellWidget(index, 4, gui.list.itemlist.itemLocatorButton(self, index, "Locate"))
 		self.resizeColumnsToContents()
 
 	def getData(self):
