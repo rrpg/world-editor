@@ -530,12 +530,12 @@ class map:
 		tar.close()
 		os.remove(self._file + '_start_cell.txt')
 
-	def open(self, fileName):
+	def open(self, fileName, tempFolder):
 		"""
 		Method to open a filename and instanciate the map object
 		"""
 		tar = tarfile.open(fileName, 'r')
-		tmpDir = config.tempDir + '/'
+		tmpDir = tempFolder + '/'
 
 		try:
 			for item in tar:

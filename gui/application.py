@@ -40,8 +40,9 @@ class application(QtGui.QApplication):
 		Method called when the application is started.
 		It creates the temp and the maps folders if they don't exist
 		"""
-		if not os.path.exists(config.tempDir):
-			os.makedirs(config.tempDir)
+		tmpDir = self.getTempFolder()
+		if not os.path.exists(tmpDir):
+			os.makedirs(tmpDir)
 		if not os.path.exists(config.exportPath):
 			os.makedirs(config.exportPath)
 
@@ -55,7 +56,10 @@ class application(QtGui.QApplication):
 		"""
 		Method called when the application is closed, to delete the temp folder
 		"""
-		if os.path.exists(config.tempDir):
+		tmpDir = self.getTempFolder()
+		if os.path.exists(tmpDir):
+			shutil.rmtree(tmpDir)
+		if os.listdir(config.tempDir) == []:
 			shutil.rmtree(config.tempDir)
 
 # Operations on the map files
@@ -80,7 +84,7 @@ class application(QtGui.QApplication):
 		"""
 		self.initMap()
 		self.setSaveMapName(str(fileName))
-		(fileName, worldName) = self.map.open(self._saveFileName)
+		(fileName, worldName) = self.map.open(self._saveFileName, self.getTempFolder())
 		self.setMapFileName(fileName)
 		self.setMapName(worldName)
 		self.mapOpened.emit()
@@ -180,3 +184,6 @@ class application(QtGui.QApplication):
 
 	def hasSpeciesWithName(self, name):
 		return name in self.map.species.keys()
+
+	def getTempFolder(self):
+		return config.tempDir + '/' + str(os.getpid())
