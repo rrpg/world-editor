@@ -270,7 +270,6 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._selectCellSpecificAction = self.addPlace
 		self.enableRecordingMode("Select a cell to add a place")
-		print "connect _selectPixelEvent"
 
 	def recordAddNpcCell(self):
 		"""
