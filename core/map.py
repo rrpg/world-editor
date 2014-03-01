@@ -543,7 +543,7 @@ class map:
 				if item.path == '__NAME__':
 					worldNameFile = open(tmpDir + item.path, "r")
 					worldName = worldNameFile.readline()
-					self._file = config.tempDir + '/' + worldName
+					self._file = tmpDir + worldName
 					worldNameFile.close()
 				elif item.path[-15:] == '_start_cell.txt':
 					startCellFile = open(tmpDir + item.path, "r")
