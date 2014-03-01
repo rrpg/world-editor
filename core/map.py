@@ -79,7 +79,6 @@ class map:
 		Method to load the world's places from a text file
 		"""
 		placesFile = open(self._file + '_places.csv', "r")
-		nbPlaces = 0
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for place in csvreader:
@@ -96,7 +95,6 @@ class map:
 		Method to load the world's NPC from a text file
 		"""
 		placesFile = open(self._file + '_npc.csv', "r")
-		nbPlaces = 0
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		for npc in csvreader:
@@ -113,7 +111,6 @@ class map:
 		Method to load the world's species from a text file
 		"""
 		placesFile = open(self._file + '_species.csv', "r")
-		nbPlaces = 0
 		csvreader = csv.reader(placesFile, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
 		self.species = dict()
