@@ -27,6 +27,11 @@ class map:
 	npc = dict()
 	species = {'human': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
 
+	_entitiesDesc = {
+		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
+		'npc': (('internalName', 'str'), ('name', 'str'), ('gender', 'int'), ('species', 'int'), ('x', 'int'), ('y', 'int')),
+		'species': (('internalName', 'str'), ('name', 'str'), ('description', 'str'))
+	}
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
 	_genders = ['Male', 'Female']
 
@@ -74,52 +79,26 @@ class map:
 
 			self.cells[a[1]][a[2]] = (int(a[0]), int(a[3]))
 
-	def loadPlaces(self):
-		"""
-		Method to load the world's places from a text file
-		"""
-		placesFile = open(self._file + '_places.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for place in csvreader:
-			self.places[place[5]] = {
-				'type': int(place[0]),
-				'name': place[1],
-				'coordinates': (int(place[2]), int(place[3])),
-				'size': int(place[4]),
-				'internalName': place[5]
-			}
-
-	def loadNPC(self):
+	def loadEntity(self, entity):
 		"""
 		Method to load the world's NPC from a text file
-		"""
-		placesFile = open(self._file + '_npc.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for npc in csvreader:
-			self.npc[npc[5]] = {
-				'name': npc[0],
-				'gender': int(npc[1]),
-				'species': int(npc[2]),
-				'coordinates': (int(npc[3]), int(npc[4])),
-				'internalName': npc[5]
-			}
 
-	def loadSpecies(self):
+		@param entity (npc|places|species)
 		"""
-		Method to load the world's species from a text file
-		"""
-		placesFile = open(self._file + '_species.csv', "r")
-		csvreader = csv.reader(placesFile, delimiter=' ',
+		f = open(self._file + '_' + entity + '.csv', "r")
+		entities = dict()
+		csvreader = csv.reader(f, delimiter=' ',
 			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		self.species = dict()
-		for s in csvreader:
-			self.species[s[2]] = {
-				'name': s[0],
-				'description': s[1],
-				'internalName': s[2]
-			}
+		entityFields = [e[0] for e in self._entitiesDesc[entity]]
+		entityTypes = [e[1] for e in self._entitiesDesc[entity]]
+		for e in csvreader:
+			entities[e[0]] = dict(zip(
+				entityFields,
+				# Cast the values if integers are expected
+				[int(v) if entityTypes[k] == 'int' else v for k, v in enumerate(e)]
+			))
+
+		return entities
 
 	def checkForExport(self):
 		"""
@@ -339,8 +318,8 @@ class map:
 			c.execute(
 				query,
 				[
-					p['coordinates'][0],
-					p['coordinates'][1],
+					p['x'],
+					p['y'],
 					placeTypesKeys[p['type']],
 					p['name'],
 					p['size']
@@ -363,8 +342,8 @@ class map:
 					queryArea,
 					[
 						placeTypesKeys[p['type']],
-						p['coordinates'][0],
-						p['coordinates'][1],
+						p['x'],
+						p['y'],
 						placeTypesKeys[p['type']] + '_' + str(c.lastrowid)
 					]
 				)
@@ -407,8 +386,8 @@ class map:
 					p['name'],
 					speciesNames[p['species']],
 					genders[p['gender']],
-					p['coordinates'][0],
-					p['coordinates'][1]
+					p['x'],
+					p['y']
 				]
 			)
 
@@ -462,59 +441,9 @@ class map:
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
 		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
 
-		f = open(self._file + '_places.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.places.values():
-			csvwriter.writerow((
-				p['type'],
-				p['name'],
-				p['coordinates'][0],
-				p['coordinates'][1],
-				p['size'],
-				p['internalName']
-			))
-		f.close()
-		tar.add(
-			self._file + '_places.csv',
-			arcname=os.path.basename(self._file) + '_places.csv'
-		)
-		os.remove(self._file + '_places.csv')
-
-		f = open(self._file + '_npc.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.npc.values():
-			csvwriter.writerow((
-				p['name'],
-				p['gender'],
-				p['species'],
-				p['coordinates'][0],
-				p['coordinates'][1],
-				p['internalName']
-			))
-		f.close()
-		tar.add(
-			self._file + '_npc.csv',
-			arcname=os.path.basename(self._file) + '_npc.csv'
-		)
-		os.remove(self._file + '_npc.csv')
-
-		f = open(self._file + '_species.csv', 'wb')
-		csvwriter = csv.writer(f, delimiter=' ',
-			quotechar='"', quoting=csv.QUOTE_MINIMAL)
-		for p in self.species.values():
-			csvwriter.writerow((
-				p['name'],
-				p['description'],
-				p['internalName']
-			))
-		f.close()
-		tar.add(
-			self._file + '_species.csv',
-			arcname=os.path.basename(self._file) + '_species.csv'
-		)
-		os.remove(self._file + '_species.csv')
+		self.saveEntity(tar, 'places', self.places.values())
+		self.saveEntity(tar, 'npc', self.npc.values())
+		self.saveEntity(tar, 'species', self.species.values())
 
 		f = open(self._file + '_start_cell.txt', 'w')
 		if self.startCellPosition is not None:
@@ -526,6 +455,23 @@ class map:
 		)
 		tar.close()
 		os.remove(self._file + '_start_cell.txt')
+
+	def saveEntity(self, tar, entityName, values):
+		"""
+		Method to save the values of an entity
+		"""
+		f = open(self._file + '_' + entityName + '.csv', 'wb')
+		csvwriter = csv.writer(f, delimiter=' ',
+			quotechar='"', quoting=csv.QUOTE_MINIMAL)
+		entityFields = [e[0] for e in self._entitiesDesc[entityName]]
+		for p in values:
+			csvwriter.writerow([p[v] for v in entityFields])
+		f.close()
+		tar.add(
+			self._file + '_' + entityName + '.csv',
+			arcname=os.path.basename(self._file) + '_' + entityName + '.csv'
+		)
+		os.remove(self._file + '_' + entityName + '.csv')
 
 	def open(self, fileName, tempFolder):
 		"""
@@ -552,9 +498,9 @@ class map:
 					startCellFile.close()
 
 			self.loadCells()
-			self.loadPlaces()
-			self.loadNPC()
-			self.loadSpecies()
+			self.places = self.loadEntity('places')
+			self.npc = self.loadEntity('npc')
+			self.species = self.loadEntity('species')
 		except IOError:
 			raise exception("An error occured during the opening of the map file")
 
