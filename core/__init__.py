@@ -1,1 +1,1 @@
-__all__ = ["config", "map", "worker"]
+__all__ = ["config", "localisation", "map", "worker"]

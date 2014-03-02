@@ -1,1 +1,1 @@
-__all__ = ["application", "mainwindow", "exportmapdialog", "newmapdialog", "intlineedit", "menu"]
+__all__ = ["form", "list", "application", "exportmapdialog", "intlineedit", "mainwindow", "menu", "newmapdialog", "specieslistdialog"]
