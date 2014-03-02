@@ -3,6 +3,7 @@
 from PyQt4 import QtGui, QtCore
 from core import map
 import gui.form.itemdialog
+from core.localisation import _
 
 
 class formPlaceDialog(gui.form.itemdialog.itemDialog):
@@ -19,7 +20,7 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 	_placeTypeField = None
 	_placeSizeField = None
 
-	_title = "Create a new place"
+	_title = _('NEW_PLACE_DIALOG_TITLE')
 
 	def getFields(self):
 		"""
@@ -27,17 +28,17 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		"""
 		layout = QtGui.QGridLayout()
 
-		placeInternalNameLabel = QtGui.QLabel("Place internal name")
+		placeInternalNameLabel = QtGui.QLabel(_('PLACE_INTERNAL_NAME_LABEL'))
 		self._placeInternalNameField = QtGui.QLineEdit()
 
-		placeNameLabel = QtGui.QLabel("Place name")
+		placeNameLabel = QtGui.QLabel(_('PLACE_NAME_LABEL'))
 		self._placeNameField = QtGui.QLineEdit()
 
-		placeTypeLabel = QtGui.QLabel("Place type")
+		placeTypeLabel = QtGui.QLabel(_('PLACE_TYPE_LABEL'))
 		self._placeTypeField = QtGui.QComboBox()
 		self._placeTypeField.addItems(map.map.getPlaceTypesLabels())
 
-		placeSizeLabel = QtGui.QLabel("Place size")
+		placeSizeLabel = QtGui.QLabel(_('PLACE_SIZE_LABEL'))
 		self._placeSizeField = QtGui.QComboBox()
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
 
@@ -62,13 +63,13 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		internalName = str(self._placeInternalNameField.text()).strip()
 
 		if internalName == "":
-			self.displayMessage("A place internal name must be provided")
+			self.displayMessage(_('ERROR_EMPTY_PLACE_INTERNAL_NAME'))
 			valid = False
 		elif self._app.hasPlaceWithName(internalName):
-			self.displayMessage("A place internal name must be unique")
+			self.displayMessage(_('ERROR_DUPLICATE_PLACE_INTERNAL_NAME'))
 			valid = False
 		if name == "":
-			self.displayMessage("A place name must be provided")
+			self.displayMessage(_('ERROR_EMPTY_PLACE_NAME'))
 			valid = False
 
 		if valid:

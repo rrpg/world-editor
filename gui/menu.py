@@ -2,6 +2,7 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
+from core.localisation import _
 
 
 class menu(QtGui.QMenuBar):
@@ -32,70 +33,70 @@ class menu(QtGui.QMenuBar):
 		self.mapZoomed.connect(self.checkZoomMenuItems)
 
 		# new action
-		newAction = QtGui.QAction('&New...', window)
+		newAction = QtGui.QAction(_('CREATE_MAP_MENU_ITEM'), window)
 		newAction.setShortcut('Ctrl+N')
-		newAction.setStatusTip('Create new map')
+		newAction.setStatusTip(_('CREATE_MAP_MENU_ITEM_TIP'))
 		newAction.triggered.connect(window.newMapAction)
 
 		# save action
-		self._saveAction = QtGui.QAction('&Save', window)
+		self._saveAction = QtGui.QAction(_('SAVE_MAP_MENU_ITEM'), window)
 		self._saveAction.setShortcut('Ctrl+S')
-		self._saveAction.setStatusTip('Save map')
+		self._saveAction.setStatusTip(_('SAVE_MAP_MENU_ITEM_TIP'))
 		self._saveAction.triggered.connect(window.saveMapAction)
 
 		# save as action
-		self._saveAsAction = QtGui.QAction('&Save as...', window)
-		self._saveAsAction.setStatusTip('Save map as')
+		self._saveAsAction = QtGui.QAction(_('SAVE_MAP_AS_MENU_ITEM'), window)
+		self._saveAsAction.setStatusTip(_('SAVE_MAP_AS_MENU_ITEM_TIP'))
 		self._saveAsAction.triggered.connect(window.saveMapAsAction)
 
 		# open action
-		openAction = QtGui.QAction('&Open...', window)
+		openAction = QtGui.QAction(_('OPEN_MAP_MENU_ITEM'), window)
 		openAction.setShortcut('Ctrl+O')
-		openAction.setStatusTip('Open map')
+		openAction.setStatusTip(_('OPEN_MAP_MENU_ITEM_TIP'))
 		openAction.triggered.connect(window.openMapAction)
 
 		# export action
-		self._exportAction = QtGui.QAction('&Export', self)
+		self._exportAction = QtGui.QAction(_('EXPORT_MAP_MENU_ITEM'), self)
 		self._exportAction.setShortcut('Ctrl+E')
-		self._exportAction.setStatusTip('Export map')
+		self._exportAction.setStatusTip(_('EXPORT_MAP_MENU_ITEM_TIP'))
 		self._exportAction.triggered.connect(window.exportMapAction)
 
 		# exit action
-		exitAction = QtGui.QAction('&Exit', window)
+		exitAction = QtGui.QAction(_('EXIT_APPLICATION_MENU_ITEM'), window)
 		exitAction.setShortcut('Ctrl+Q')
-		exitAction.setStatusTip('Exit application')
+		exitAction.setStatusTip(_('EXIT_APPLICATION_MENU_ITEM_TIP'))
 		exitAction.triggered.connect(QtGui.qApp.quit)
 
 		# zoom in action
-		self._zoominAction = QtGui.QAction('Zoom &in', self)
+		self._zoominAction = QtGui.QAction(_('ZOOM_IN_MENU_ITEM'), self)
 		self._zoominAction.setShortcut('Ctrl++')
-		self._zoominAction.setStatusTip('Zoom in')
+		self._zoominAction.setStatusTip(_('ZOOM_IN_MENU_ITEM_TIP'))
 		self._zoominAction.triggered.connect(window.zoomInMapAction)
 
 		# zoom out action
-		self._zoomoutAction = QtGui.QAction('Zoom o&ut', self)
+		self._zoomoutAction = QtGui.QAction(_('ZOOM_OUT_MENU_ITEM'), self)
 		self._zoomoutAction.setShortcut('Ctrl+-')
-		self._zoomoutAction.setStatusTip('Zoom out')
+		self._zoomoutAction.setStatusTip(_('ZOOM_OUT_MENU_ITEM_TIP'))
 		self._zoomoutAction.triggered.connect(window.zoomOutMapAction)
 
 		# select start cell action
-		self._selectStartCellAction = QtGui.QAction('Select start cell', self)
-		self._selectStartCellAction.setStatusTip('Select the starting cell of the game')
+		self._selectStartCellAction = QtGui.QAction(_('SELECT_START_CELL_MENU_ITEM'), self)
+		self._selectStartCellAction.setStatusTip(_('SELECT_START_CELL_MENU_ITEM_TIP'))
 		self._selectStartCellAction.triggered.connect(window.recordSelectStartCell)
 
 		# Add a place action
-		self._addPlaceAction = QtGui.QAction('Add a place', self)
-		self._addPlaceAction.setStatusTip('Select a cell to add a place there')
+		self._addPlaceAction = QtGui.QAction(_('ADD_PLACE_MENU_ITEM'), self)
+		self._addPlaceAction.setStatusTip(_('ADD_PLACE_MENU_ITEM_TIP'))
 		self._addPlaceAction.triggered.connect(window.recordAddPlaceCell)
 
 		# Add a npc action
-		self._addNpcAction = QtGui.QAction('Add a NPC', self)
-		self._addNpcAction.setStatusTip('Select a cell to add a NPC there')
+		self._addNpcAction = QtGui.QAction(_('ADD_NPC_MENU_ITEM'), self)
+		self._addNpcAction.setStatusTip(_('ADD_NPC_MENU_ITEM_TIP'))
 		self._addNpcAction.triggered.connect(window.recordAddNpcCell)
 
 		# list species action
-		self._listSpeciesAction = QtGui.QAction('List species...', self)
-		self._listSpeciesAction.setStatusTip('List the existing species of the world')
+		self._listSpeciesAction = QtGui.QAction(_('LIST_SPECIES_MENU_ITEM'), self)
+		self._listSpeciesAction.setStatusTip(_('LIST_SPECIES_MENU_ITEM_TIP'))
 		self._listSpeciesAction.triggered.connect(window.listSpeciesAction)
 
 		self._saveAction.setEnabled(False)
@@ -108,9 +109,9 @@ class menu(QtGui.QMenuBar):
 		self._addPlaceAction.setEnabled(False)
 		self._addNpcAction.setEnabled(False)
 
-		fileMenu = self.addMenu('&File')
-		mapMenu = self.addMenu('&Map')
-		worldMenu = self.addMenu('&World')
+		fileMenu = self.addMenu(_('FILE_MENU'))
+		mapMenu = self.addMenu(_('MAP_MENU'))
+		worldMenu = self.addMenu(_('WORLD_MENU'))
 
 		fileMenu.addAction(newAction)
 		fileMenu.addAction(openAction)

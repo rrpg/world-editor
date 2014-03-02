@@ -2,6 +2,7 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
+from core.localisation import _
 
 
 class itemDialog(QtGui.QDialog):
@@ -47,9 +48,9 @@ class itemDialog(QtGui.QDialog):
 
 		fieldsLayout = self.getFields()
 
-		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
 		self._saveButton.clicked.connect(self.createItem)
-		self._cancelButton = QtGui.QPushButton("Cancel")
+		self._cancelButton = QtGui.QPushButton(_('CANCEL_BUTTON'))
 		self._cancelButton.clicked.connect(self.close)
 
 		layout.addWidget(self._messageLabel, 0, 0, 1, 2)

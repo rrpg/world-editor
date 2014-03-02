@@ -10,6 +10,7 @@ import sqlite3
 import sys
 import tarfile
 import csv
+from core.localisation import _
 
 # Import an external check class from the generator
 sys.path.insert(0, config.generator['map']['path'])
@@ -25,7 +26,7 @@ class map:
 	cells = dict()
 	places = dict()
 	npc = dict()
-	species = {'human': {'name': 'Humans', 'description': '', 'internalName': 'human'}}
+	species = {'human': {'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}}
 
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
@@ -33,7 +34,7 @@ class map:
 		'species': (('internalName', 'str'), ('name', 'str'), ('description', 'str'))
 	}
 	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
-	_genders = ['Male', 'Female']
+	_genders = [_('GENDER_MALE'), _('GENDER_FEMALE')]
 
 	def __init__(self):
 		self._file = None
@@ -105,7 +106,7 @@ class map:
 		Method to check if a cell is ready to be exported (start cell selected)
 		"""
 		if self.startCellPosition is None:
-			raise exception("No start cell selected")
+			raise exception(_('ERROR_NO_START_CELL_SELECTED'))
 
 	def setStartCellPosition(self, position):
 		"""
@@ -115,7 +116,7 @@ class map:
 		if self.isCellOnLand(position):
 			self.startCellPosition = position
 		else:
-			raise exception("Invalid start cell position")
+			raise exception(_('ERROR_INVALID_START_CELL_POSITION'))
 
 	def isCellOnLand(self, position):
 		"""
@@ -163,7 +164,7 @@ class map:
 		"""
 		Method to create the DB
 		"""
-		thread.notifyProgressLocal.emit(0, "Database creation")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_DATABASE_CREATION'))
 		fileName = config.db % (name)
 		d = os.path.dirname(fileName)
 
@@ -174,7 +175,7 @@ class map:
 		if not os.path.isdir(d):
 			raise BaseException("The folder %s does not exist" % d)
 
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 		# Open connection
 		return sqlite3.connect(fileName)
 
@@ -184,12 +185,12 @@ class map:
 		"""
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Database structure creation")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION'))
 		f = open(config.databaseStructure, 'r')
 		sql = f.read()
 		c.executescript(sql)
 		f.close()
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportCreateGenders(self, thread, db):
 		"""
@@ -197,11 +198,11 @@ class map:
 		"""
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Genders creation")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_GENDERS_CREATION'))
 		query = str("INSERT INTO gender (name) VALUES (?)")
 		for g in self._genders:
 			c.execute(query, [g])
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportSpecies(self, thread, db):
 		"""
@@ -209,11 +210,11 @@ class map:
 		"""
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Species creation")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_SPECIES_CREATION'))
 		query = str("INSERT INTO species (name, description) VALUES (?, ?)")
 		for s in self.species.values():
 			c.execute(query, (s['name'], s['description']))
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportWorldCreation(self, thread, db, name):
 		"""
@@ -221,12 +222,12 @@ class map:
 		"""
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Regions creation")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_REGIONS_CREATION'))
 		# Create main region
 		query = str("INSERT INTO region (region_name) VALUES (?)")
 		c.execute(query, [name])
 
-		thread.notifyProgressLocal.emit(33, "Area types creation")
+		thread.notifyProgressLocal.emit(33, _('LOCAL_PROGRESS_AREA_TYPES_CREATION'))
 		# Create area types
 		query = "INSERT INTO area_type (name) VALUES "
 		areaTypesCodes = checks.getGroundTypes()
@@ -240,7 +241,7 @@ class map:
 		query = query + ', '.join(valuesInsert)
 		c.execute(query, values)
 
-		thread.notifyProgressLocal.emit(66, "Areas creation")
+		thread.notifyProgressLocal.emit(66, _('LOCAL_PROGRESS_AREAS_CREATION'))
 		# Get area types IDs
 		query = "SELECT id_area_type, name FROM area_type"
 		c.execute(query)
@@ -271,7 +272,7 @@ class map:
 				]
 				c.execute(query, areas)
 
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportStartCell(self, thread, db):
 		"""
@@ -279,7 +280,7 @@ class map:
 		"""
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Start cell saving")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_START_CELL'))
 		# select start cell ID in DB from coordinates
 		query = "SELECT id_area FROM area WHERE x = ? and y = ?"
 		c.execute(query, (self.startCellPosition[0], self.startCellPosition[1]))
@@ -288,7 +289,7 @@ class map:
 		# insert in setting the id of the starting cell
 		query = str("INSERT INTO settings (key, value) VALUES ('START_CELL_ID', ?)")
 		c.execute(query, [result[0]])
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportPlaces(self, thread, db):
 		"""
@@ -299,7 +300,7 @@ class map:
 
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Export places")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_PLACES'))
 
 		# query to insert places
 		query = str("\
@@ -354,7 +355,7 @@ class map:
 				)
 
 			thread.notifyProgressLocal.emit((i + 1) * placeTypePercent, "")
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	def _exportNpc(self, thread, db):
 		"""
@@ -364,7 +365,7 @@ class map:
 			return
 		c = db.cursor()
 
-		thread.notifyProgressLocal.emit(0, "Start NPC saving")
+		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_NPC'))
 		# query to insert places
 		query = str("\
 			INSERT INTO `character` \
@@ -392,7 +393,7 @@ class map:
 			)
 
 			thread.notifyProgressLocal.emit((i + 1) * npcPercent, "")
-		thread.notifyProgressLocal.emit(100, "Finished")
+		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
 
 	@staticmethod
 	def getPlaceTypesLabels():
@@ -502,7 +503,7 @@ class map:
 			self.npc = self.loadEntity('npc')
 			self.species = self.loadEntity('species')
 		except IOError:
-			raise exception("An error occured during the opening of the map file")
+			raise exception(_('ERROR_OPENING_MAP_FILE'))
 
 		return (self._file, worldName)
 

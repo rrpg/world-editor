@@ -3,6 +3,7 @@
 from PyQt4 import QtGui, QtCore
 from core import map
 import gui.form.itemdialog
+from core.localisation import _
 
 
 class formNpcDialog(gui.form.itemdialog.itemDialog):
@@ -18,7 +19,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 	_npcTypeField = None
 	_npcSizeField = None
 
-	_title = "Create a new NPC"
+	_title = _('NEW_NPC_DIALOG_TITLE')
 
 	def getFields(self):
 		"""
@@ -26,17 +27,17 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		"""
 		layout = QtGui.QGridLayout()
 
-		npcInternalNameLabel = QtGui.QLabel("NPC internal name")
+		npcInternalNameLabel = QtGui.QLabel(_('NPC_INTERNAL_NAME_LABEL'))
 		self._npcInternalNameField = QtGui.QLineEdit()
 
-		npcNameLabel = QtGui.QLabel("NPC Name")
+		npcNameLabel = QtGui.QLabel(_('NPC_NAME_LABEL'))
 		self._npcNameField = QtGui.QLineEdit()
 
-		npcSpeciesLabel = QtGui.QLabel("NPC Species")
+		npcSpeciesLabel = QtGui.QLabel(_('NPC_SPECIES_LABEL'))
 		self._npcSpeciesField = QtGui.QComboBox()
 		self._npcSpeciesField.addItems(self._app.map.getSpeciesNames())
 
-		npcGenderLabel = QtGui.QLabel("NPC Gender")
+		npcGenderLabel = QtGui.QLabel(_('NPC_GENDER_LABEL'))
 		self._npcGenderField = QtGui.QComboBox()
 		self._npcGenderField.addItems(map.map.getGenders())
 
@@ -63,19 +64,19 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		gender = int(self._npcGenderField.currentIndex())
 
 		if internalName == "":
-			self.displayMessage("A npc internal name must be provided")
+			self.displayMessage(_('ERROR_EMPTY_NPC_INTERNAL_NAME'))
 			valid = False
 		elif self._app.hasNpcWithName(internalName):
-			self.displayMessage("A npc internal name must be unique")
+			self.displayMessage(_('ERROR_DUPLICATE_NPC_INTERNAL_NAME'))
 			valid = False
 		if name == "":
-			self.displayMessage("A npc name must be provided")
+			self.displayMessage(_('ERROR_EMPTY_NPC_NAME'))
 			valid = False
 		if species < 0 or species >= len(self._app.map.getSpeciesNames()):
-			self.displayMessage("The selected species is not valid")
+			self.displayMessage(_('ERROR_INVALID_NPC_SPECIES'))
 			valid = False
 		if gender < 0 or gender >= len(map.map.getGenders()):
-			self.displayMessage("The selected gender is not valid")
+			self.displayMessage(_('ERROR_INVALID_NPC_GENDER'))
 			valid = False
 
 		if valid:

@@ -1,6 +1,7 @@
 # -*- coding: utf8 -*-
 
 from PyQt4 import QtGui
+from core.localisation import _
 
 
 class exportMapDialog(QtGui.QDialog):
@@ -16,7 +17,7 @@ class exportMapDialog(QtGui.QDialog):
 		"""
 		QtGui.QDialog.__init__(self, parent)
 		self.initUI()
-		self.setWindowTitle('Export map')
+		self.setWindowTitle(_('EXPORT_MAP_DIALOG_TITLE'))
 		self.setModal(True)
 		self.show()
 
