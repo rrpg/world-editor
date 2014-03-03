@@ -33,7 +33,7 @@ class map:
 		'npc': (('internalName', 'str'), ('name', 'str'), ('gender', 'int'), ('species', 'int'), ('x', 'int'), ('y', 'int')),
 		'species': (('internalName', 'str'), ('name', 'str'), ('description', 'str'))
 	}
-	_placesTypes = {'dungeon': 'Dungeon', 'cave': 'Cave'}
+	_placesTypes = {'dungeon': _('PLACE_TYPE_DUNGEON'), 'cave': _('PLACE_TYPE_CAVE')}
 	_genders = [_('GENDER_MALE'), _('GENDER_FEMALE')]
 
 	def __init__(self):
@@ -407,7 +407,7 @@ class map:
 		"""
 		Method to get the list of the place sizes.
 		"""
-		return ['1 cell', 'Small', 'Medium', 'Large']
+		return [_('SIZE_ONE_CELL'), _('SIZE_SMALL'), _('SIZE_MEDIUM'), _('SIZE_LARGE')]
 
 	@staticmethod
 	def getGenders():

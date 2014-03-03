@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 20:58+0000\n"
+"POT-Creation-Date: 2014-03-03 22:04+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -25,6 +25,14 @@ msgstr "humain"
 #: core/map.py:29
 msgid "HUMANS_NAME"
 msgstr "Humains"
+
+#: core/map.py:36
+msgid "PLACE_TYPE_CAVE"
+msgstr "Cave"
+
+#: core/map.py:36
+msgid "PLACE_TYPE_DUNGEON"
+msgstr "Donjon"
 
 #: core/map.py:37
 msgid "GENDER_FEMALE"
@@ -86,6 +94,22 @@ msgstr "Création des lieux"
 #: core/map.py:368
 msgid "LOCAL_PROGRESS_NPC"
 msgstr "Création des personnages"
+
+#: core/map.py:410
+msgid "SIZE_LARGE"
+msgstr "Grande"
+
+#: core/map.py:410
+msgid "SIZE_MEDIUM"
+msgstr "Moyenne"
+
+#: core/map.py:410
+msgid "SIZE_ONE_CELL"
+msgstr "Une case"
+
+#: core/map.py:410
+msgid "SIZE_SMALL"
+msgstr "Petite"
 
 #: core/map.py:506
 msgid "ERROR_OPENING_MAP_FILE"
