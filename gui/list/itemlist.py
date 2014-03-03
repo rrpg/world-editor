@@ -38,15 +38,6 @@ class itemList(QtGui.QTableWidget):
 			self.removeRow(self.rowCount() - 1)
 		self.resizeColumnsToContents()
 
-	def getCoordinatesFromIndex(self, index):
-		"""
-		This methods return a item's coordinates from its index in the table.
-		"""
-		return (
-			int(self.item(index, 2).text()),
-			int(self.item(index, 3).text())
-		)
-
 
 class itemLocatorButton(QtGui.QPushButton):
 	"""

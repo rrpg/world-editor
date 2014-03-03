@@ -19,3 +19,12 @@ class npcList(gui.list.itemlist.itemList):
 
 	def getData(self):
 		return self._app.map.npc.values()
+
+	def getCoordinatesFromIndex(self, index):
+		"""
+		This methods return a item's coordinates from its index in the table.
+		"""
+		return (
+			int(self.item(index, 1).text()),
+			int(self.item(index, 2).text())
+		)
