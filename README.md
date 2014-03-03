@@ -22,5 +22,12 @@ cd ..
 
 Then, run the editor:
 ```
+# Will run the editor with the system locale
 ./editor.py
+
+# Will run the editor in french
+./editor-francais
+
+# Will run the editor in english
+./editor-english
 ```
