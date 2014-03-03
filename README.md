@@ -22,5 +22,5 @@ cd ..
 
 Then, run the editor:
 ```
-./main.py
+./editor.py
 ```
