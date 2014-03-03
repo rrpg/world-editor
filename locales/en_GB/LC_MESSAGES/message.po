@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-02 22:20+0000\n"
+"POT-Creation-Date: 2014-03-03 20:58+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -19,416 +19,416 @@ msgstr ""
 
 #: core/map.py:29
 msgid "HUMANS_INTERNAL_NAME"
-msgstr ""
+msgstr "human"
 
 #: core/map.py:29
 msgid "HUMANS_NAME"
-msgstr ""
+msgstr "Humans"
 
 #: core/map.py:37
 msgid "GENDER_FEMALE"
-msgstr ""
+msgstr "Female"
 
 #: core/map.py:37
 msgid "GENDER_MALE"
-msgstr ""
+msgstr "Male"
 
 #: core/map.py:109
 msgid "ERROR_NO_START_CELL_SELECTED"
-msgstr ""
+msgstr "No start cell selected"
 
 #: core/map.py:119
 msgid "ERROR_INVALID_START_CELL_POSITION"
-msgstr ""
+msgstr "Invalid start cell position"
 
 #: core/map.py:167
 msgid "LOCAL_PROGRESS_DATABASE_CREATION"
-msgstr ""
+msgstr "Database creation"
 
 #: core/map.py:178 core/map.py:193 core/map.py:205 core/map.py:217
 #: core/map.py:275 core/map.py:292 core/map.py:358 core/map.py:396
 msgid "LOCAL_PROGRESS_FINISHED"
-msgstr ""
+msgstr "Finished"
 
 #: core/map.py:188
 msgid "LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION"
-msgstr ""
+msgstr "Database structure creation"
 
 #: core/map.py:201
 msgid "LOCAL_PROGRESS_GENDERS_CREATION"
-msgstr ""
+msgstr "Genders creation"
 
 #: core/map.py:213
 msgid "LOCAL_PROGRESS_SPECIES_CREATION"
-msgstr ""
+msgstr "Species creation"
 
 #: core/map.py:225
 msgid "LOCAL_PROGRESS_REGIONS_CREATION"
-msgstr ""
+msgstr "Regions creation"
 
 #: core/map.py:230
 msgid "LOCAL_PROGRESS_AREA_TYPES_CREATION"
-msgstr ""
+msgstr "Area types creation"
 
 #: core/map.py:244
 msgid "LOCAL_PROGRESS_AREAS_CREATION"
-msgstr ""
+msgstr "Areas creation"
 
 #: core/map.py:283
 msgid "LOCAL_PROGRESS_START_CELL"
-msgstr ""
+msgstr "Start cell export"
 
 #: core/map.py:303
 msgid "LOCAL_PROGRESS_PLACES"
-msgstr ""
+msgstr "Places export"
 
 #: core/map.py:368
 msgid "LOCAL_PROGRESS_NPC"
-msgstr ""
+msgstr "Characters export"
 
 #: core/map.py:506
 msgid "ERROR_OPENING_MAP_FILE"
-msgstr ""
+msgstr "An error occured during the opening of the map file"
 
 #: gui/application.py:174
 msgid "ERROR_UNEXISTING_FOLDER"
-msgstr ""
+msgstr "The selected folder does not exist"
 
 #: gui/application.py:176
 msgid "ERROR_NOT_A_FILE"
-msgstr ""
+msgstr "The selected path is not a file"
 
 #: gui/exportmapdialog.py:20
 msgid "EXPORT_MAP_DIALOG_TITLE"
-msgstr ""
+msgstr "Map export"
 
 #: gui/form/itemdialog.py:51 gui/newmapdialog.py:63
 #: gui/specieslistdialog.py:67
 msgid "CREATE_BUTTON"
-msgstr ""
+msgstr "Create"
 
 #: gui/form/itemdialog.py:53 gui/newmapdialog.py:65
 msgid "CANCEL_BUTTON"
-msgstr ""
+msgstr "Cancel"
 
 #: gui/form/npcdialog.py:22
 msgid "NEW_NPC_DIALOG_TITLE"
-msgstr ""
+msgstr "Character creation"
 
 #: gui/form/npcdialog.py:30
 msgid "NPC_INTERNAL_NAME_LABEL"
-msgstr ""
+msgstr "Internal name"
 
 #: gui/form/npcdialog.py:33
 msgid "NPC_NAME_LABEL"
-msgstr ""
+msgstr "Name"
 
 #: gui/form/npcdialog.py:36
 msgid "NPC_SPECIES_LABEL"
-msgstr ""
+msgstr "Species"
 
 #: gui/form/npcdialog.py:40
 msgid "NPC_GENDER_LABEL"
-msgstr ""
+msgstr "Gender"
 
 #: gui/form/npcdialog.py:67
 msgid "ERROR_EMPTY_NPC_INTERNAL_NAME"
-msgstr ""
+msgstr "A character internal name must be provided"
 
 #: gui/form/npcdialog.py:70
 msgid "ERROR_DUPLICATE_NPC_INTERNAL_NAME"
-msgstr ""
+msgstr "This internal name is already used"
 
 #: gui/form/npcdialog.py:73
 msgid "ERROR_EMPTY_NPC_NAME"
-msgstr ""
+msgstr "A character name must be provided"
 
 #: gui/form/npcdialog.py:76
 msgid "ERROR_INVALID_NPC_SPECIES"
-msgstr ""
+msgstr "The selected species is not valid"
 
 #: gui/form/npcdialog.py:79
 msgid "ERROR_INVALID_NPC_GENDER"
-msgstr ""
+msgstr "The selected gender is not valid"
 
 #: gui/form/placedialog.py:23
 msgid "NEW_PLACE_DIALOG_TITLE"
-msgstr ""
+msgstr "Place creation"
 
 #: gui/form/placedialog.py:31
 msgid "PLACE_INTERNAL_NAME_LABEL"
-msgstr ""
+msgstr "Internal name"
 
 #: gui/form/placedialog.py:34
 msgid "PLACE_NAME_LABEL"
-msgstr ""
+msgstr "Name"
 
 #: gui/form/placedialog.py:37
 msgid "PLACE_TYPE_LABEL"
-msgstr ""
+msgstr "Type"
 
 #: gui/form/placedialog.py:41
 msgid "PLACE_SIZE_LABEL"
-msgstr ""
+msgstr "Size"
 
 #: gui/form/placedialog.py:66
 msgid "ERROR_EMPTY_PLACE_INTERNAL_NAME"
-msgstr ""
+msgstr "A place internal name must be provided"
 
 #: gui/form/placedialog.py:69
 msgid "ERROR_DUPLICATE_PLACE_INTERNAL_NAME"
-msgstr ""
+msgstr "This internal name is already used"
 
 #: gui/form/placedialog.py:72
 msgid "ERROR_EMPTY_PLACE_NAME"
-msgstr ""
+msgstr "The place name is mandatory"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
 msgid "INTERNAL_NAME_COLUMN"
-msgstr ""
+msgstr "Internal name"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11
 msgid "LOCATE_COLUMN"
-msgstr ""
+msgstr "Locate"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
 msgid "NAME_COLUMN"
-msgstr ""
+msgstr "Name"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11
 msgid "X_COLUMN"
-msgstr ""
+msgstr "X"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11
 msgid "Y_COLUMN"
-msgstr ""
+msgstr "Y"
 
 #: gui/list/npclist.py:18 gui/list/placeslist.py:19
 msgid "LOCATE_BUTTON"
-msgstr ""
+msgstr "Locate"
 
 #: gui/list/placeslist.py:11
 msgid "TYPE_COLUMN"
-msgstr ""
+msgstr "Type"
 
 #: gui/list/specieslist.py:11
-msgid "DESCRIPTION_DESCRIPTION"
-msgstr ""
-
-#: gui/mainwindow.py:96
-msgid "PLACES_TAB"
-msgstr ""
+msgid "DESCRIPTION_COLUMN"
+msgstr "Description"
 
 #: gui/mainwindow.py:97
+msgid "PLACES_TAB"
+msgstr "Places"
+
+#: gui/mainwindow.py:98
 msgid "NPC_TAB"
-msgstr ""
+msgstr "NPC"
 
-#: gui/mainwindow.py:133
+#: gui/mainwindow.py:134
 msgid "MAIN_WINDOW_TITLE"
-msgstr ""
+msgstr "rRpg World editor"
 
-#: gui/mainwindow.py:145
+#: gui/mainwindow.py:146
 msgid "ERROR_BOX_TITLE"
-msgstr ""
+msgstr "An error occured"
 
-#: gui/mainwindow.py:163
+#: gui/mainwindow.py:164
 msgid "OPEN_FILE_DIALOG_TITLE"
-msgstr ""
+msgstr "Open map"
 
-#: gui/mainwindow.py:165 gui/mainwindow.py:197
+#: gui/mainwindow.py:166 gui/mainwindow.py:198
 #, python-format
 msgid "MAP_FILE_TYPE %s"
-msgstr ""
+msgstr "Map files %s"
 
-#: gui/mainwindow.py:195
+#: gui/mainwindow.py:196
 msgid "SAVE_FILE_DIALOG_TITLE"
-msgstr ""
+msgstr "Save map"
 
-#: gui/mainwindow.py:263
+#: gui/mainwindow.py:264
 msgid "RECORDING_START_CELL_MESSAGE"
-msgstr ""
+msgstr "Select the starting cell"
 
-#: gui/mainwindow.py:275
+#: gui/mainwindow.py:276
 msgid "RECORDING_PLACE_MESSAGE"
-msgstr ""
+msgstr "Select a cell to add a place"
 
-#: gui/mainwindow.py:287
+#: gui/mainwindow.py:288
 msgid "RECORDING_NPC_MESSAGE"
-msgstr ""
-
-#: gui/mainwindow.py:333
-msgid "IMAGE_VIEWER"
-msgstr ""
+msgstr "Select a cell to add a character"
 
 #: gui/mainwindow.py:334
+msgid "IMAGE_VIEWER"
+msgstr "Image viewer"
+
+#: gui/mainwindow.py:335
 #, python-format
 msgid "ERROR_OPEN_%s"
-msgstr ""
+msgstr "An error occured while opening the file %s"
 
-#: gui/mainwindow.py:431
+#: gui/mainwindow.py:432
 msgid "ERROR_PLACE_IN_WATER"
-msgstr ""
+msgstr "No place can be added in water"
 
-#: gui/mainwindow.py:447
+#: gui/mainwindow.py:448
 msgid "ERROR_NPC_IN_WATER"
-msgstr ""
+msgstr "No character can be added in water"
 
 #: gui/menu.py:36
 msgid "CREATE_MAP_MENU_ITEM"
-msgstr ""
+msgstr "&New..."
 
 #: gui/menu.py:38
 msgid "CREATE_MAP_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Create new map"
 
 #: gui/menu.py:42
 msgid "SAVE_MAP_MENU_ITEM"
-msgstr ""
+msgstr "&Save"
 
 #: gui/menu.py:44
 msgid "SAVE_MAP_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Save the map"
 
 #: gui/menu.py:48
 msgid "SAVE_MAP_AS_MENU_ITEM"
-msgstr ""
+msgstr "S&ave as..."
 
 #: gui/menu.py:49
 msgid "SAVE_MAP_AS_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Save the map as..."
 
 #: gui/menu.py:53
 msgid "OPEN_MAP_MENU_ITEM"
-msgstr ""
+msgstr "&Open..."
 
 #: gui/menu.py:55
 msgid "OPEN_MAP_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Open a map"
 
 #: gui/menu.py:59
 msgid "EXPORT_MAP_MENU_ITEM"
-msgstr ""
+msgstr "&Export"
 
 #: gui/menu.py:61
 msgid "EXPORT_MAP_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Export the map"
 
 #: gui/menu.py:65
 msgid "EXIT_APPLICATION_MENU_ITEM"
-msgstr ""
+msgstr "E&xit"
 
 #: gui/menu.py:67
 msgid "EXIT_APPLICATION_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Exit the editor"
 
 #: gui/menu.py:71
 msgid "ZOOM_IN_MENU_ITEM"
-msgstr ""
+msgstr "Zoom &in"
 
 #: gui/menu.py:73
 msgid "ZOOM_IN_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Zoom in"
 
 #: gui/menu.py:77
 msgid "ZOOM_OUT_MENU_ITEM"
-msgstr ""
+msgstr "Zoom &out"
 
 #: gui/menu.py:79
 msgid "ZOOM_OUT_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Zoom out"
 
 #: gui/menu.py:83
 msgid "SELECT_START_CELL_MENU_ITEM"
-msgstr ""
+msgstr "Select &start cell"
 
 #: gui/menu.py:84
 msgid "SELECT_START_CELL_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Select the map start cell"
 
 #: gui/menu.py:88
 msgid "ADD_PLACE_MENU_ITEM"
-msgstr ""
+msgstr "Add a &place"
 
 #: gui/menu.py:89
 msgid "ADD_PLACE_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Add a place in the map"
 
 #: gui/menu.py:93
 msgid "ADD_NPC_MENU_ITEM"
-msgstr ""
+msgstr "Add a &character"
 
 #: gui/menu.py:94
 msgid "ADD_NPC_MENU_ITEM_TIP"
-msgstr ""
+msgstr "Add a character in the map"
 
 #: gui/menu.py:98
 msgid "LIST_SPECIES_MENU_ITEM"
-msgstr ""
+msgstr "&List species"
 
 #: gui/menu.py:99
 msgid "LIST_SPECIES_MENU_ITEM_TIP"
-msgstr ""
+msgstr "List the world species"
 
 #: gui/menu.py:112
 msgid "FILE_MENU"
-msgstr ""
+msgstr "&File"
 
 #: gui/menu.py:113
 msgid "MAP_MENU"
-msgstr ""
+msgstr "&Map"
 
 #: gui/menu.py:114
 msgid "WORLD_MENU"
-msgstr ""
+msgstr "&World"
 
 #: gui/newmapdialog.py:39
 msgid "NEW_MAP_DIALOG_TITLE"
-msgstr ""
+msgstr "Create a map"
 
 #: gui/newmapdialog.py:52
 msgid "MAP_NAME_LABEL"
-msgstr ""
+msgstr "Name"
 
 #: gui/newmapdialog.py:55
 msgid "MAP_WIDTH_LABEL"
-msgstr ""
+msgstr "Width"
 
 #: gui/newmapdialog.py:59
 msgid "MAP_HEIGHT_LABEL"
-msgstr ""
+msgstr "Height"
 
 #: gui/newmapdialog.py:93 gui/newmapdialog.py:99
 msgid "ERROR_INVALID_WIDTH_HEIGHT_VALUE"
-msgstr ""
+msgstr "Positive number expected for the width and the height"
 
 #: gui/newmapdialog.py:96
 msgid "ERROR_EMPTY_MAP_NAME"
-msgstr ""
+msgstr "A world name must be provided"
 
 #: gui/newmapdialog.py:106
 msgid "LOADING_GENERATION_TEXT"
-msgstr ""
+msgstr "Generating..."
 
 #: gui/specieslistdialog.py:22
 msgid "LIST_SPECIES_DIALOG_TITLE"
-msgstr ""
+msgstr "World species"
 
 #: gui/specieslistdialog.py:36
 msgid "CLOSE_BUTTON"
-msgstr ""
+msgstr "Close"
 
 #: gui/specieslistdialog.py:56
 msgid "SPECIES_NAME_LABEL"
-msgstr ""
+msgstr "Name"
 
 #: gui/specieslistdialog.py:60
 msgid "SPECIES_INTERNAL_NAME_LABEL"
-msgstr ""
+msgstr "Internal name"
 
 #: gui/specieslistdialog.py:63
 msgid "SPECIES_DESCRIPTION_LABEL"
-msgstr ""
+msgstr "Description"
 
 #: gui/specieslistdialog.py:105
 msgid "ERROR_ALREADY_EXISTING_SPECIES"
-msgstr ""
+msgstr "A species already exists with this internal name"
