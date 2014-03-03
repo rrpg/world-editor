@@ -7,11 +7,6 @@
 #  - locale-deploy-fuzzy        Generate all .mo files with fuzzy
 #  - locale-clean               Remove all .mo and .po files
 
-# Clean the working directory
-clean:
-	find . -name *.pyc -delete
-	find . -name __pycache__ -delete
-
 PYTHON = python
 
 PROJECT_NAME = "rRpg World editor"
@@ -29,6 +24,15 @@ FIND_PYTHON_LOCALE_FILES = find $(ROOT) -type f -iname '*.py'
 # Locales
 LOCALE_GETTEXT_DIR 	= LC_MESSAGES
 LOCALE_DOMAINS 		= $(PROJECT_LOCALE_DOMAIN)# time validate
+
+all: locale-deploy
+	git submodule init
+	git submodule update
+
+# Clean the working directory
+clean:
+	find . -name *.pyc -delete
+	find . -name __pycache__ -delete
 
 #
 # Locale
