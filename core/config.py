@@ -11,6 +11,7 @@ map_default_width = 400
 map_default_height = 400
 
 tempDir = rootPath + '/tmp'
+localesDir = rootPath + '/locales'
 
 generator = {}
 generator['map'] = {

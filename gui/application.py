@@ -6,6 +6,7 @@ from core import map, config
 import sys
 import shutil
 import os
+from core.localisation import _
 
 
 class application(QtGui.QApplication):
@@ -170,9 +171,9 @@ class application(QtGui.QApplication):
 		"""
 		name = str(name)
 		if not os.path.exists(os.path.dirname(name)):
-			raise BaseException("The selected folder does not exist")
+			raise BaseException(_('ERROR_UNEXISTING_FOLDER'))
 		elif os.path.exists(name) and not os.path.isfile(name):
-			raise BaseException("The selected path is not a file")
+			raise BaseException(_('ERROR_NOT_A_FILE'))
 		self._saveFileName = name
 # end Names operations (file names, map name...)
 

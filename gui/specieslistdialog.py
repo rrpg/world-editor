@@ -2,6 +2,7 @@
 
 from PyQt4 import QtGui, QtCore
 from gui.list.specieslist import speciesList
+from core.localisation import _
 
 
 class speciesListDialog(QtGui.QDialog):
@@ -18,7 +19,7 @@ class speciesListDialog(QtGui.QDialog):
 		self._app = app
 		self._parent = parent
 		self.initUI()
-		self.setWindowTitle('List species')
+		self.setWindowTitle(_('LIST_SPECIES_DIALOG_TITLE'))
 		self.setModal(True)
 		self.show()
 
@@ -32,7 +33,7 @@ class speciesListDialog(QtGui.QDialog):
 
 		self._table = speciesList(self, self._app)
 
-		closeButton = QtGui.QPushButton("Close")
+		closeButton = QtGui.QPushButton(_('CLOSE_BUTTON'))
 		closeButton.clicked.connect(self.close)
 
 		form = self.creationForm()
@@ -52,18 +53,18 @@ class speciesListDialog(QtGui.QDialog):
 		self._messageLabel = QtGui.QLabel()
 		self._messageLabel.setWordWrap(True)
 
-		nameLabel = QtGui.QLabel("Species name")
+		nameLabel = QtGui.QLabel(_('SPECIES_NAME_LABEL'))
 		self._nameField = QtGui.QLineEdit()
 		self._nameField.textChanged.connect(self.updateCreateButton)
 
-		internalNameLabel = QtGui.QLabel("Species internal name")
+		internalNameLabel = QtGui.QLabel(_('SPECIES_INTERNAL_NAME_LABEL'))
 		self._internalNameField = QtGui.QLineEdit()
 		self._internalNameField.textChanged.connect(self.updateCreateButton)
-		descriptionLabel = QtGui.QLabel("Species Description")
+		descriptionLabel = QtGui.QLabel(_('SPECIES_DESCRIPTION_LABEL'))
 		self._descriptionField = QtGui.QTextEdit()
 		self._descriptionField.textChanged.connect(self.updateCreateButton)
 
-		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
 		self._saveButton.setEnabled(False)
 		self._saveButton.clicked.connect(self.createSpecies)
 
@@ -101,7 +102,7 @@ class speciesListDialog(QtGui.QDialog):
 			return False
 
 		if self._app.hasSpeciesWithName(internalName):
-			self.displayMessage("A species already exists with this internal name")
+			self.displayMessage(_('ERROR_ALREADY_EXISTING_SPECIES'))
 			return False
 
 		self._app.addSpecies(internalName, {

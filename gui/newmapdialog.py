@@ -3,6 +3,7 @@
 from PyQt4 import QtGui
 from gui.intlineedit import intLineEdit
 from core import config, worker
+from core.localisation import _
 
 
 class newMapDialog(QtGui.QDialog):
@@ -35,7 +36,7 @@ class newMapDialog(QtGui.QDialog):
 		self._parent = parent
 		self.setFixedWidth(250)
 		self.initUI()
-		self.setWindowTitle('Create new map')
+		self.setWindowTitle(_('NEW_MAP_DIALOG_TITLE'))
 		self.setModal(True)
 		self.show()
 
@@ -48,20 +49,20 @@ class newMapDialog(QtGui.QDialog):
 		self._messageLabel = QtGui.QLabel()
 		self._messageLabel.setWordWrap(True)
 
-		mapNameLabel = QtGui.QLabel("Map name")
+		mapNameLabel = QtGui.QLabel(_('MAP_NAME_LABEL'))
 		self._mapNameField = QtGui.QLineEdit()
 
-		mapWidthLabel = QtGui.QLabel("Map width")
+		mapWidthLabel = QtGui.QLabel(_('MAP_WIDTH_LABEL'))
 		self._mapWidthField = intLineEdit()
 		self._mapWidthField.setText(str(config.map_default_width))
 
-		mapHeightLabel = QtGui.QLabel("Map height")
+		mapHeightLabel = QtGui.QLabel(_('MAP_HEIGHT_LABEL'))
 		self._mapHeightField = intLineEdit()
 		self._mapHeightField.setText(str(config.map_default_height))
 
-		self._saveButton = QtGui.QPushButton("Create")
+		self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
 		self._saveButton.clicked.connect(self.createMap)
-		self._cancelButton = QtGui.QPushButton("Cancel")
+		self._cancelButton = QtGui.QPushButton(_('CANCEL_BUTTON'))
 		self._cancelButton.clicked.connect(self.close)
 
 		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
@@ -89,20 +90,20 @@ class newMapDialog(QtGui.QDialog):
 			height = self._mapHeightField.value()
 
 			if width <= 0 or height <= 0:
-				self.displayMessage("Positive number expected for the width and the height")
+				self.displayMessage(_('ERROR_INVALID_WIDTH_HEIGHT_VALUE'))
 				valid = False
 			elif name == "":
-				self.displayMessage("A world name must be provided")
+				self.displayMessage(_('ERROR_EMPTY_MAP_NAME'))
 				valid = False
 		except ValueError:
-			self.displayMessage("Positive number expected for the width and the height")
+			self.displayMessage(_('ERROR_INVALID_WIDTH_HEIGHT_VALUE'))
 			valid = False
 
 		if valid:
 			self._app.setMapName(name)
 			name = config.tempDir + '/' + self._app.escapeName(name)
 			self._app.setMapFileName(name)
-			self.displayMessage("Generating...")
+			self.displayMessage(_('LOADING_GENERATION_TEXT'))
 			self._saveButton.setEnabled(False)
 			self._cancelButton.setEnabled(False)
 			self._thread = worker.generatorThread(self._app, width, height)

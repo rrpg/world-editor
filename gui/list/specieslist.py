@@ -3,11 +3,12 @@
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 import gui.list.itemlist
+from core.localisation import _
 
 
 class speciesList(gui.list.itemlist.itemList):
 
-	_columns = ('Name', 'Description', 'Internal name')
+	_columns = (_('NAME_COLUMN'), _('DESCRIPTION_COLUMN'), _('INTERNAL_NAME_COLUMN'))
 
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))

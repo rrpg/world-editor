@@ -3,11 +3,12 @@
 from PyQt4 import QtGui
 from PyQt4 import QtCore
 import gui.list.itemlist
+from core.localisation import _
 
 
 class placesList(gui.list.itemlist.itemList):
 
-	_columns = ('Name', 'Type', 'X', 'Y', 'Internal name', 'Locate')
+	_columns = (_('NAME_COLUMN'), _('TYPE_COLUMN'), _('X_COLUMN'), _('Y_COLUMN'), _('INTERNAL_NAME_COLUMN'), _('LOCATE_COLUMN'))
 
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
@@ -15,7 +16,7 @@ class placesList(gui.list.itemlist.itemList):
 		self.setItem(index, 2, QtGui.QTableWidgetItem(str(row['x'])))
 		self.setItem(index, 3, QtGui.QTableWidgetItem(str(row['y'])))
 		self.setItem(index, 4, QtGui.QTableWidgetItem(row['internalName']))
-		self.setCellWidget(index, 5, gui.list.itemlist.itemLocatorButton(self, index, "Locate"))
+		self.setCellWidget(index, 5, gui.list.itemlist.itemLocatorButton(self, index, _('LOCATE_BUTTON')))
 		self.resizeColumnsToContents()
 
 	def getData(self):

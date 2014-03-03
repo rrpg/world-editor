@@ -10,7 +10,8 @@ from gui.form.placedialog import formPlaceDialog
 from gui.form.npcdialog import formNpcDialog
 from gui.list.placeslist import placesList
 from gui.list.npclist import npcList
-from core import worker
+from core import worker, config
+from core.localisation import _
 import imghdr
 import os
 
@@ -93,8 +94,8 @@ class mainWindow(QtGui.QMainWindow):
 		self._npcWidget = npcList(self, self._app)
 
 		tabWidget = QtGui.QTabWidget()
-		tabWidget.addTab(self._placesWidget, 'Places')
-		tabWidget.addTab(self._npcWidget, 'NPC')
+		tabWidget.addTab(self._placesWidget, _('PLACES_TAB'))
+		tabWidget.addTab(self._npcWidget, _('NPC_TAB'))
 
 		self._imageScene = QtGui.QGraphicsScene()
 		self._imageView = QtGui.QGraphicsView()
@@ -130,7 +131,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		# default size
 		self.setGeometry(300, 300, 600, 600)
-		self.setWindowTitle('World editor')
+		self.setWindowTitle(_('MAIN_WINDOW_TITLE'))
 
 	def displayMessage(self, text):
 		"""
@@ -142,7 +143,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method to display an alert message. Create just an critical QMessageBox.
 		"""
-		QtGui.QMessageBox.critical(self, "An error occured", message)
+		QtGui.QMessageBox.critical(self, _('ERROR_BOX_TITLE'), message)
 
 # Actions
 	def newMapAction(self):
@@ -160,9 +161,9 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		fileName = QtGui.QFileDialog.getOpenFileName(
 			self,
-			"Open file",
+			_('OPEN_FILE_DIALOG_TITLE'),
 			QtCore.QDir.currentPath(),
-			"Maps (*.map)"
+			_('MAP_FILE_TYPE %s') % "(*.map)"
 		)
 
 		if fileName == "":
@@ -192,9 +193,9 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		fileName = QtGui.QFileDialog.getSaveFileName(
 			self,
-			"Select file",
+			_('SAVE_FILE_DIALOG_TITLE'),
 			QtCore.QDir.currentPath(),
-			"Map (*.map)"
+			_('MAP_FILE_TYPE %s') % "(*.map)"
 		)
 
 		if fileName == "":
@@ -260,7 +261,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.disableRecordingMode()
 
 		self._selectCellSpecificAction = self.selectStartCell
-		self.enableRecordingMode("Select the starting cell")
+		self.enableRecordingMode(_('RECORDING_START_CELL_MESSAGE'))
 
 	def recordAddPlaceCell(self):
 		"""
@@ -272,7 +273,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.disableRecordingMode()
 
 		self._selectCellSpecificAction = self.addPlace
-		self.enableRecordingMode("Select a cell to add a place")
+		self.enableRecordingMode(_('RECORDING_PLACE_MESSAGE'))
 
 	def recordAddNpcCell(self):
 		"""
@@ -284,7 +285,7 @@ class mainWindow(QtGui.QMainWindow):
 			self.disableRecordingMode()
 
 		self._selectCellSpecificAction = self.addNpc
-		self.enableRecordingMode("Select a cell to add a NPC")
+		self.enableRecordingMode(_('RECORDING_NPC_MESSAGE'))
 # End Actions to interact on the map to add elements
 
 # Recording methods
@@ -330,8 +331,8 @@ class mainWindow(QtGui.QMainWindow):
 		if image is None or imghdr.what(str(fileName)) != "bmp":
 			QtGui.QMessageBox.information(
 				self,
-				"Image Viewer",
-				"Cannot open %s." % (fileName)
+				_('IMAGE_VIEWER'),
+				_('ERROR_OPEN_%s') % (fileName)
 			)
 			return
 
@@ -428,7 +429,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 
 		if not self._app.map.isCellOnLand((x, y)):
-			self.alert("No place can be added in water")
+			self.alert(_('ERROR_PLACE_IN_WATER'))
 			return
 
 		dialog = formPlaceDialog(self, self._app, (x, y))
@@ -444,7 +445,7 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 
 		if not self._app.map.isCellOnLand((x, y)):
-			self.alert("No NPC can be added in water")
+			self.alert(_('ERROR_NPC_IN_WATER'))
 			return
 
 		dialog = formNpcDialog(self, self._app, (x, y))
