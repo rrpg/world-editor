@@ -15,7 +15,7 @@ This program uses submodules. First thing to do is to compile the map generator:
 make
 cd externals/map-generator
 make
-cd ..
+cd ../..
 ```
 
 Then, run the editor:
