@@ -56,7 +56,7 @@ locale-update:
 		for i in `find $(PROJECT_LOCALE_PATH) -maxdepth 1 -mindepth 1 -type d -not -name "dist" -not -name ".*"`; do \
 			if [ -e "$$i/$(LOCALE_GETTEXT_DIR)/$$o.po" ] ; then \
 				echo "Updating $$i/$(LOCALE_GETTEXT_DIR)/$$o.po"; \
-				msgmerge --previous $$i/$(LOCALE_GETTEXT_DIR)/$$o.po $(PROJECT_LOCALE_PATH)/dist/$(LOCALE_GETTEXT_DIR)/$$o.pot -o $$i/$(LOCALE_GETTEXT_DIR)/$$o.po; \
+				msgmerge -N --previous $$i/$(LOCALE_GETTEXT_DIR)/$$o.po $(PROJECT_LOCALE_PATH)/dist/$(LOCALE_GETTEXT_DIR)/$$o.pot -o $$i/$(LOCALE_GETTEXT_DIR)/$$o.po; \
 				else mkdir $$i/$(LOCALE_GETTEXT_DIR)/ -p; \
 				msginit -l `echo "$(ROOT)/$$i" | sed 's:./$(PROJECT_LOCALE_PATH)\/::g' | sed 's:\/LC_MESSAGES::g'`.utf-8 --no-translator --no-wrap -i $(PROJECT_LOCALE_PATH)/dist/$(LOCALE_GETTEXT_DIR)/$$o.pot -o $$i/$(LOCALE_GETTEXT_DIR)/$$o.po; \
 			fi; \
