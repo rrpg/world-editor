@@ -510,14 +510,18 @@ class mainWindow(QtGui.QMainWindow):
 		cancel or discard the changes
 		"""
 		if self._app.hasUnsavedChanged():
-			ret = QtGui.QMessageBox.warning(
-				self,
-				_('UNSAVED_CHANGES'),
-				_('CLOSE_WITH_UNSAVED_CHANGES'),
-				QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Discard | QtGui.QMessageBox.Save
-			)
-			if ret == QtGui.QMessageBox.Cancel:
+			msgBox = QtGui.QMessageBox()
+			msgBox.setWindowTitle(_('UNSAVED_CHANGES'))
+			msgBox.setText(_('CLOSE_WITH_UNSAVED_CHANGES'))
+			msgBox.addButton(QtGui.QPushButton(_('SAVE_BUTTON')), QtGui.QMessageBox.AcceptRole)
+			msgBox.addButton(QtGui.QPushButton(_('DISCARD_BUTTON')), QtGui.QMessageBox.DestructiveRole)
+			msgBox.addButton(QtGui.QPushButton(_('CANCEL_BUTTON')), QtGui.QMessageBox.RejectRole)
+			ret = msgBox.exec_()
+
+			# This is not logical, I would have expected to have to use
+			# RejectRole, but this one seems to do the job...
+			if ret == QtGui.QMessageBox.DestructiveRole:
 				return
-			elif ret == QtGui.QMessageBox.Save and self.saveMapAction() is False:
+			elif ret == QtGui.QMessageBox.AcceptRole and self.saveMapAction() is False:
 				return
 		QtGui.qApp.quit()
