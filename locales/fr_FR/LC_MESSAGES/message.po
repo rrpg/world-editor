@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-04 22:23+0000\n"
+"POT-Creation-Date: 2014-03-04 22:44+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -132,7 +132,7 @@ msgstr "Export de la carte"
 msgid "CREATE_BUTTON"
 msgstr "Créer"
 
-#: gui/form/itemdialog.py:53 gui/newmapdialog.py:65
+#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:65
 msgid "CANCEL_BUTTON"
 msgstr "Annuler"
 
@@ -298,13 +298,22 @@ msgstr "Un lieu ne peut pas être placé dans l'eau"
 msgid "ERROR_NPC_IN_WATER"
 msgstr "Un personnage ne peut pas être ajouté dans l'eau"
 
-#: gui/mainwindow.py:515
+#: gui/mainwindow.py:514
 msgid "UNSAVED_CHANGES"
 msgstr "Modifications non enregistrées"
 
-#: gui/mainwindow.py:516
+#: gui/mainwindow.py:515
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
-msgstr "La carte en cours n'est pas enregistrée. Voulez-vous malgré tout quitter ?"
+msgstr ""
+"La carte en cours n'est pas enregistrée. Voulez-vous malgré tout quitter ?"
+
+#: gui/mainwindow.py:516
+msgid "SAVE_BUTTON"
+msgstr "Enregistrer"
+
+#: gui/mainwindow.py:517
+msgid "DISCARD_BUTTON"
+msgstr "Ne pas enregistrer"
 
 #: gui/menu.py:36
 msgid "CREATE_MAP_MENU_ITEM"
