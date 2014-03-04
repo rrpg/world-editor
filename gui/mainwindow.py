@@ -182,9 +182,10 @@ class mainWindow(QtGui.QMainWindow):
 		else the "Save as" action is called.
 		"""
 		if self._app.getSaveFileName() is None:
-			self.saveMapAsAction()
+			return self.saveMapAsAction()
 		else:
 			self._app.saveMap()
+			return True
 
 	def saveMapAsAction(self):
 		"""
@@ -199,13 +200,14 @@ class mainWindow(QtGui.QMainWindow):
 		)
 
 		if fileName == "":
-			return
+			return False
 
 		if fileName[-4:] != '.map':
 			fileName = fileName + '.map'
 
 		self._app.setSaveMapName(fileName)
 		self._app.saveMap()
+		return True
 
 	def listSpeciesAction(self):
 		"""
