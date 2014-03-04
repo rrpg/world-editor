@@ -19,6 +19,8 @@ class application(QtGui.QApplication):
 
 	mapOpened = QtCore.pyqtSignal()
 
+	_hasUnsavedChanges = False
+
 	def __init__(self):
 		"""
 		a() -> editorGUI.application
@@ -105,6 +107,7 @@ class application(QtGui.QApplication):
 			raise BaseException("No file name defined to save the map")
 
 		self.map.save(self._saveFileName)
+		self.flagAsHasNoUnsavedChanged()
 # End Operations on the map files
 
 # Methods to add elements in the map
@@ -188,3 +191,12 @@ class application(QtGui.QApplication):
 
 	def getTempFolder(self):
 		return config.tempDir + '/' + str(os.getpid())
+
+	def hasUnsavedChanged(self):
+		return self._hasUnsavedChanges
+
+	def flagAsHasUnsavedChanged(self):
+		self._hasUnsavedChanges = True
+
+	def flagAsHasNoUnsavedChanged(self):
+		self._hasUnsavedChanges = False

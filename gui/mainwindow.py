@@ -359,6 +359,9 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
+		if self._app.getSaveFileName() is None:
+			self._app.flagAsHasUnsavedChanged()
+
 	def scaleImage(self):
 		"""
 		Method to resize the map after a zoom action.
@@ -418,6 +421,7 @@ class mainWindow(QtGui.QMainWindow):
 		try:
 			self._app.map.setStartCellPosition((x, y))
 			self.displayStartCell(x, y)
+			self._app.flagAsHasUnsavedChanged()
 		except BaseException as e:
 			self.alert(e.message)
 			return
@@ -437,6 +441,7 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayPlace)
 		dialog.itemAdded.connect(self._placesWidget.setData)
+		dialog.itemAdded.connect(self._app.flagAsHasUnsavedChanged)
 
 		self.disableRecordingMode()
 
@@ -453,6 +458,7 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
+		dialog.itemAdded.connect(self._app.flagAsHasUnsavedChanged)
 
 		self.disableRecordingMode()
 # End Methods to add elements on the map
