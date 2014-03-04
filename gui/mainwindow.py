@@ -218,14 +218,14 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
 		"""
-		self._scaleFactor *= 1.25
+		self._scaleFactor *= 1 + config.zoomDelta
 		self.scaleImage()
 
 	def zoomOutMapAction(self):
 		"""
 		Wrapper method to zoom out the map, calls scaleImage().
 		"""
-		self._scaleFactor *= 0.75
+		self._scaleFactor *= 1 - config.zoomDelta
 		self.scaleImage()
 
 	def exportMapAction(self):
@@ -385,7 +385,7 @@ class mainWindow(QtGui.QMainWindow):
 		This method does a maximum zoom on a selected cell of the map.
 		"""
 		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
-		self._scaleFactor = 30.0
+		self._scaleFactor = config.scaleFactor
 		self.scaleImage()
 
 	def selectCell(self, x, y):
