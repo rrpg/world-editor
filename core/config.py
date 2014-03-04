@@ -22,7 +22,7 @@ generator['map'] = {
 db = exportPath + '/%s.db'
 
 colors = {}
-colors['selected-cell'] = [(0, 0, 0), None]
+colors['selected-cell'] = [None, (0, 0, 0)]
 colors['start-cell'] = [(0, 0, 0), (0, 0, 0)]
 colors['place'] = [(127, 127, 127), (127, 127, 127)]
 colors['npc'] = [(127, 127, 127), (127, 127, 127)]
