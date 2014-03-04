@@ -398,7 +398,13 @@ class mainWindow(QtGui.QMainWindow):
 			self.unselectCell()
 
 		self._selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
+		self._selectedCellRect.setPen(QtGui.QPen(
+			QtGui.QColor(
+				config.colors['selected-cell'][0],
+				config.colors['selected-cell'][1],
+				config.colors['selected-cell'][2]
+			)
+		))
 
 	def unselectCell(self):
 		"""
@@ -466,7 +472,20 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['start-cell'] = None
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+		rect.setBrush(QtGui.QBrush(
+			QtGui.QColor(
+				config.colors['start-cell'][0][0],
+				config.colors['start-cell'][0][1],
+				config.colors['start-cell'][0][2]
+			)
+		))
+		rect.setPen(QtGui.QPen(
+			QtGui.QColor(
+				config.colors['start-cell'][1][0],
+				config.colors['start-cell'][1][1],
+				config.colors['start-cell'][1][2]
+			)
+		))
 		self._pixmaps['start-cell'] = rect
 
 	def displayPlace(self, x, y):
@@ -477,8 +496,20 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['places'] = list()
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
-		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		rect.setBrush(QtGui.QBrush(
+			QtGui.QColor(
+				config.colors['places'][0][0],
+				config.colors['places'][0][1],
+				config.colors['places'][0][2]
+			)
+		))
+		rect.setPen(QtGui.QPen(
+			QtGui.QColor(
+				config.colors['places'][1][0],
+				config.colors['places'][1][1],
+				config.colors['places'][1][2]
+			)
+		))
 		self._pixmaps['places'].append(rect)
 
 	def displayNpc(self, x, y):
@@ -489,7 +520,19 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['npc'] = list()
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
-		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		rect.setBrush(QtGui.QBrush(
+			QtGui.QColor(
+				config.colors['npc'][0][0],
+				config.colors['npc'][0][1],
+				config.colors['npc'][0][2]
+			)
+		))
+		rect.setPen(QtGui.QPen(
+			QtGui.QColor(
+				config.colors['npc'][1][0],
+				config.colors['npc'][1][1],
+				config.colors['npc'][1][2]
+			)
+		))
 		self._pixmaps['npc'].append(rect)
 # End Methods to display an element on the map
