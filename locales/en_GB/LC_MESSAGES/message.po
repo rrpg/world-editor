@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 22:04+0000\n"
+"POT-Creation-Date: 2014-03-04 22:23+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -114,11 +114,11 @@ msgstr "Small"
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr "An error occured during the opening of the map file"
 
-#: gui/application.py:174
+#: gui/application.py:177
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr "The selected folder does not exist"
 
-#: gui/application.py:176
+#: gui/application.py:179
 msgid "ERROR_NOT_A_FILE"
 msgstr "The selected path is not a file"
 
@@ -259,43 +259,51 @@ msgstr "An error occured"
 msgid "OPEN_FILE_DIALOG_TITLE"
 msgstr "Open map"
 
-#: gui/mainwindow.py:166 gui/mainwindow.py:198
+#: gui/mainwindow.py:166 gui/mainwindow.py:199
 #, python-format
 msgid "MAP_FILE_TYPE %s"
 msgstr "Map files %s"
 
-#: gui/mainwindow.py:196
+#: gui/mainwindow.py:197
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr "Save map"
 
-#: gui/mainwindow.py:264
+#: gui/mainwindow.py:266
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr "Select the starting cell"
 
-#: gui/mainwindow.py:276
+#: gui/mainwindow.py:278
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr "Select a cell to add a place"
 
-#: gui/mainwindow.py:288
+#: gui/mainwindow.py:290
 msgid "RECORDING_NPC_MESSAGE"
 msgstr "Select a cell to add a character"
 
-#: gui/mainwindow.py:334
+#: gui/mainwindow.py:336
 msgid "IMAGE_VIEWER"
 msgstr "Image viewer"
 
-#: gui/mainwindow.py:335
+#: gui/mainwindow.py:337
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr "An error occured while opening the file %s"
 
-#: gui/mainwindow.py:432
+#: gui/mainwindow.py:439
 msgid "ERROR_PLACE_IN_WATER"
 msgstr "No place can be added in water"
 
-#: gui/mainwindow.py:448
+#: gui/mainwindow.py:456
 msgid "ERROR_NPC_IN_WATER"
 msgstr "No character can be added in water"
+
+#: gui/mainwindow.py:515
+msgid "UNSAVED_CHANGES"
+msgstr "Unsaved changes"
+
+#: gui/mainwindow.py:516
+msgid "CLOSE_WITH_UNSAVED_CHANGES"
+msgstr "The current map is not saved, do you really want to quit?"
 
 #: gui/menu.py:36
 msgid "CREATE_MAP_MENU_ITEM"

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-03 22:04+0000\n"
+"POT-Creation-Date: 2014-03-04 22:23+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -114,11 +114,11 @@ msgstr ""
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr ""
 
-#: gui/application.py:174
+#: gui/application.py:177
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr ""
 
-#: gui/application.py:176
+#: gui/application.py:179
 msgid "ERROR_NOT_A_FILE"
 msgstr ""
 
@@ -259,42 +259,50 @@ msgstr ""
 msgid "OPEN_FILE_DIALOG_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:166 gui/mainwindow.py:198
+#: gui/mainwindow.py:166 gui/mainwindow.py:199
 #, python-format
 msgid "MAP_FILE_TYPE %s"
 msgstr ""
 
-#: gui/mainwindow.py:196
+#: gui/mainwindow.py:197
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:264
+#: gui/mainwindow.py:266
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:276
+#: gui/mainwindow.py:278
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:288
+#: gui/mainwindow.py:290
 msgid "RECORDING_NPC_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:334
+#: gui/mainwindow.py:336
 msgid "IMAGE_VIEWER"
 msgstr ""
 
-#: gui/mainwindow.py:335
+#: gui/mainwindow.py:337
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr ""
 
-#: gui/mainwindow.py:432
+#: gui/mainwindow.py:439
 msgid "ERROR_PLACE_IN_WATER"
 msgstr ""
 
-#: gui/mainwindow.py:448
+#: gui/mainwindow.py:456
 msgid "ERROR_NPC_IN_WATER"
+msgstr ""
+
+#: gui/mainwindow.py:515
+msgid "UNSAVED_CHANGES"
+msgstr ""
+
+#: gui/mainwindow.py:516
+msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr ""
 
 #: gui/menu.py:36
