@@ -503,3 +503,21 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setPen(QtGui.QPen(color.getColorFromConfig('npc', color.COLOR_PEN)))
 		self._pixmaps['npc'].append(rect)
 # End Methods to display an element on the map
+
+	def exit(self):
+		"""
+		On exit, if the map is not saved, the user is prompted to save it or
+		cancel or discard the changes
+		"""
+		if self._app.hasUnsavedChanged():
+			ret = QtGui.QMessageBox.warning(
+				self,
+				_('UNSAVED_CHANGES'),
+				_('CLOSE_WITH_UNSAVED_CHANGES'),
+				QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Discard | QtGui.QMessageBox.Save
+			)
+			if ret == QtGui.QMessageBox.Cancel:
+				return
+			elif ret == QtGui.QMessageBox.Save and self.saveMapAction() is False:
+				return
+		QtGui.qApp.quit()
