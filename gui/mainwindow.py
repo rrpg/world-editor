@@ -10,7 +10,7 @@ from gui.form.placedialog import formPlaceDialog
 from gui.form.npcdialog import formNpcDialog
 from gui.list.placeslist import placesList
 from gui.list.npclist import npcList
-from core import worker, config
+from core import worker, config, color
 from core.localisation import _
 import imghdr
 import os
@@ -218,14 +218,14 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Wrapper method to zoom in the map, calls scaleImage().
 		"""
-		self._scaleFactor *= 1.25
+		self._scaleFactor *= 1 + config.zoomDelta
 		self.scaleImage()
 
 	def zoomOutMapAction(self):
 		"""
 		Wrapper method to zoom out the map, calls scaleImage().
 		"""
-		self._scaleFactor *= 0.75
+		self._scaleFactor *= 1 - config.zoomDelta
 		self.scaleImage()
 
 	def exportMapAction(self):
@@ -385,7 +385,7 @@ class mainWindow(QtGui.QMainWindow):
 		This method does a maximum zoom on a selected cell of the map.
 		"""
 		self._imageView.fitInView(coordinates[0] - 1, coordinates[1] - 1, 3, 3)
-		self._scaleFactor = 30.0
+		self._scaleFactor = config.scaleFactor
 		self.scaleImage()
 
 	def selectCell(self, x, y):
@@ -398,7 +398,8 @@ class mainWindow(QtGui.QMainWindow):
 			self.unselectCell()
 
 		self._selectedCellRect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		self._selectedCellRect.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0)))
+		self._selectedCellRect.setBrush(QtGui.QBrush(color.getColorFromConfig('selected-cell', color.COLOR_BRUSH)))
+		self._selectedCellRect.setPen(QtGui.QPen(color.getColorFromConfig('selected-cell', color.COLOR_PEN)))
 
 	def unselectCell(self):
 		"""
@@ -466,7 +467,8 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['start-cell'] = None
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(0, 0, 0)))
+		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('start-cell', color.COLOR_BRUSH)))
+		rect.setPen(QtGui.QPen(color.getColorFromConfig('start-cell', color.COLOR_PEN)))
 		self._pixmaps['start-cell'] = rect
 
 	def displayPlace(self, x, y):
@@ -477,8 +479,8 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['places'] = list()
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
-		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('places', color.COLOR_BRUSH)))
+		rect.setPen(QtGui.QPen(color.getColorFromConfig('places', color.COLOR_PEN)))
 		self._pixmaps['places'].append(rect)
 
 	def displayNpc(self, x, y):
@@ -489,7 +491,7 @@ class mainWindow(QtGui.QMainWindow):
 			self._pixmaps['npc'] = list()
 
 		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(QtGui.QColor(127, 127, 127)))
-		rect.setPen(QtGui.QPen(QtGui.QColor(127, 127, 127)))
+		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('npc', color.COLOR_BRUSH)))
+		rect.setPen(QtGui.QPen(color.getColorFromConfig('npc', color.COLOR_PEN)))
 		self._pixmaps['npc'].append(rect)
 # End Methods to display an element on the map
