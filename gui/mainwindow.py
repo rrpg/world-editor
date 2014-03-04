@@ -182,9 +182,10 @@ class mainWindow(QtGui.QMainWindow):
 		else the "Save as" action is called.
 		"""
 		if self._app.getSaveFileName() is None:
-			self.saveMapAsAction()
+			return self.saveMapAsAction()
 		else:
 			self._app.saveMap()
+			return True
 
 	def saveMapAsAction(self):
 		"""
@@ -199,13 +200,14 @@ class mainWindow(QtGui.QMainWindow):
 		)
 
 		if fileName == "":
-			return
+			return False
 
 		if fileName[-4:] != '.map':
 			fileName = fileName + '.map'
 
 		self._app.setSaveMapName(fileName)
 		self._app.saveMap()
+		return True
 
 	def listSpeciesAction(self):
 		"""
@@ -359,6 +361,9 @@ class mainWindow(QtGui.QMainWindow):
 
 		self.menuBar().mapOpened.emit()
 
+		if self._app.getSaveFileName() is None:
+			self._app.flagAsHasUnsavedChanged()
+
 	def scaleImage(self):
 		"""
 		Method to resize the map after a zoom action.
@@ -418,6 +423,7 @@ class mainWindow(QtGui.QMainWindow):
 		try:
 			self._app.map.setStartCellPosition((x, y))
 			self.displayStartCell(x, y)
+			self._app.flagAsHasUnsavedChanged()
 		except BaseException as e:
 			self.alert(e.message)
 			return
@@ -437,6 +443,7 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayPlace)
 		dialog.itemAdded.connect(self._placesWidget.setData)
+		dialog.itemAdded.connect(self._app.flagAsHasUnsavedChanged)
 
 		self.disableRecordingMode()
 
@@ -453,6 +460,7 @@ class mainWindow(QtGui.QMainWindow):
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
+		dialog.itemAdded.connect(self._app.flagAsHasUnsavedChanged)
 
 		self.disableRecordingMode()
 # End Methods to add elements on the map
@@ -495,3 +503,21 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setPen(QtGui.QPen(color.getColorFromConfig('npc', color.COLOR_PEN)))
 		self._pixmaps['npc'].append(rect)
 # End Methods to display an element on the map
+
+	def exit(self):
+		"""
+		On exit, if the map is not saved, the user is prompted to save it or
+		cancel or discard the changes
+		"""
+		if self._app.hasUnsavedChanged():
+			ret = QtGui.QMessageBox.warning(
+				self,
+				_('UNSAVED_CHANGES'),
+				_('CLOSE_WITH_UNSAVED_CHANGES'),
+				QtGui.QMessageBox.Cancel | QtGui.QMessageBox.Discard | QtGui.QMessageBox.Save
+			)
+			if ret == QtGui.QMessageBox.Cancel:
+				return
+			elif ret == QtGui.QMessageBox.Save and self.saveMapAction() is False:
+				return
+		QtGui.qApp.quit()

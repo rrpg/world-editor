@@ -65,7 +65,7 @@ class menu(QtGui.QMenuBar):
 		exitAction = QtGui.QAction(_('EXIT_APPLICATION_MENU_ITEM'), window)
 		exitAction.setShortcut('Ctrl+Q')
 		exitAction.setStatusTip(_('EXIT_APPLICATION_MENU_ITEM_TIP'))
-		exitAction.triggered.connect(QtGui.qApp.quit)
+		exitAction.triggered.connect(window.exit)
 
 		# zoom in action
 		self._zoominAction = QtGui.QAction(_('ZOOM_IN_MENU_ITEM'), self)
