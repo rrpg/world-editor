@@ -107,7 +107,7 @@ class application(QtGui.QApplication):
 			raise BaseException("No file name defined to save the map")
 
 		self.map.save(self._saveFileName)
-		self.flagAsHasNoUnsavedChanged()
+		self.flagAsSaved()
 # End Operations on the map files
 
 # Methods to add elements in the map
@@ -195,8 +195,8 @@ class application(QtGui.QApplication):
 	def hasUnsavedChanged(self):
 		return self._hasUnsavedChanges
 
-	def flagAsHasUnsavedChanged(self):
+	def flagAsUnsaved(self):
 		self._hasUnsavedChanges = True
 
-	def flagAsHasNoUnsavedChanged(self):
+	def flagAsSaved(self):
 		self._hasUnsavedChanges = False
