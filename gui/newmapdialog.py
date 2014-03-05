@@ -53,12 +53,16 @@ class newMapDialog(QtGui.QDialog):
 		self._mapNameField = QtGui.QLineEdit()
 
 		mapWidthLabel = QtGui.QLabel(_('MAP_WIDTH_LABEL'))
-		self._mapWidthField = intLineEdit()
-		self._mapWidthField.setText(str(config.map_default_width))
+		self._mapWidthField = QtGui.QSpinBox()
+		self._mapWidthField.setMinimum(config.map_minimum_width)
+		self._mapWidthField.setMaximum(config.map_maximum_width)
+		self._mapWidthField.setValue(config.map_default_width)
 
 		mapHeightLabel = QtGui.QLabel(_('MAP_HEIGHT_LABEL'))
-		self._mapHeightField = intLineEdit()
-		self._mapHeightField.setText(str(config.map_default_height))
+		self._mapHeightField = QtGui.QSpinBox()
+		self._mapHeightField.setMinimum(config.map_minimum_height)
+		self._mapHeightField.setMaximum(config.map_maximum_height)
+		self._mapHeightField.setValue(config.map_default_height)
 
 		self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
 		self._saveButton.clicked.connect(self.createMap)
