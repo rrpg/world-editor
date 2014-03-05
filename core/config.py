@@ -9,6 +9,10 @@ databaseStructure = databasePath + '/structure.sql'
 
 map_default_width = 400
 map_default_height = 400
+map_minimum_width = 10
+map_minimum_height = 10
+map_maximum_width = 10000
+map_maximum_height = 10000
 
 tempDir = rootPath + '/tmp'
 localesDir = rootPath + '/locales'
