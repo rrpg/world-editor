@@ -6,7 +6,7 @@ Program to create and edit worlds for my game (https://github.com/rrpg/engine).
 
 * Python 2.7 or above
 * PyQt4
-# Gettext
+* Gettext
 
 ## Setup
 
