@@ -1,4 +1,4 @@
-# -*- coding: utf8 -*-
+# -*- coding: utf-8 -*-
 
 from PyQt4 import QtGui
 from gui.intlineedit import intLineEdit
