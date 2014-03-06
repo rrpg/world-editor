@@ -192,7 +192,7 @@ class application(QtGui.QApplication):
 	def getTempFolder(self):
 		return config.tempDir + '/' + str(os.getpid())
 
-	def hasUnsavedChanged(self):
+	def hasUnsavedChanges(self):
 		return self._hasUnsavedChanges
 
 	def flagAsUnsaved(self):

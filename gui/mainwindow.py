@@ -509,7 +509,7 @@ class mainWindow(QtGui.QMainWindow):
 		On exit, if the map is not saved, the user is prompted to save it or
 		cancel or discard the changes
 		"""
-		if self._app.hasUnsavedChanged():
+		if self._app.hasUnsavedChanges():
 			msgBox = QtGui.QMessageBox()
 			msgBox.setWindowTitle(_('UNSAVED_CHANGES'))
 			msgBox.setText(_('CLOSE_WITH_UNSAVED_CHANGES'))
