@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-04 22:44+0000\n"
+"POT-Creation-Date: 2014-03-09 23:36+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,12 +126,12 @@ msgstr ""
 msgid "EXPORT_MAP_DIALOG_TITLE"
 msgstr ""
 
-#: gui/form/itemdialog.py:51 gui/newmapdialog.py:63
+#: gui/form/itemdialog.py:51 gui/newmapdialog.py:67
 #: gui/specieslistdialog.py:67
 msgid "CREATE_BUTTON"
 msgstr ""
 
-#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:65
+#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr ""
 
@@ -205,6 +205,14 @@ msgstr ""
 
 #: gui/form/placedialog.py:72
 msgid "ERROR_EMPTY_PLACE_NAME"
+msgstr ""
+
+#: gui/list/itemlist.py:12
+msgid "DELETE_COLUMN"
+msgstr ""
+
+#: gui/list/itemlist.py:39
+msgid "DELETE_BUTTON"
 msgstr ""
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
@@ -433,19 +441,19 @@ msgstr ""
 msgid "MAP_WIDTH_LABEL"
 msgstr ""
 
-#: gui/newmapdialog.py:59
+#: gui/newmapdialog.py:61
 msgid "MAP_HEIGHT_LABEL"
 msgstr ""
 
-#: gui/newmapdialog.py:93 gui/newmapdialog.py:99
+#: gui/newmapdialog.py:97 gui/newmapdialog.py:103
 msgid "ERROR_INVALID_WIDTH_HEIGHT_VALUE"
 msgstr ""
 
-#: gui/newmapdialog.py:96
+#: gui/newmapdialog.py:100
 msgid "ERROR_EMPTY_MAP_NAME"
 msgstr ""
 
-#: gui/newmapdialog.py:106
+#: gui/newmapdialog.py:110
 msgid "LOADING_GENERATION_TEXT"
 msgstr ""
 

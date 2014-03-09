@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-04 22:44+0000\n"
+"POT-Creation-Date: 2014-03-09 23:36+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -127,12 +127,12 @@ msgstr "Le chemin sélectionné n'est pas un fichier"
 msgid "EXPORT_MAP_DIALOG_TITLE"
 msgstr "Export de la carte"
 
-#: gui/form/itemdialog.py:51 gui/newmapdialog.py:63
+#: gui/form/itemdialog.py:51 gui/newmapdialog.py:67
 #: gui/specieslistdialog.py:67
 msgid "CREATE_BUTTON"
 msgstr "Créer"
 
-#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:65
+#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr "Annuler"
 
@@ -207,6 +207,14 @@ msgstr "Ce nom interne est déja utilisé"
 #: gui/form/placedialog.py:72
 msgid "ERROR_EMPTY_PLACE_NAME"
 msgstr "Un nom de lieu doit être saisi"
+
+#: gui/list/itemlist.py:12
+msgid "DELETE_COLUMN"
+msgstr "Supprimer"
+
+#: gui/list/itemlist.py:39
+msgid "DELETE_BUTTON"
+msgstr "Supprimer"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
 msgid "INTERNAL_NAME_COLUMN"
@@ -435,19 +443,19 @@ msgstr "Nom"
 msgid "MAP_WIDTH_LABEL"
 msgstr "Largeur"
 
-#: gui/newmapdialog.py:59
+#: gui/newmapdialog.py:61
 msgid "MAP_HEIGHT_LABEL"
 msgstr "Hauteur"
 
-#: gui/newmapdialog.py:93 gui/newmapdialog.py:99
+#: gui/newmapdialog.py:97 gui/newmapdialog.py:103
 msgid "ERROR_INVALID_WIDTH_HEIGHT_VALUE"
 msgstr "La hauteur et la largeur doivent être des entiers positifs"
 
-#: gui/newmapdialog.py:96
+#: gui/newmapdialog.py:100
 msgid "ERROR_EMPTY_MAP_NAME"
 msgstr "Un nom est requis"
 
-#: gui/newmapdialog.py:106
+#: gui/newmapdialog.py:110
 msgid "LOADING_GENERATION_TEXT"
 msgstr "Génération..."
 
