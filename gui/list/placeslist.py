@@ -18,6 +18,7 @@ class placesList(gui.list.itemlist.itemList):
 		self.setItem(index, 4, QtGui.QTableWidgetItem(row['internalName']))
 		self.setCellWidget(index, 5, gui.list.itemlist.itemLocatorButton(self, index, _('LOCATE_BUTTON')))
 		self.resizeColumnsToContents()
+		return 6
 
 	def getData(self):
 		return self._app.map.places.values()

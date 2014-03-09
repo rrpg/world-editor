@@ -17,6 +17,7 @@ class npcList(gui.list.itemlist.itemList):
 		self.setItem(index, 3, QtGui.QTableWidgetItem(row['internalName']))
 		self.setCellWidget(index, 4, gui.list.itemlist.itemLocatorButton(self, index, _('LOCATE_BUTTON')))
 		self.resizeColumnsToContents()
+		return 5
 
 	def getData(self):
 		return self._app.map.npc.values()

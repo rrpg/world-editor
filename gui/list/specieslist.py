@@ -15,6 +15,7 @@ class speciesList(gui.list.itemlist.itemList):
 		self.setItem(index, 1, QtGui.QTableWidgetItem(row['description']))
 		self.setItem(index, 2, QtGui.QTableWidgetItem(row['internalName']))
 		self.resizeColumnsToContents()
+		return 3
 
 	def getData(self):
 		return self._app.map.species.values()
