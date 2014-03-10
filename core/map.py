@@ -26,7 +26,9 @@ class map:
 	cells = dict()
 	places = dict()
 	npc = dict()
-	species = {'human': {'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}}
+	species = {_('HUMANS_INTERNAL_NAME'):
+		{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
+	}
 
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
