@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-09 23:36+0000\n"
+"POT-Creation-Date: 2014-03-10 16:05+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -18,108 +18,112 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: core/map.py:29
+#: core/map.py:29 core/map.py:30
 msgid "HUMANS_INTERNAL_NAME"
 msgstr "humain"
 
-#: core/map.py:29
+#: core/map.py:30
 msgid "HUMANS_NAME"
 msgstr "Humains"
 
-#: core/map.py:36
+#: core/map.py:38
 msgid "PLACE_TYPE_CAVE"
 msgstr "Cave"
 
-#: core/map.py:36
+#: core/map.py:38
 msgid "PLACE_TYPE_DUNGEON"
 msgstr "Donjon"
 
-#: core/map.py:37
+#: core/map.py:39
 msgid "GENDER_FEMALE"
 msgstr "Femme"
 
-#: core/map.py:37
+#: core/map.py:39
 msgid "GENDER_MALE"
 msgstr "Homme"
 
-#: core/map.py:109
+#: core/map.py:111
 msgid "ERROR_NO_START_CELL_SELECTED"
 msgstr "Aucune case de départ sélectionnée"
 
-#: core/map.py:119
+#: core/map.py:113
+msgid "ERROR_NO_SPECIES"
+msgstr "Au moins une espèce est requise pour exporter le monde"
+
+#: core/map.py:123
 msgid "ERROR_INVALID_START_CELL_POSITION"
 msgstr "La case de départ ne peut pas se trouver sur la case sélectionnée"
 
-#: core/map.py:167
+#: core/map.py:171
 msgid "LOCAL_PROGRESS_DATABASE_CREATION"
 msgstr "Création de la base de données"
 
-#: core/map.py:178 core/map.py:193 core/map.py:205 core/map.py:217
-#: core/map.py:275 core/map.py:292 core/map.py:358 core/map.py:396
+#: core/map.py:182 core/map.py:197 core/map.py:209 core/map.py:221
+#: core/map.py:279 core/map.py:296 core/map.py:362 core/map.py:400
 msgid "LOCAL_PROGRESS_FINISHED"
 msgstr "Terminé"
 
-#: core/map.py:188
+#: core/map.py:192
 msgid "LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION"
 msgstr "Création de la structure de la base de données"
 
-#: core/map.py:201
+#: core/map.py:205
 msgid "LOCAL_PROGRESS_GENDERS_CREATION"
 msgstr "Création des sexes"
 
-#: core/map.py:213
+#: core/map.py:217
 msgid "LOCAL_PROGRESS_SPECIES_CREATION"
 msgstr "Création des espèces"
 
-#: core/map.py:225
+#: core/map.py:229
 msgid "LOCAL_PROGRESS_REGIONS_CREATION"
 msgstr "Création des régions"
 
-#: core/map.py:230
+#: core/map.py:234
 msgid "LOCAL_PROGRESS_AREA_TYPES_CREATION"
 msgstr "Création des types de zones"
 
-#: core/map.py:244
+#: core/map.py:248
 msgid "LOCAL_PROGRESS_AREAS_CREATION"
 msgstr "Création des zones"
 
-#: core/map.py:283
+#: core/map.py:287
 msgid "LOCAL_PROGRESS_START_CELL"
 msgstr "Création de la case de départ"
 
-#: core/map.py:303
+#: core/map.py:307
 msgid "LOCAL_PROGRESS_PLACES"
 msgstr "Création des lieux"
 
-#: core/map.py:368
+#: core/map.py:372
 msgid "LOCAL_PROGRESS_NPC"
 msgstr "Création des personnages"
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_LARGE"
 msgstr "Grande"
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_MEDIUM"
 msgstr "Moyenne"
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_ONE_CELL"
 msgstr "Une case"
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_SMALL"
 msgstr "Petite"
 
-#: core/map.py:506
+#: core/map.py:510
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr "Une erreur est survenue durant l'ouverture de la carte"
 
-#: gui/application.py:177
+#: gui/application.py:197
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr "Le dossier sélectionné n'existe pas"
 
-#: gui/application.py:179
+#: gui/application.py:199
 msgid "ERROR_NOT_A_FILE"
 msgstr "Le chemin sélectionné n'est pas un fichier"
 
@@ -128,11 +132,12 @@ msgid "EXPORT_MAP_DIALOG_TITLE"
 msgstr "Export de la carte"
 
 #: gui/form/itemdialog.py:51 gui/newmapdialog.py:67
-#: gui/specieslistdialog.py:67
+#: gui/specieslistdialog.py:68
 msgid "CREATE_BUTTON"
 msgstr "Créer"
 
-#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:69
+#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:536
+#: gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr "Annuler"
 
@@ -212,9 +217,13 @@ msgstr "Un nom de lieu doit être saisi"
 msgid "DELETE_COLUMN"
 msgstr "Supprimer"
 
-#: gui/list/itemlist.py:39
+#: gui/list/itemlist.py:41 gui/list/itemlist.py:98
 msgid "DELETE_BUTTON"
 msgstr "Supprimer"
+
+#: gui/list/itemlist.py:96
+msgid "DELETE_CONFIRMATION"
+msgstr "Confirmation de suppression"
 
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
 msgid "INTERNAL_NAME_COLUMN"
@@ -236,7 +245,11 @@ msgstr "X"
 msgid "Y_COLUMN"
 msgstr "Y"
 
-#: gui/list/npclist.py:18 gui/list/placeslist.py:19
+#: gui/list/npclist.py:13
+msgid "CONFIRMATION_DELETE_NPC"
+msgstr "Voulez-vous vraiment supprimer ce personnage ?"
+
+#: gui/list/npclist.py:20 gui/list/placeslist.py:21
 msgid "LOCATE_BUTTON"
 msgstr "Localiser"
 
@@ -244,82 +257,90 @@ msgstr "Localiser"
 msgid "TYPE_COLUMN"
 msgstr "Type"
 
+#: gui/list/placeslist.py:13
+msgid "CONFIRMATION_DELETE_PLACE"
+msgstr "Voulez-vous vraiment supprimer ce lieu ?"
+
 #: gui/list/specieslist.py:11
 msgid "DESCRIPTION_COLUMN"
 msgstr "Description"
 
-#: gui/mainwindow.py:97
+#: gui/list/specieslist.py:13
+msgid "CONFIRMATION_DELETE_SPECIES"
+msgstr "Voulez-vous vraiment supprimer cette espèce ?"
+
+#: gui/mainwindow.py:99
 msgid "PLACES_TAB"
 msgstr "Lieux"
 
-#: gui/mainwindow.py:98
+#: gui/mainwindow.py:100
 msgid "NPC_TAB"
 msgstr "Personnages"
 
-#: gui/mainwindow.py:134
+#: gui/mainwindow.py:136
 msgid "MAIN_WINDOW_TITLE"
 msgstr "rRpg - Éditeur de mondes"
 
-#: gui/mainwindow.py:146
+#: gui/mainwindow.py:148
 msgid "ERROR_BOX_TITLE"
 msgstr "Une erreur est survenue"
 
-#: gui/mainwindow.py:164
+#: gui/mainwindow.py:166
 msgid "OPEN_FILE_DIALOG_TITLE"
 msgstr "Ouverture d'une carte"
 
-#: gui/mainwindow.py:166 gui/mainwindow.py:199
+#: gui/mainwindow.py:168 gui/mainwindow.py:201
 #, python-format
 msgid "MAP_FILE_TYPE %s"
 msgstr "Cartes %s"
 
-#: gui/mainwindow.py:197
+#: gui/mainwindow.py:199
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr "Sauvegarde de la carte"
 
-#: gui/mainwindow.py:266
+#: gui/mainwindow.py:268
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr "Veuillez sélectionner la case de départ"
 
-#: gui/mainwindow.py:278
+#: gui/mainwindow.py:280
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr "Veuillez sélectionner une case pour créer un lieu"
 
-#: gui/mainwindow.py:290
+#: gui/mainwindow.py:292
 msgid "RECORDING_NPC_MESSAGE"
 msgstr "Veuillez sélectionner une case pour ajouter un personnage"
 
-#: gui/mainwindow.py:336
+#: gui/mainwindow.py:338
 msgid "IMAGE_VIEWER"
 msgstr "Visionneuse d'image"
 
-#: gui/mainwindow.py:337
+#: gui/mainwindow.py:339
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr "Une erreur est survenue durant l'ouverture du fichier %s"
 
-#: gui/mainwindow.py:439
+#: gui/mainwindow.py:436
 msgid "ERROR_PLACE_IN_WATER"
 msgstr "Un lieu ne peut pas être placé dans l'eau"
 
-#: gui/mainwindow.py:456
+#: gui/mainwindow.py:453
 msgid "ERROR_NPC_IN_WATER"
 msgstr "Un personnage ne peut pas être ajouté dans l'eau"
 
-#: gui/mainwindow.py:514
+#: gui/mainwindow.py:532
 msgid "UNSAVED_CHANGES"
 msgstr "Modifications non enregistrées"
 
-#: gui/mainwindow.py:515
+#: gui/mainwindow.py:533
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr ""
 "La carte en cours n'est pas enregistrée. Voulez-vous malgré tout quitter ?"
 
-#: gui/mainwindow.py:516
+#: gui/mainwindow.py:534
 msgid "SAVE_BUTTON"
 msgstr "Enregistrer"
 
-#: gui/mainwindow.py:517
+#: gui/mainwindow.py:535
 msgid "DISCARD_BUTTON"
 msgstr "Ne pas enregistrer"
 
@@ -463,22 +484,22 @@ msgstr "Génération..."
 msgid "LIST_SPECIES_DIALOG_TITLE"
 msgstr "Espèces"
 
-#: gui/specieslistdialog.py:36
+#: gui/specieslistdialog.py:37
 msgid "CLOSE_BUTTON"
 msgstr "Fermer"
 
-#: gui/specieslistdialog.py:56
+#: gui/specieslistdialog.py:57
 msgid "SPECIES_NAME_LABEL"
 msgstr "Nom"
 
-#: gui/specieslistdialog.py:60
+#: gui/specieslistdialog.py:61
 msgid "SPECIES_INTERNAL_NAME_LABEL"
 msgstr "Nom interne"
 
-#: gui/specieslistdialog.py:63
+#: gui/specieslistdialog.py:64
 msgid "SPECIES_DESCRIPTION_LABEL"
 msgstr "Description"
 
-#: gui/specieslistdialog.py:105
+#: gui/specieslistdialog.py:106
 msgid "ERROR_ALREADY_EXISTING_SPECIES"
 msgstr "Ce nom interne est déja utilisé"
