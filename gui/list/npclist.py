@@ -10,6 +10,8 @@ class npcList(gui.list.itemlist.itemList):
 
 	_columns = (_('NAME_COLUMN'), _('X_COLUMN'), _('Y_COLUMN'), _('INTERNAL_NAME_COLUMN'), _('LOCATE_COLUMN'))
 
+	confirmDeleteMessage = _('CONFIRMATION_DELETE_NPC')
+
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 		self.setItem(index, 1, QtGui.QTableWidgetItem(str(row['x'])))

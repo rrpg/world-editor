@@ -10,6 +10,8 @@ class speciesList(gui.list.itemlist.itemList):
 
 	_columns = (_('NAME_COLUMN'), _('DESCRIPTION_COLUMN'), _('INTERNAL_NAME_COLUMN'))
 
+	confirmDeleteMessage = _('CONFIRMATION_DELETE_SPECIES')
+
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 		self.setItem(index, 1, QtGui.QTableWidgetItem(row['description']))

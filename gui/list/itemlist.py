@@ -92,4 +92,12 @@ class itemDeleteButton(QtGui.QPushButton):
 		When a delete button is clicked, a confirmation dialog is displayed and
 		then the item is deleted
 		"""
-		self._table.deleteItem(self._index)
+		msgBox = QtGui.QMessageBox()
+		msgBox.setWindowTitle(_('DELETE_CONFIRMATION'))
+		msgBox.setText(self._table.confirmDeleteMessage)
+		msgBox.addButton(QtGui.QPushButton(_('DELETE_BUTTON')), QtGui.QMessageBox.AcceptRole)
+		msgBox.addButton(QtGui.QPushButton(_('CANCEL_BUTTON')), QtGui.QMessageBox.RejectRole)
+		ret = msgBox.exec_()
+
+		if ret == QtGui.QMessageBox.AcceptRole:
+			self._table.deleteItem(self._index)
