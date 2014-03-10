@@ -10,6 +10,8 @@ class npcList(gui.list.itemlist.itemList):
 
 	_columns = (_('NAME_COLUMN'), _('X_COLUMN'), _('Y_COLUMN'), _('INTERNAL_NAME_COLUMN'), _('LOCATE_COLUMN'))
 
+	confirmDeleteMessage = _('CONFIRMATION_DELETE_NPC')
+
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 		self.setItem(index, 1, QtGui.QTableWidgetItem(str(row['x'])))
@@ -17,6 +19,7 @@ class npcList(gui.list.itemlist.itemList):
 		self.setItem(index, 3, QtGui.QTableWidgetItem(row['internalName']))
 		self.setCellWidget(index, 4, gui.list.itemlist.itemLocatorButton(self, index, _('LOCATE_BUTTON')))
 		self.resizeColumnsToContents()
+		return 5
 
 	def getData(self):
 		return self._app.map.npc.values()
@@ -29,3 +32,10 @@ class npcList(gui.list.itemlist.itemList):
 			int(self.item(index, 1).text()),
 			int(self.item(index, 2).text())
 		)
+
+	def deleteItem(self, index):
+		"""
+		Delete the selected item
+		"""
+		self._app.deleteNpc(str(self.item(index, 3).text()))
+		self.itemDeleted.emit()

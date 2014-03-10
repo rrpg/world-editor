@@ -130,6 +130,26 @@ class application(QtGui.QApplication):
 		self.map.npc[key] = informations
 # End Methods to add elements in the map
 
+# Methods to delete elements from the map
+	def deleteSpecies(self, key):
+		"""
+		Method to add a species in the world
+		"""
+		del self.map.species[key]
+
+	def deletePlace(self, key):
+		"""
+		Add a place to the map's places list
+		"""
+		del self.map.places[key]
+
+	def deleteNpc(self, key):
+		"""
+		Add a npc to the map's npc list
+		"""
+		del self.map.npc[key]
+# End Methods to delete elements from the map
+
 # Names operations (file names, map name...)
 	def escapeName(self, name):
 		"""

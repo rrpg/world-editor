@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-04 22:44+0000\n"
+"POT-Creation-Date: 2014-03-10 16:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,108 +17,112 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: core/map.py:29
+#: core/map.py:29 core/map.py:30
 msgid "HUMANS_INTERNAL_NAME"
 msgstr ""
 
-#: core/map.py:29
+#: core/map.py:30
 msgid "HUMANS_NAME"
 msgstr ""
 
-#: core/map.py:36
+#: core/map.py:38
 msgid "PLACE_TYPE_CAVE"
 msgstr ""
 
-#: core/map.py:36
+#: core/map.py:38
 msgid "PLACE_TYPE_DUNGEON"
 msgstr ""
 
-#: core/map.py:37
+#: core/map.py:39
 msgid "GENDER_FEMALE"
 msgstr ""
 
-#: core/map.py:37
+#: core/map.py:39
 msgid "GENDER_MALE"
 msgstr ""
 
-#: core/map.py:109
+#: core/map.py:111
 msgid "ERROR_NO_START_CELL_SELECTED"
 msgstr ""
 
-#: core/map.py:119
+#: core/map.py:113
+msgid "ERROR_NO_SPECIES"
+msgstr ""
+
+#: core/map.py:123
 msgid "ERROR_INVALID_START_CELL_POSITION"
 msgstr ""
 
-#: core/map.py:167
+#: core/map.py:171
 msgid "LOCAL_PROGRESS_DATABASE_CREATION"
 msgstr ""
 
-#: core/map.py:178 core/map.py:193 core/map.py:205 core/map.py:217
-#: core/map.py:275 core/map.py:292 core/map.py:358 core/map.py:396
+#: core/map.py:182 core/map.py:197 core/map.py:209 core/map.py:221
+#: core/map.py:279 core/map.py:296 core/map.py:362 core/map.py:400
 msgid "LOCAL_PROGRESS_FINISHED"
 msgstr ""
 
-#: core/map.py:188
+#: core/map.py:192
 msgid "LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION"
 msgstr ""
 
-#: core/map.py:201
+#: core/map.py:205
 msgid "LOCAL_PROGRESS_GENDERS_CREATION"
 msgstr ""
 
-#: core/map.py:213
+#: core/map.py:217
 msgid "LOCAL_PROGRESS_SPECIES_CREATION"
 msgstr ""
 
-#: core/map.py:225
+#: core/map.py:229
 msgid "LOCAL_PROGRESS_REGIONS_CREATION"
 msgstr ""
 
-#: core/map.py:230
+#: core/map.py:234
 msgid "LOCAL_PROGRESS_AREA_TYPES_CREATION"
 msgstr ""
 
-#: core/map.py:244
+#: core/map.py:248
 msgid "LOCAL_PROGRESS_AREAS_CREATION"
 msgstr ""
 
-#: core/map.py:283
+#: core/map.py:287
 msgid "LOCAL_PROGRESS_START_CELL"
 msgstr ""
 
-#: core/map.py:303
+#: core/map.py:307
 msgid "LOCAL_PROGRESS_PLACES"
 msgstr ""
 
-#: core/map.py:368
+#: core/map.py:372
 msgid "LOCAL_PROGRESS_NPC"
 msgstr ""
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_LARGE"
 msgstr ""
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_MEDIUM"
 msgstr ""
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_ONE_CELL"
 msgstr ""
 
-#: core/map.py:410
+#: core/map.py:414
 msgid "SIZE_SMALL"
 msgstr ""
 
-#: core/map.py:506
+#: core/map.py:510
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr ""
 
-#: gui/application.py:177
+#: gui/application.py:197
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr ""
 
-#: gui/application.py:179
+#: gui/application.py:199
 msgid "ERROR_NOT_A_FILE"
 msgstr ""
 
@@ -126,12 +130,13 @@ msgstr ""
 msgid "EXPORT_MAP_DIALOG_TITLE"
 msgstr ""
 
-#: gui/form/itemdialog.py:51 gui/newmapdialog.py:63
-#: gui/specieslistdialog.py:67
+#: gui/form/itemdialog.py:51 gui/newmapdialog.py:67
+#: gui/specieslistdialog.py:68
 msgid "CREATE_BUTTON"
 msgstr ""
 
-#: gui/form/itemdialog.py:53 gui/mainwindow.py:518 gui/newmapdialog.py:65
+#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:536
+#: gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr ""
 
@@ -207,6 +212,18 @@ msgstr ""
 msgid "ERROR_EMPTY_PLACE_NAME"
 msgstr ""
 
+#: gui/list/itemlist.py:12
+msgid "DELETE_COLUMN"
+msgstr ""
+
+#: gui/list/itemlist.py:41 gui/list/itemlist.py:98
+msgid "DELETE_BUTTON"
+msgstr ""
+
+#: gui/list/itemlist.py:96
+msgid "DELETE_CONFIRMATION"
+msgstr ""
+
 #: gui/list/npclist.py:11 gui/list/placeslist.py:11 gui/list/specieslist.py:11
 msgid "INTERNAL_NAME_COLUMN"
 msgstr ""
@@ -227,7 +244,11 @@ msgstr ""
 msgid "Y_COLUMN"
 msgstr ""
 
-#: gui/list/npclist.py:18 gui/list/placeslist.py:19
+#: gui/list/npclist.py:13
+msgid "CONFIRMATION_DELETE_NPC"
+msgstr ""
+
+#: gui/list/npclist.py:20 gui/list/placeslist.py:21
 msgid "LOCATE_BUTTON"
 msgstr ""
 
@@ -235,81 +256,89 @@ msgstr ""
 msgid "TYPE_COLUMN"
 msgstr ""
 
+#: gui/list/placeslist.py:13
+msgid "CONFIRMATION_DELETE_PLACE"
+msgstr ""
+
 #: gui/list/specieslist.py:11
 msgid "DESCRIPTION_COLUMN"
 msgstr ""
 
-#: gui/mainwindow.py:97
+#: gui/list/specieslist.py:13
+msgid "CONFIRMATION_DELETE_SPECIES"
+msgstr ""
+
+#: gui/mainwindow.py:99
 msgid "PLACES_TAB"
 msgstr ""
 
-#: gui/mainwindow.py:98
+#: gui/mainwindow.py:100
 msgid "NPC_TAB"
 msgstr ""
 
-#: gui/mainwindow.py:134
+#: gui/mainwindow.py:136
 msgid "MAIN_WINDOW_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:146
+#: gui/mainwindow.py:148
 msgid "ERROR_BOX_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:164
+#: gui/mainwindow.py:166
 msgid "OPEN_FILE_DIALOG_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:166 gui/mainwindow.py:199
+#: gui/mainwindow.py:168 gui/mainwindow.py:201
 #, python-format
 msgid "MAP_FILE_TYPE %s"
 msgstr ""
 
-#: gui/mainwindow.py:197
+#: gui/mainwindow.py:199
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr ""
 
-#: gui/mainwindow.py:266
+#: gui/mainwindow.py:268
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:278
+#: gui/mainwindow.py:280
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:290
+#: gui/mainwindow.py:292
 msgid "RECORDING_NPC_MESSAGE"
 msgstr ""
 
-#: gui/mainwindow.py:336
+#: gui/mainwindow.py:338
 msgid "IMAGE_VIEWER"
 msgstr ""
 
-#: gui/mainwindow.py:337
+#: gui/mainwindow.py:339
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr ""
 
-#: gui/mainwindow.py:439
+#: gui/mainwindow.py:436
 msgid "ERROR_PLACE_IN_WATER"
 msgstr ""
 
-#: gui/mainwindow.py:456
+#: gui/mainwindow.py:453
 msgid "ERROR_NPC_IN_WATER"
 msgstr ""
 
-#: gui/mainwindow.py:514
+#: gui/mainwindow.py:532
 msgid "UNSAVED_CHANGES"
 msgstr ""
 
-#: gui/mainwindow.py:515
+#: gui/mainwindow.py:533
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr ""
 
-#: gui/mainwindow.py:516
+#: gui/mainwindow.py:534
 msgid "SAVE_BUTTON"
 msgstr ""
 
-#: gui/mainwindow.py:517
+#: gui/mainwindow.py:535
 msgid "DISCARD_BUTTON"
 msgstr ""
 
@@ -433,19 +462,19 @@ msgstr ""
 msgid "MAP_WIDTH_LABEL"
 msgstr ""
 
-#: gui/newmapdialog.py:59
+#: gui/newmapdialog.py:61
 msgid "MAP_HEIGHT_LABEL"
 msgstr ""
 
-#: gui/newmapdialog.py:93 gui/newmapdialog.py:99
+#: gui/newmapdialog.py:97 gui/newmapdialog.py:103
 msgid "ERROR_INVALID_WIDTH_HEIGHT_VALUE"
 msgstr ""
 
-#: gui/newmapdialog.py:96
+#: gui/newmapdialog.py:100
 msgid "ERROR_EMPTY_MAP_NAME"
 msgstr ""
 
-#: gui/newmapdialog.py:106
+#: gui/newmapdialog.py:110
 msgid "LOADING_GENERATION_TEXT"
 msgstr ""
 
@@ -453,22 +482,22 @@ msgstr ""
 msgid "LIST_SPECIES_DIALOG_TITLE"
 msgstr ""
 
-#: gui/specieslistdialog.py:36
+#: gui/specieslistdialog.py:37
 msgid "CLOSE_BUTTON"
 msgstr ""
 
-#: gui/specieslistdialog.py:56
+#: gui/specieslistdialog.py:57
 msgid "SPECIES_NAME_LABEL"
 msgstr ""
 
-#: gui/specieslistdialog.py:60
+#: gui/specieslistdialog.py:61
 msgid "SPECIES_INTERNAL_NAME_LABEL"
 msgstr ""
 
-#: gui/specieslistdialog.py:63
+#: gui/specieslistdialog.py:64
 msgid "SPECIES_DESCRIPTION_LABEL"
 msgstr ""
 
-#: gui/specieslistdialog.py:105
+#: gui/specieslistdialog.py:106
 msgid "ERROR_ALREADY_EXISTING_SPECIES"
 msgstr ""

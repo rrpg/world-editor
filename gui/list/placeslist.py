@@ -10,6 +10,8 @@ class placesList(gui.list.itemlist.itemList):
 
 	_columns = (_('NAME_COLUMN'), _('TYPE_COLUMN'), _('X_COLUMN'), _('Y_COLUMN'), _('INTERNAL_NAME_COLUMN'), _('LOCATE_COLUMN'))
 
+	confirmDeleteMessage = _('CONFIRMATION_DELETE_PLACE')
+
 	def insertItem(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 		self.setItem(index, 1, QtGui.QTableWidgetItem(self._app.map.getPlaceTypesLabels()[row['type']]))
@@ -18,6 +20,7 @@ class placesList(gui.list.itemlist.itemList):
 		self.setItem(index, 4, QtGui.QTableWidgetItem(row['internalName']))
 		self.setCellWidget(index, 5, gui.list.itemlist.itemLocatorButton(self, index, _('LOCATE_BUTTON')))
 		self.resizeColumnsToContents()
+		return 6
 
 	def getData(self):
 		return self._app.map.places.values()
@@ -30,3 +33,10 @@ class placesList(gui.list.itemlist.itemList):
 			int(self.item(index, 2).text()),
 			int(self.item(index, 3).text())
 		)
+
+	def deleteItem(self, index):
+		"""
+		Delete the selected item
+		"""
+		self._app.deletePlace(str(self.item(index, 4).text()))
+		self.itemDeleted.emit()

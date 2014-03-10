@@ -26,7 +26,9 @@ class map:
 	cells = dict()
 	places = dict()
 	npc = dict()
-	species = {'human': {'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}}
+	species = {_('HUMANS_INTERNAL_NAME'):
+		{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
+	}
 
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
@@ -107,6 +109,8 @@ class map:
 		"""
 		if self.startCellPosition is None:
 			raise exception(_('ERROR_NO_START_CELL_SELECTED'))
+		if len(self.species) is 0:
+			raise exception(_('ERROR_NO_SPECIES'))
 
 	def setStartCellPosition(self, position):
 		"""
