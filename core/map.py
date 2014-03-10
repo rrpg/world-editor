@@ -107,6 +107,8 @@ class map:
 		"""
 		if self.startCellPosition is None:
 			raise exception(_('ERROR_NO_START_CELL_SELECTED'))
+		if len(self.species) is 0:
+			raise exception(_('ERROR_NO_SPECIES'))
 
 	def setStartCellPosition(self, position):
 		"""
