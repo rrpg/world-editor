@@ -11,6 +11,8 @@ class itemList(QtGui.QTableWidget):
 	_parent = None
 	_defaultColumns = (_('DELETE_COLUMN'),)
 
+	itemDeleted = QtCore.pyqtSignal()
+
 	def __init__(self, parent, app):
 		"""
 		Initialisation of the widget, creates the GUI and displays the widget.

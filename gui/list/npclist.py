@@ -36,3 +36,4 @@ class npcList(gui.list.itemlist.itemList):
 		Delete the selected item
 		"""
 		self._app.deleteNpc(str(self.item(index, 3).text()))
+		self.itemDeleted.emit()

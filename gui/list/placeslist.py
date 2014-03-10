@@ -37,3 +37,4 @@ class placesList(gui.list.itemlist.itemList):
 		Delete the selected item
 		"""
 		self._app.deletePlace(str(self.item(index, 4).text()))
+		self.itemDeleted.emit()

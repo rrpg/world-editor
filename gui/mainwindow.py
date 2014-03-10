@@ -91,7 +91,9 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
 		self._placesWidget = placesList(self, self._app)
+		self._placesWidget.itemDeleted.connect(self.refreshPlaces)
 		self._npcWidget = npcList(self, self._app)
+		self._npcWidget.itemDeleted.connect(self.refreshNpc)
 
 		tabWidget = QtGui.QTabWidget()
 		tabWidget.addTab(self._placesWidget, _('PLACES_TAB'))
