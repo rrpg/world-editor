@@ -346,13 +346,8 @@ class mainWindow(QtGui.QMainWindow):
 		self._pixmaps = dict()
 		self._pixmaps['map'] = mapPixmap
 
-		self._placesWidget.setData()
-		for p in self._app.map.places.values():
-			self.displayPlace(p['x'], p['y'])
-
-		self._npcWidget.setData()
-		for p in self._app.map.npc.values():
-			self.displayNpc(p['x'], p['y'])
+		self.refreshPlaces()
+		self.refreshNpc()
 
 		if self._app.map.startCellPosition is not None:
 			self.displayStartCell(self._app.map.startCellPosition[0], self._app.map.startCellPosition[1])
@@ -466,6 +461,27 @@ class mainWindow(QtGui.QMainWindow):
 # End Methods to add elements on the map
 
 # Methods to display an element on the map
+	def refreshPlaces(self):
+		self._placesWidget.setData()
+		if 'places' in self._pixmaps.keys():
+			self._cleanScene(self._pixmaps['places'])
+			del self._pixmaps['places']
+		for p in self._app.map.places.values():
+			self.displayPlace(p['x'], p['y'])
+
+	def refreshNpc(self):
+		self._npcWidget.setData()
+		if 'npc' in self._pixmaps.keys():
+			self._cleanScene(self._pixmaps['npc'])
+			del self._pixmaps['npc']
+		for p in self._app.map.npc.values():
+			self.displayNpc(p['x'], p['y'])
+
+	def _cleanScene(self, pixmapsList):
+		for p in pixmapsList:
+			self._imageScene.removeItem(p)
+
+
 	def displayStartCell(self, x, y):
 		"""
 		Here the start cell is displayed in the map, as a new pixmap
