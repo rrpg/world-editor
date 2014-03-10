@@ -19,3 +19,9 @@ class speciesList(gui.list.itemlist.itemList):
 
 	def getData(self):
 		return self._app.map.species.values()
+
+	def deleteItem(self, index):
+		"""
+		Delete the selected item
+		"""
+		self._app.deleteSpecies(str(self.item(index, 2).text()))

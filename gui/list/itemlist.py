@@ -90,4 +90,4 @@ class itemDeleteButton(QtGui.QPushButton):
 		When a delete button is clicked, a confirmation dialog is displayed and
 		then the item is deleted
 		"""
-		print "delete"
+		self._table.deleteItem(self._index)
