@@ -232,7 +232,7 @@ class mainWindow(QtGui.QMainWindow):
 		self._scaleFactor *= 1 - config.zoomDelta
 		self.scaleImage()
 
-	def exportMapAction(self):
+	def exportMapAction(self, customAction=None):
 		"""
 		Method to export a map.
 		Will check if the map can be exported, and if it is, the export will be
@@ -248,6 +248,8 @@ class mainWindow(QtGui.QMainWindow):
 		exportDialog = exportMapDialog(self)
 
 		self._thread = worker.exporterThread(self._app)
+		if customAction is not None:
+			self._thread.finished.connect(customAction)
 		self._thread.finished.connect(exportDialog.close)
 		self._thread.exportError.connect(self.alert)
 
