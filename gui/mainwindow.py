@@ -262,13 +262,18 @@ class mainWindow(QtGui.QMainWindow):
 		If the map is not exported, the user is asked to export it.
 		"""
 		if self._app.isExported() is False:
-			QtGui.QMessageBox.information(
-				self,
-				_('SET_AS_DEFAULT_QUESTION'),
-				_('ERROR_EXPORT_NEEDED')
-			)
+			msgBox = QtGui.QMessageBox()
+			msgBox.setWindowTitle(_('SET_AS_DEFAULT_QUESTION'))
+			msgBox.setText(_('ERROR_EXPORT_NEEDED'))
+			msgBox.addButton(QtGui.QPushButton(_('YES_BUTTON')), QtGui.QMessageBox.AcceptRole)
+			msgBox.addButton(QtGui.QPushButton(_('NO_BUTTON')), QtGui.QMessageBox.RejectRole)
+			ret = msgBox.exec_()
 
-		self._app.flagAsDefault()
+			if ret == QtGui.QMessageBox.AcceptRole:
+				self.exportMapAction(self._app.setAsDefault)
+			return
+
+		self._app.setAsDefault()
 # End Actions
 
 # Actions to interact on the map to add elements
