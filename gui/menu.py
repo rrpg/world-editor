@@ -99,6 +99,10 @@ class menu(QtGui.QMenuBar):
 		self._listSpeciesAction.setStatusTip(_('LIST_SPECIES_MENU_ITEM_TIP'))
 		self._listSpeciesAction.triggered.connect(window.listSpeciesAction)
 
+		# list species action
+		self._setAsDefaultAction = QtGui.QAction(_('SET_AS_DEFAULT_MENU_ITEM'), self)
+		self._setAsDefaultAction.setStatusTip(_('SET_AS_DEFAULT_ITEM_TIP'))
+
 		self._saveAction.setEnabled(False)
 		self._saveAsAction.setEnabled(False)
 		self._exportAction.setEnabled(False)
@@ -108,6 +112,7 @@ class menu(QtGui.QMenuBar):
 		self._listSpeciesAction.setEnabled(False)
 		self._addPlaceAction.setEnabled(False)
 		self._addNpcAction.setEnabled(False)
+		self._setAsDefaultAction.setEnabled(False)
 
 		fileMenu = self.addMenu(_('FILE_MENU'))
 		mapMenu = self.addMenu(_('MAP_MENU'))
@@ -125,6 +130,8 @@ class menu(QtGui.QMenuBar):
 		mapMenu.addAction(self._zoominAction)
 		mapMenu.addAction(self._zoomoutAction)
 
+		worldMenu.addAction(self._setAsDefaultAction)
+		worldMenu.addSeparator()
 		worldMenu.addAction(self._selectStartCellAction)
 		worldMenu.addAction(self._addPlaceAction)
 		worldMenu.addAction(self._addNpcAction)
@@ -144,6 +151,7 @@ class menu(QtGui.QMenuBar):
 		self._addPlaceAction.setEnabled(True)
 		self._addNpcAction.setEnabled(True)
 		self._listSpeciesAction.setEnabled(True)
+		self._setAsDefaultAction.setEnabled(True)
 
 	def checkZoomMenuItems(self, scaleFactor):
 		"""
