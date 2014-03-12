@@ -1,2 +1,2 @@
 #!/bin/sh
-LC_MESSAGES=fr_FR ./editor.py
+LC_MESSAGES=fr_FR ./editor $@
