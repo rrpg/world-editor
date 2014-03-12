@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-10 16:05+0000\n"
+"POT-Creation-Date: 2014-03-12 18:17+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -42,88 +42,88 @@ msgstr "Femme"
 msgid "GENDER_MALE"
 msgstr "Homme"
 
-#: core/map.py:111
+#: core/map.py:118
 msgid "ERROR_NO_START_CELL_SELECTED"
 msgstr "Aucune case de départ sélectionnée"
 
-#: core/map.py:113
+#: core/map.py:120
 msgid "ERROR_NO_SPECIES"
 msgstr "Au moins une espèce est requise pour exporter le monde"
 
-#: core/map.py:123
+#: core/map.py:130
 msgid "ERROR_INVALID_START_CELL_POSITION"
 msgstr "La case de départ ne peut pas se trouver sur la case sélectionnée"
 
-#: core/map.py:171
+#: core/map.py:178
 msgid "LOCAL_PROGRESS_DATABASE_CREATION"
 msgstr "Création de la base de données"
 
-#: core/map.py:182 core/map.py:197 core/map.py:209 core/map.py:221
-#: core/map.py:279 core/map.py:296 core/map.py:362 core/map.py:400
+#: core/map.py:189 core/map.py:204 core/map.py:216 core/map.py:228
+#: core/map.py:286 core/map.py:303 core/map.py:369 core/map.py:407
 msgid "LOCAL_PROGRESS_FINISHED"
 msgstr "Terminé"
 
-#: core/map.py:192
+#: core/map.py:199
 msgid "LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION"
 msgstr "Création de la structure de la base de données"
 
-#: core/map.py:205
+#: core/map.py:212
 msgid "LOCAL_PROGRESS_GENDERS_CREATION"
 msgstr "Création des sexes"
 
-#: core/map.py:217
+#: core/map.py:224
 msgid "LOCAL_PROGRESS_SPECIES_CREATION"
 msgstr "Création des espèces"
 
-#: core/map.py:229
+#: core/map.py:236
 msgid "LOCAL_PROGRESS_REGIONS_CREATION"
 msgstr "Création des régions"
 
-#: core/map.py:234
+#: core/map.py:241
 msgid "LOCAL_PROGRESS_AREA_TYPES_CREATION"
 msgstr "Création des types de zones"
 
-#: core/map.py:248
+#: core/map.py:255
 msgid "LOCAL_PROGRESS_AREAS_CREATION"
 msgstr "Création des zones"
 
-#: core/map.py:287
+#: core/map.py:294
 msgid "LOCAL_PROGRESS_START_CELL"
 msgstr "Création de la case de départ"
 
-#: core/map.py:307
+#: core/map.py:314
 msgid "LOCAL_PROGRESS_PLACES"
 msgstr "Création des lieux"
 
-#: core/map.py:372
+#: core/map.py:379
 msgid "LOCAL_PROGRESS_NPC"
 msgstr "Création des personnages"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_LARGE"
 msgstr "Grande"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_MEDIUM"
 msgstr "Moyenne"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_ONE_CELL"
 msgstr "Une case"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_SMALL"
 msgstr "Petite"
 
-#: core/map.py:510
+#: core/map.py:524
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr "Une erreur est survenue durant l'ouverture de la carte"
 
-#: gui/application.py:197
+#: gui/application.py:201
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr "Le dossier sélectionné n'existe pas"
 
-#: gui/application.py:199
+#: gui/application.py:203
 msgid "ERROR_NOT_A_FILE"
 msgstr "Le chemin sélectionné n'est pas un fichier"
 
@@ -136,7 +136,7 @@ msgstr "Export de la carte"
 msgid "CREATE_BUTTON"
 msgstr "Créer"
 
-#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:536
+#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:557
 #: gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr "Annuler"
@@ -298,49 +298,66 @@ msgstr "Cartes %s"
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr "Sauvegarde de la carte"
 
+#: gui/mainwindow.py:266
+msgid "SET_AS_DEFAULT_QUESTION"
+msgstr "Carte par défaut"
+
+#: gui/mainwindow.py:267
+msgid "ERROR_EXPORT_NEEDED"
+msgstr ""
+"La carte n'est pas encore exportée. L'exporter maintenant ?"
+
 #: gui/mainwindow.py:268
+msgid "YES_BUTTON"
+msgstr "Oui"
+
+#: gui/mainwindow.py:269
+msgid "NO_BUTTON"
+msgstr "No"
+
+#: gui/mainwindow.py:289
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr "Veuillez sélectionner la case de départ"
 
-#: gui/mainwindow.py:280
+#: gui/mainwindow.py:301
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr "Veuillez sélectionner une case pour créer un lieu"
 
-#: gui/mainwindow.py:292
+#: gui/mainwindow.py:313
 msgid "RECORDING_NPC_MESSAGE"
 msgstr "Veuillez sélectionner une case pour ajouter un personnage"
 
-#: gui/mainwindow.py:338
+#: gui/mainwindow.py:359
 msgid "IMAGE_VIEWER"
 msgstr "Visionneuse d'image"
 
-#: gui/mainwindow.py:339
+#: gui/mainwindow.py:360
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr "Une erreur est survenue durant l'ouverture du fichier %s"
 
-#: gui/mainwindow.py:436
+#: gui/mainwindow.py:457
 msgid "ERROR_PLACE_IN_WATER"
 msgstr "Un lieu ne peut pas être placé dans l'eau"
 
-#: gui/mainwindow.py:453
+#: gui/mainwindow.py:474
 msgid "ERROR_NPC_IN_WATER"
 msgstr "Un personnage ne peut pas être ajouté dans l'eau"
 
-#: gui/mainwindow.py:532
+#: gui/mainwindow.py:553
 msgid "UNSAVED_CHANGES"
 msgstr "Modifications non enregistrées"
 
-#: gui/mainwindow.py:533
+#: gui/mainwindow.py:554
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr ""
 "La carte en cours n'est pas enregistrée. Voulez-vous malgré tout quitter ?"
 
-#: gui/mainwindow.py:534
+#: gui/mainwindow.py:555
 msgid "SAVE_BUTTON"
 msgstr "Enregistrer"
 
-#: gui/mainwindow.py:535
+#: gui/mainwindow.py:556
 msgid "DISCARD_BUTTON"
 msgstr "Ne pas enregistrer"
 
@@ -440,15 +457,25 @@ msgstr "Liste des espèces..."
 msgid "LIST_SPECIES_MENU_ITEM_TIP"
 msgstr "Lister les espèces existantes"
 
-#: gui/menu.py:112
+#: gui/menu.py:103
+msgid "SET_AS_DEFAULT_MENU_ITEM"
+msgstr "Définir comme carte par défaut"
+
+#: gui/menu.py:104
+msgid "SET_AS_DEFAULT_ITEM_TIP"
+msgstr ""
+"Défini la carte comme carte par défaut pour le jeu. Si aucune carte n'est "
+"spécifié au lancement du jeu, celle ci sera utilisée"
+
+#: gui/menu.py:118
 msgid "FILE_MENU"
 msgstr "&Fichier"
 
-#: gui/menu.py:113
+#: gui/menu.py:119
 msgid "MAP_MENU"
 msgstr "&Carte"
 
-#: gui/menu.py:114
+#: gui/menu.py:120
 msgid "WORLD_MENU"
 msgstr "&Monde"
 
