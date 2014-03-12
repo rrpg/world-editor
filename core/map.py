@@ -103,6 +103,13 @@ class map:
 
 		return entities
 
+	def isExported(self, name):
+		"""
+		Return true if the current map is already exported
+		"""
+		fileName = config.db % (name)
+		return os.path.isfile(fileName)
+
 	def checkForExport(self):
 		"""
 		Method to check if a cell is ready to be exported (start cell selected)

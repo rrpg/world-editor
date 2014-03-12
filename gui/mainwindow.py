@@ -255,6 +255,13 @@ class mainWindow(QtGui.QMainWindow):
 		self._thread.start()
 
 	def setAsDefaultAction(self):
+		if self._app.isExported() is False:
+			QtGui.QMessageBox.information(
+				self,
+				_('SET_AS_DEFAULT_QUESTION'),
+				_('ERROR_EXPORT_NEEDED')
+			)
+
 		self._app.flagAsDefault()
 # End Actions
 

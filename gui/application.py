@@ -229,3 +229,6 @@ class application(QtGui.QApplication):
 
 	def flagAsDefault(self):
 		self._isDefault = True
+
+	def isExported(self):
+		return self.map.isExported(self.escapeName(self._name))
