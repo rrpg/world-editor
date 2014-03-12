@@ -7,6 +7,8 @@ exportPath = rootPath + '/maps'
 databasePath = rootPath + '/database'
 databaseStructure = databasePath + '/structure.sql'
 
+defaultMap =  exportPath + '/default.db'
+
 map_default_width = 400
 map_default_height = 400
 map_minimum_width = 10
