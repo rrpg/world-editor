@@ -102,6 +102,7 @@ class menu(QtGui.QMenuBar):
 		# list species action
 		self._setAsDefaultAction = QtGui.QAction(_('SET_AS_DEFAULT_MENU_ITEM'), self)
 		self._setAsDefaultAction.setStatusTip(_('SET_AS_DEFAULT_ITEM_TIP'))
+		self._setAsDefaultAction.triggered.connect(window.setAsDefaultAction)
 
 		self._saveAction.setEnabled(False)
 		self._saveAsAction.setEnabled(False)

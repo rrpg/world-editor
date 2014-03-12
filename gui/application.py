@@ -71,6 +71,7 @@ class application(QtGui.QApplication):
 		Method to init the map object
 		"""
 		self.map = map.map()
+		self._isDefault = False
 
 	def createMap(self, width, height):
 		"""
@@ -96,7 +97,12 @@ class application(QtGui.QApplication):
 		"""
 		Method to export the map to a usable DB
 		"""
-		self.map.export(self._name, self.escapeName(self._name), thread)
+		self.map.export(
+			self._name,
+			self.escapeName(self._name),
+			self._isDefault,
+			thread
+		)
 
 	def saveMap(self):
 		"""
@@ -220,3 +226,6 @@ class application(QtGui.QApplication):
 
 	def flagAsSaved(self):
 		self._hasUnsavedChanges = False
+
+	def flagAsDefault(self):
+		self._isDefault = True

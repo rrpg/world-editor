@@ -253,6 +253,9 @@ class mainWindow(QtGui.QMainWindow):
 
 		exportDialog.setThread(self._thread)
 		self._thread.start()
+
+	def setAsDefaultAction(self):
+		self._app.flagAsDefault()
 # End Actions
 
 # Actions to interact on the map to add elements

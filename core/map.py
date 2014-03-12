@@ -130,14 +130,14 @@ class map:
 		areaTypesCodes = checks.getGroundTypes()
 		return self.cells[str(position[0])][str(position[1])][0] is not areaTypesCodes['water']
 
-	def export(self, name, fileName, thread):
+	def export(self, name, fileName, isDefault, thread):
 		"""
 		Function to export the map in a SQLite Db.
 		For each step of the export, the progression will be updated through
 		the given thread.
 		"""
 		thread.notifyProgressMain.emit(0, "")
-		db = self._exportPrepareDb(thread, fileName)
+		db = self._exportPrepareDb(thread, fileName, isDefault)
 		thread.notifyProgressMain.emit(12, "")
 
 		self._exportCreateDbStructure(thread, db)
@@ -164,13 +164,19 @@ class map:
 		db.commit()
 		db.close()
 
-	def _exportPrepareDb(self, thread, name):
+	def _exportPrepareDb(self, thread, name, isDefault):
 		"""
 		Method to create the DB
 		"""
 		thread.notifyProgressLocal.emit(0, _('LOCAL_PROGRESS_DATABASE_CREATION'))
 		fileName = config.db % (name)
 		d = os.path.dirname(fileName)
+
+		if isDefault:
+			if os.path.isfile(config.defaultMap):
+				os.remove(config.defaultMap)
+			os.symlink(fileName, config.defaultMap)
+			# create symlink
 
 		# Delete the file if it already exist
 		if os.path.isfile(fileName):
