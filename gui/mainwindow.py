@@ -255,6 +255,10 @@ class mainWindow(QtGui.QMainWindow):
 		self._thread.start()
 
 	def setAsDefaultAction(self):
+		"""
+		Define the map as default map. The map must already be exported.
+		If the map is not exported, the user is asked to export it.
+		"""
 		if self._app.isExported() is False:
 			QtGui.QMessageBox.information(
 				self,
