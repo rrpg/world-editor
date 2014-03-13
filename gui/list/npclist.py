@@ -21,6 +21,12 @@ class npcList(gui.list.itemlist.itemList):
 		self.resizeColumnsToContents()
 		return 5
 
+	def getRowValues(self, index):
+		"""
+		Return a dict containing the values of the row at index
+		"""
+		return self._app.map.npc[str(self.item(index, 3).text())]
+
 	def getData(self):
 		return self._app.map.npc.values()
 

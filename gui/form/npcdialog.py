@@ -21,7 +21,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 
 	_title = _('NEW_NPC_DIALOG_TITLE')
 
-	def getFields(self):
+	def getFields(self, npc=None):
 		"""
 		Creates the UI
 		"""
@@ -40,6 +40,12 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		npcGenderLabel = QtGui.QLabel(_('NPC_GENDER_LABEL'))
 		self._npcGenderField = QtGui.QComboBox()
 		self._npcGenderField.addItems(map.map.getGenders())
+
+		if npc is not None:
+			self._npcNameField.setText(npc['name'])
+			self._npcInternalNameField.setText(npc['internalName'])
+			self._npcSpeciesField.setCurrentIndex(npc['species'])
+			self._npcGenderField.setCurrentIndex(npc['gender'])
 
 		layout.addWidget(npcInternalNameLabel, 0, 0)
 		layout.addWidget(self._npcInternalNameField, 0, 1)
@@ -66,7 +72,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		if internalName == "":
 			self.displayMessage(_('ERROR_EMPTY_NPC_INTERNAL_NAME'))
 			valid = False
-		elif self._app.hasNpcWithName(internalName):
+		elif self._editedRow != internalName and self._app.hasNpcWithName(internalName):
 			self.displayMessage(_('ERROR_DUPLICATE_NPC_INTERNAL_NAME'))
 			valid = False
 		if name == "":
@@ -80,6 +86,8 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 			valid = False
 
 		if valid:
+			if self._editedRow is not None:
+				self._app.deleteNpc(self._editedRow)
 			self._app.addNpc(internalName, {
 				'name': name,
 				'gender': self._npcGenderField.currentIndex(),
@@ -88,6 +96,10 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 				'y': self._coordinates[1],
 				'internalName': internalName
 			})
-			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
+			if self._editedRow is not None:
+				self._editedRow = None
+				self.itemUpdated.emit(self._coordinates[0], self._coordinates[1])
+			else:
+				self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.accept()
 			self.close()

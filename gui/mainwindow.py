@@ -94,6 +94,7 @@ class mainWindow(QtGui.QMainWindow):
 		self._placesWidget.itemDeleted.connect(self.refreshPlaces)
 		self._npcWidget = npcList(self, self._app)
 		self._npcWidget.itemDeleted.connect(self.refreshNpc)
+		self._npcWidget.cellDoubleClicked.connect(self.editNpc)
 
 		tabWidget = QtGui.QTabWidget()
 		tabWidget.addTab(self._placesWidget, _('PLACES_TAB'))
@@ -474,13 +475,22 @@ class mainWindow(QtGui.QMainWindow):
 			self.alert(_('ERROR_NPC_IN_WATER'))
 			return
 
-		dialog = formNpcDialog(self, self._app, (x, y))
+		dialog = formNpcDialog(self, self._app, coordinates=(x, y))
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayNpc)
 		dialog.itemAdded.connect(self._npcWidget.setData)
 		dialog.itemAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
+
+	def editNpc(self, npc):
+		"""
+		Method called when the user double clicks on a npc in the list.
+		"""
+		dialog = formNpcDialog(self, self._app, row=self._npcWidget.getRowValues(npc))
+		dialog.itemUpdated.connect(self.displayNpc)
+		dialog.itemUpdated.connect(self._npcWidget.setData)
+		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
 # End Methods to add elements on the map
 
 # Methods to display an element on the map
