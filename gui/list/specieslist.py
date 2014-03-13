@@ -19,6 +19,16 @@ class speciesList(gui.list.itemlist.itemList):
 		self.resizeColumnsToContents()
 		return 3
 
+	def getRowValues(self, index):
+		"""
+		Return a dict containing the values of the row at index
+		"""
+		return {
+			'name': str(self.item(index, 0).text()),
+			'internalName': str(self.item(index, 2).text()),
+			'description': str(self.item(index, 1).text())
+		}
+
 	def getData(self):
 		return self._app.map.species.values()
 
