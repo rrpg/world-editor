@@ -92,6 +92,7 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._placesWidget = placesList(self, self._app)
 		self._placesWidget.itemDeleted.connect(self.refreshPlaces)
+		self._placesWidget.cellDoubleClicked.connect(self.editPlace)
 		self._npcWidget = npcList(self, self._app)
 		self._npcWidget.itemDeleted.connect(self.refreshNpc)
 		self._npcWidget.cellDoubleClicked.connect(self.editNpc)
@@ -458,13 +459,22 @@ class mainWindow(QtGui.QMainWindow):
 			self.alert(_('ERROR_PLACE_IN_WATER'))
 			return
 
-		dialog = formPlaceDialog(self, self._app, (x, y))
+		dialog = formPlaceDialog(self, self._app, coordinates=(x, y))
 		dialog.itemAdded.connect(self.unselectCell)
 		dialog.itemAdded.connect(self.displayPlace)
 		dialog.itemAdded.connect(self._placesWidget.setData)
 		dialog.itemAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
+
+	def editPlace(self, place):
+		"""
+		Method called when the user double clicks on a place in the list.
+		"""
+		dialog = formPlaceDialog(self, self._app, row=self._placesWidget.getRowValues(place))
+		dialog.itemUpdated.connect(self.displayPlace)
+		dialog.itemUpdated.connect(self._placesWidget.setData)
+		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
 
 	def addNpc(self, x, y):
 		"""
