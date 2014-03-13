@@ -114,6 +114,14 @@ class speciesListDialog(QtGui.QDialog):
 		self._cleanForm()
 		self._table.setData()
 
+	def _populateForm(self, row):
+		"""
+		Populate the form with the values in the dict row
+		"""
+		self._internalNameField.setText(row['internalName'])
+		self._nameField.setText(row['name'])
+		self._descriptionField.setText(row['description'])
+
 	def _cleanForm(self):
 		self._internalNameField.setText('')
 		self._nameField.setText('')
