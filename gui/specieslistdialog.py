@@ -115,7 +115,7 @@ class speciesListDialog(QtGui.QDialog):
 		if name is "" or internalName is "":
 			return False
 
-		if self._editedRow is None and self._app.hasSpeciesWithName(internalName):
+		if self._editedRow != internalName and self._app.hasSpeciesWithName(internalName):
 			self.displayMessage(_('ERROR_ALREADY_EXISTING_SPECIES'))
 			return False
 		elif self._editedRow is not None:
