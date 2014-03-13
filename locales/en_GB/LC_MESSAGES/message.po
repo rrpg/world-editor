@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-10 16:05+0000\n"
+"POT-Creation-Date: 2014-03-12 18:17+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -41,88 +41,88 @@ msgstr "Female"
 msgid "GENDER_MALE"
 msgstr "Male"
 
-#: core/map.py:111
+#: core/map.py:118
 msgid "ERROR_NO_START_CELL_SELECTED"
 msgstr "No start cell selected"
 
-#: core/map.py:113
+#: core/map.py:120
 msgid "ERROR_NO_SPECIES"
 msgstr "The world must contain at least one species"
 
-#: core/map.py:123
+#: core/map.py:130
 msgid "ERROR_INVALID_START_CELL_POSITION"
 msgstr "Invalid start cell position"
 
-#: core/map.py:171
+#: core/map.py:178
 msgid "LOCAL_PROGRESS_DATABASE_CREATION"
 msgstr "Database creation"
 
-#: core/map.py:182 core/map.py:197 core/map.py:209 core/map.py:221
-#: core/map.py:279 core/map.py:296 core/map.py:362 core/map.py:400
+#: core/map.py:189 core/map.py:204 core/map.py:216 core/map.py:228
+#: core/map.py:286 core/map.py:303 core/map.py:369 core/map.py:407
 msgid "LOCAL_PROGRESS_FINISHED"
 msgstr "Finished"
 
-#: core/map.py:192
+#: core/map.py:199
 msgid "LOCAL_PROGRESS_DATABASE_STRUCTURE_CREATION"
 msgstr "Database structure creation"
 
-#: core/map.py:205
+#: core/map.py:212
 msgid "LOCAL_PROGRESS_GENDERS_CREATION"
 msgstr "Genders creation"
 
-#: core/map.py:217
+#: core/map.py:224
 msgid "LOCAL_PROGRESS_SPECIES_CREATION"
 msgstr "Species creation"
 
-#: core/map.py:229
+#: core/map.py:236
 msgid "LOCAL_PROGRESS_REGIONS_CREATION"
 msgstr "Regions creation"
 
-#: core/map.py:234
+#: core/map.py:241
 msgid "LOCAL_PROGRESS_AREA_TYPES_CREATION"
 msgstr "Area types creation"
 
-#: core/map.py:248
+#: core/map.py:255
 msgid "LOCAL_PROGRESS_AREAS_CREATION"
 msgstr "Areas creation"
 
-#: core/map.py:287
+#: core/map.py:294
 msgid "LOCAL_PROGRESS_START_CELL"
 msgstr "Start cell export"
 
-#: core/map.py:307
+#: core/map.py:314
 msgid "LOCAL_PROGRESS_PLACES"
 msgstr "Places export"
 
-#: core/map.py:372
+#: core/map.py:379
 msgid "LOCAL_PROGRESS_NPC"
 msgstr "Characters export"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_LARGE"
 msgstr "Large"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_MEDIUM"
 msgstr "Medium"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_ONE_CELL"
 msgstr "1 Cell"
 
-#: core/map.py:414
+#: core/map.py:428
 msgid "SIZE_SMALL"
 msgstr "Small"
 
-#: core/map.py:510
+#: core/map.py:524
 msgid "ERROR_OPENING_MAP_FILE"
 msgstr "An error occured during the opening of the map file"
 
-#: gui/application.py:197
+#: gui/application.py:201
 msgid "ERROR_UNEXISTING_FOLDER"
 msgstr "The selected folder does not exist"
 
-#: gui/application.py:199
+#: gui/application.py:203
 msgid "ERROR_NOT_A_FILE"
 msgstr "The selected path is not a file"
 
@@ -135,7 +135,7 @@ msgstr "Map export"
 msgid "CREATE_BUTTON"
 msgstr "Create"
 
-#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:536
+#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:557
 #: gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr "Cancel"
@@ -297,48 +297,64 @@ msgstr "Map files %s"
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr "Save map"
 
+#: gui/mainwindow.py:266
+msgid "SET_AS_DEFAULT_QUESTION"
+msgstr "Set map as default"
+
+#: gui/mainwindow.py:267
+msgid "ERROR_EXPORT_NEEDED"
+msgstr "The map is not yet exported. Export it now?"
+
 #: gui/mainwindow.py:268
+msgid "YES_BUTTON"
+msgstr "Yes"
+
+#: gui/mainwindow.py:269
+msgid "NO_BUTTON"
+msgstr "No"
+
+#: gui/mainwindow.py:289
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr "Select the starting cell"
 
-#: gui/mainwindow.py:280
+#: gui/mainwindow.py:301
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr "Select a cell to add a place"
 
-#: gui/mainwindow.py:292
+#: gui/mainwindow.py:313
 msgid "RECORDING_NPC_MESSAGE"
 msgstr "Select a cell to add a character"
 
-#: gui/mainwindow.py:338
+#: gui/mainwindow.py:359
 msgid "IMAGE_VIEWER"
 msgstr "Image viewer"
 
-#: gui/mainwindow.py:339
+#: gui/mainwindow.py:360
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr "An error occured while opening the file %s"
 
-#: gui/mainwindow.py:436
+#: gui/mainwindow.py:457
 msgid "ERROR_PLACE_IN_WATER"
 msgstr "No place can be added in water"
 
-#: gui/mainwindow.py:453
+#: gui/mainwindow.py:474
 msgid "ERROR_NPC_IN_WATER"
 msgstr "No character can be added in water"
 
-#: gui/mainwindow.py:532
+#: gui/mainwindow.py:553
 msgid "UNSAVED_CHANGES"
 msgstr "Unsaved changes"
 
-#: gui/mainwindow.py:533
+#: gui/mainwindow.py:554
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr "The current map is not saved, do you really want to quit?"
 
-#: gui/mainwindow.py:534
+#: gui/mainwindow.py:555
 msgid "SAVE_BUTTON"
 msgstr "Save"
 
-#: gui/mainwindow.py:535
+#: gui/mainwindow.py:556
 msgid "DISCARD_BUTTON"
 msgstr "Do not save"
 
@@ -438,15 +454,25 @@ msgstr "&List species"
 msgid "LIST_SPECIES_MENU_ITEM_TIP"
 msgstr "List the world species"
 
-#: gui/menu.py:112
+#: gui/menu.py:103
+msgid "SET_AS_DEFAULT_MENU_ITEM"
+msgstr "Set as default map"
+
+#: gui/menu.py:104
+msgid "SET_AS_DEFAULT_ITEM_TIP"
+msgstr ""
+"Set this map as default map for the game. If the game is launched without "
+"specified map, this one will be used"
+
+#: gui/menu.py:118
 msgid "FILE_MENU"
 msgstr "&File"
 
-#: gui/menu.py:113
+#: gui/menu.py:119
 msgid "MAP_MENU"
 msgstr "&Map"
 
-#: gui/menu.py:114
+#: gui/menu.py:120
 msgid "WORLD_MENU"
 msgstr "&World"
 

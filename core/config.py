@@ -3,9 +3,11 @@ import os
 
 rootPath = os.path.dirname(__file__) + '/..'
 externalPath = rootPath + '/externals'
-exportPath = rootPath + '/maps'
+exportPath = os.path.expanduser('~') + '/.rrpg/maps'
 databasePath = rootPath + '/database'
 databaseStructure = databasePath + '/structure.sql'
+
+defaultMap =  exportPath + '/default.db'
 
 map_default_width = 400
 map_default_height = 400

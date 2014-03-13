@@ -103,6 +103,13 @@ class map:
 
 		return entities
 
+	def isExported(self, name):
+		"""
+		Return true if the current map is already exported
+		"""
+		fileName = config.db % (name)
+		return os.path.isfile(fileName)
+
 	def checkForExport(self):
 		"""
 		Method to check if a cell is ready to be exported (start cell selected)
@@ -398,6 +405,13 @@ class map:
 
 			thread.notifyProgressLocal.emit((i + 1) * npcPercent, "")
 		thread.notifyProgressLocal.emit(100, _('LOCAL_PROGRESS_FINISHED'))
+
+	def setAsDefault(self, name):
+		fileName = config.db % (name)
+
+		if os.path.isfile(config.defaultMap):
+			os.remove(config.defaultMap)
+		os.symlink(fileName, config.defaultMap)
 
 	@staticmethod
 	def getPlaceTypesLabels():

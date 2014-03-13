@@ -232,7 +232,7 @@ class mainWindow(QtGui.QMainWindow):
 		self._scaleFactor *= 1 - config.zoomDelta
 		self.scaleImage()
 
-	def exportMapAction(self):
+	def exportMapAction(self, customAction=None):
 		"""
 		Method to export a map.
 		Will check if the map can be exported, and if it is, the export will be
@@ -248,11 +248,32 @@ class mainWindow(QtGui.QMainWindow):
 		exportDialog = exportMapDialog(self)
 
 		self._thread = worker.exporterThread(self._app)
+		if customAction is not None:
+			self._thread.finished.connect(customAction)
 		self._thread.finished.connect(exportDialog.close)
 		self._thread.exportError.connect(self.alert)
 
 		exportDialog.setThread(self._thread)
 		self._thread.start()
+
+	def setAsDefaultAction(self):
+		"""
+		Define the map as default map. The map must already be exported.
+		If the map is not exported, the user is asked to export it.
+		"""
+		if self._app.isExported() is False:
+			msgBox = QtGui.QMessageBox()
+			msgBox.setWindowTitle(_('SET_AS_DEFAULT_QUESTION'))
+			msgBox.setText(_('ERROR_EXPORT_NEEDED'))
+			msgBox.addButton(QtGui.QPushButton(_('YES_BUTTON')), QtGui.QMessageBox.AcceptRole)
+			msgBox.addButton(QtGui.QPushButton(_('NO_BUTTON')), QtGui.QMessageBox.RejectRole)
+			ret = msgBox.exec_()
+
+			if ret == QtGui.QMessageBox.AcceptRole:
+				self.exportMapAction(self._app.setAsDefault)
+			return
+
+		self._app.setAsDefault()
 # End Actions
 
 # Actions to interact on the map to add elements

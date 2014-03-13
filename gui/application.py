@@ -96,7 +96,11 @@ class application(QtGui.QApplication):
 		"""
 		Method to export the map to a usable DB
 		"""
-		self.map.export(self._name, self.escapeName(self._name), thread)
+		self.map.export(
+			self._name,
+			self.escapeName(self._name),
+			thread
+		)
 
 	def saveMap(self):
 		"""
@@ -220,3 +224,9 @@ class application(QtGui.QApplication):
 
 	def flagAsSaved(self):
 		self._hasUnsavedChanges = False
+
+	def setAsDefault(self):
+		self.map.setAsDefault(self.escapeName(self._name))
+
+	def isExported(self):
+		return self.map.isExported(self.escapeName(self._name))
