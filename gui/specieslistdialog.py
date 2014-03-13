@@ -18,6 +18,7 @@ class speciesListDialog(QtGui.QDialog):
 		QtGui.QDialog.__init__(self, parent)
 		self._app = app
 		self._parent = parent
+		self._editedRow = None
 		self.initUI()
 		self.setWindowTitle(_('LIST_SPECIES_DIALOG_TITLE'))
 		self.setModal(True)
@@ -33,6 +34,7 @@ class speciesListDialog(QtGui.QDialog):
 
 		self._table = speciesList(self, self._app)
 		self._table.itemDeleted.connect(self._table.setData)
+		self._table.cellDoubleClicked.connect(self.editRow)
 
 		closeButton = QtGui.QPushButton(_('CLOSE_BUTTON'))
 		closeButton.clicked.connect(self.close)
@@ -43,6 +45,15 @@ class speciesListDialog(QtGui.QDialog):
 		layout.addLayout(form)
 		layout.addWidget(closeButton)
 		self.setLayout(layout)
+
+	def editRow(self, x, y):
+		"""
+		Method to populate the species form with a double clicked row,
+		to edit it.
+		"""
+		row = self._table.getRowValues(x)
+		self._editedRow = row['internalName']
+		self._populateForm(row)
 
 	def creationForm(self):
 		"""
@@ -89,6 +100,8 @@ class speciesListDialog(QtGui.QDialog):
 			str(self._nameField.text()).strip() != ""
 			and str(self._internalNameField.text()).strip() != ""
 		)
+		if self._editedRow is not None:
+			self._saveButton.setText(_('EDIT_BUTTON'))
 
 	def createSpecies(self):
 		"""
@@ -102,9 +115,11 @@ class speciesListDialog(QtGui.QDialog):
 		if name is "" or internalName is "":
 			return False
 
-		if self._app.hasSpeciesWithName(internalName):
+		if self._editedRow is None and self._app.hasSpeciesWithName(internalName):
 			self.displayMessage(_('ERROR_ALREADY_EXISTING_SPECIES'))
 			return False
+		elif self._editedRow is not None:
+			self._app.deleteSpecies(self._editedRow)
 
 		self._app.addSpecies(internalName, {
 			'name': name,
@@ -123,9 +138,14 @@ class speciesListDialog(QtGui.QDialog):
 		self._descriptionField.setText(row['description'])
 
 	def _cleanForm(self):
+		"""
+		Clean the form with empty values and reset the create button value
+		"""
 		self._internalNameField.setText('')
 		self._nameField.setText('')
 		self._descriptionField.setText('')
+		self._saveButton.setText(_('CREATE_BUTTON'))
+		self._editedRow = None
 
 	def displayMessage(self, message):
 		"""
