@@ -22,7 +22,7 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 
 	_title = _('NEW_PLACE_DIALOG_TITLE')
 
-	def getFields(self):
+	def getFields(self, place=None):
 		"""
 		Creates the UI
 		"""
@@ -41,6 +41,12 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		placeSizeLabel = QtGui.QLabel(_('PLACE_SIZE_LABEL'))
 		self._placeSizeField = QtGui.QComboBox()
 		self._placeSizeField.addItems(map.map.getPlaceSizesLabels())
+
+		if place is not None:
+			self._placeNameField.setText(place['name'])
+			self._placeInternalNameField.setText(place['internalName'])
+			self._placeTypeField.setCurrentIndex(place['type'])
+			self._placeSizeField.setCurrentIndex(place['size'])
 
 		layout.addWidget(placeInternalNameLabel, 0, 0)
 		layout.addWidget(self._placeInternalNameField, 0, 1)
@@ -65,7 +71,7 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		if internalName == "":
 			self.displayMessage(_('ERROR_EMPTY_PLACE_INTERNAL_NAME'))
 			valid = False
-		elif self._app.hasPlaceWithName(internalName):
+		elif self._editedRow != internalName and self._app.hasPlaceWithName(internalName):
 			self.displayMessage(_('ERROR_DUPLICATE_PLACE_INTERNAL_NAME'))
 			valid = False
 		if name == "":
@@ -73,6 +79,8 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 			valid = False
 
 		if valid:
+			if self._editedRow is not None:
+				self._app.deletePlace(self._editedRow)
 			self._app.addPlace(internalName, {
 				'name': name,
 				'type': self._placeTypeField.currentIndex(),
@@ -81,6 +89,10 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 				'y': self._coordinates[1],
 				'internalName': internalName
 			})
-			self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
+			if self._editedRow is not None:
+				self._editedRow = None
+				self.itemUpdated.emit(self._coordinates[0], self._coordinates[1])
+			else:
+				self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
 			self.accept()
 			self.close()

@@ -22,6 +22,12 @@ class placesList(gui.list.itemlist.itemList):
 		self.resizeColumnsToContents()
 		return 6
 
+	def getRowValues(self, index):
+		"""
+		Return a dict containing the values of the row at index
+		"""
+		return self._app.map.places[str(self.item(index, 4).text())]
+
 	def getData(self):
 		return self._app.map.places.values()
 
