@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-03-12 18:17+0000\n"
+"POT-Creation-Date: 2014-03-13 11:52+0000\n"
 "PO-Revision-Date: 2014-03-02 22:20+0000\n"
 "Last-Translator: Automatically generated\n"
 "Language-Team: none\n"
@@ -130,12 +130,16 @@ msgstr "The selected path is not a file"
 msgid "EXPORT_MAP_DIALOG_TITLE"
 msgstr "Map export"
 
-#: gui/form/itemdialog.py:51 gui/newmapdialog.py:67
-#: gui/specieslistdialog.py:68
+#: gui/form/itemdialog.py:61 gui/specieslistdialog.py:104
+msgid "EDIT_BUTTON"
+msgstr "Edit"
+
+#: gui/form/itemdialog.py:63 gui/newmapdialog.py:67
+#: gui/specieslistdialog.py:79 gui/specieslistdialog.py:147
 msgid "CREATE_BUTTON"
 msgstr "Create"
 
-#: gui/form/itemdialog.py:53 gui/list/itemlist.py:99 gui/mainwindow.py:557
+#: gui/form/itemdialog.py:65 gui/list/itemlist.py:99 gui/mainwindow.py:577
 #: gui/newmapdialog.py:69
 msgid "CANCEL_BUTTON"
 msgstr "Cancel"
@@ -160,23 +164,23 @@ msgstr "Species"
 msgid "NPC_GENDER_LABEL"
 msgstr "Gender"
 
-#: gui/form/npcdialog.py:67
+#: gui/form/npcdialog.py:73
 msgid "ERROR_EMPTY_NPC_INTERNAL_NAME"
 msgstr "A character internal name must be provided"
 
-#: gui/form/npcdialog.py:70
+#: gui/form/npcdialog.py:76
 msgid "ERROR_DUPLICATE_NPC_INTERNAL_NAME"
 msgstr "This internal name is already used"
 
-#: gui/form/npcdialog.py:73
+#: gui/form/npcdialog.py:79
 msgid "ERROR_EMPTY_NPC_NAME"
 msgstr "A character name must be provided"
 
-#: gui/form/npcdialog.py:76
+#: gui/form/npcdialog.py:82
 msgid "ERROR_INVALID_NPC_SPECIES"
 msgstr "The selected species is not valid"
 
-#: gui/form/npcdialog.py:79
+#: gui/form/npcdialog.py:85
 msgid "ERROR_INVALID_NPC_GENDER"
 msgstr "The selected gender is not valid"
 
@@ -200,15 +204,15 @@ msgstr "Type"
 msgid "PLACE_SIZE_LABEL"
 msgstr "Size"
 
-#: gui/form/placedialog.py:66
+#: gui/form/placedialog.py:72
 msgid "ERROR_EMPTY_PLACE_INTERNAL_NAME"
 msgstr "A place internal name must be provided"
 
-#: gui/form/placedialog.py:69
+#: gui/form/placedialog.py:75
 msgid "ERROR_DUPLICATE_PLACE_INTERNAL_NAME"
 msgstr "This internal name is already used"
 
-#: gui/form/placedialog.py:72
+#: gui/form/placedialog.py:78
 msgid "ERROR_EMPTY_PLACE_NAME"
 msgstr "The place name is mandatory"
 
@@ -268,93 +272,93 @@ msgstr "Description"
 msgid "CONFIRMATION_DELETE_SPECIES"
 msgstr "Do you really want to delete this species?"
 
-#: gui/mainwindow.py:99
+#: gui/mainwindow.py:101
 msgid "PLACES_TAB"
 msgstr "Places"
 
-#: gui/mainwindow.py:100
+#: gui/mainwindow.py:102
 msgid "NPC_TAB"
 msgstr "NPC"
 
-#: gui/mainwindow.py:136
+#: gui/mainwindow.py:138
 msgid "MAIN_WINDOW_TITLE"
 msgstr "rRpg World editor"
 
-#: gui/mainwindow.py:148
+#: gui/mainwindow.py:150
 msgid "ERROR_BOX_TITLE"
 msgstr "An error occured"
 
-#: gui/mainwindow.py:166
+#: gui/mainwindow.py:168
 msgid "OPEN_FILE_DIALOG_TITLE"
 msgstr "Open map"
 
-#: gui/mainwindow.py:168 gui/mainwindow.py:201
+#: gui/mainwindow.py:170 gui/mainwindow.py:203
 #, python-format
 msgid "MAP_FILE_TYPE %s"
 msgstr "Map files %s"
 
-#: gui/mainwindow.py:199
+#: gui/mainwindow.py:201
 msgid "SAVE_FILE_DIALOG_TITLE"
 msgstr "Save map"
 
-#: gui/mainwindow.py:266
+#: gui/mainwindow.py:268
 msgid "SET_AS_DEFAULT_QUESTION"
 msgstr "Set map as default"
 
-#: gui/mainwindow.py:267
+#: gui/mainwindow.py:269
 msgid "ERROR_EXPORT_NEEDED"
 msgstr "The map is not yet exported. Export it now?"
 
-#: gui/mainwindow.py:268
+#: gui/mainwindow.py:270
 msgid "YES_BUTTON"
 msgstr "Yes"
 
-#: gui/mainwindow.py:269
+#: gui/mainwindow.py:271
 msgid "NO_BUTTON"
 msgstr "No"
 
-#: gui/mainwindow.py:289
+#: gui/mainwindow.py:291
 msgid "RECORDING_START_CELL_MESSAGE"
 msgstr "Select the starting cell"
 
-#: gui/mainwindow.py:301
+#: gui/mainwindow.py:303
 msgid "RECORDING_PLACE_MESSAGE"
 msgstr "Select a cell to add a place"
 
-#: gui/mainwindow.py:313
+#: gui/mainwindow.py:315
 msgid "RECORDING_NPC_MESSAGE"
 msgstr "Select a cell to add a character"
 
-#: gui/mainwindow.py:359
+#: gui/mainwindow.py:361
 msgid "IMAGE_VIEWER"
 msgstr "Image viewer"
 
-#: gui/mainwindow.py:360
+#: gui/mainwindow.py:362
 #, python-format
 msgid "ERROR_OPEN_%s"
 msgstr "An error occured while opening the file %s"
 
-#: gui/mainwindow.py:457
+#: gui/mainwindow.py:459
 msgid "ERROR_PLACE_IN_WATER"
 msgstr "No place can be added in water"
 
-#: gui/mainwindow.py:474
+#: gui/mainwindow.py:485
 msgid "ERROR_NPC_IN_WATER"
 msgstr "No character can be added in water"
 
-#: gui/mainwindow.py:553
+#: gui/mainwindow.py:573
 msgid "UNSAVED_CHANGES"
 msgstr "Unsaved changes"
 
-#: gui/mainwindow.py:554
+#: gui/mainwindow.py:574
 msgid "CLOSE_WITH_UNSAVED_CHANGES"
 msgstr "The current map is not saved, do you really want to quit?"
 
-#: gui/mainwindow.py:555
+#: gui/mainwindow.py:575
 msgid "SAVE_BUTTON"
 msgstr "Save"
 
-#: gui/mainwindow.py:556
+#: gui/mainwindow.py:576
 msgid "DISCARD_BUTTON"
 msgstr "Do not save"
 
@@ -504,26 +508,26 @@ msgstr "A world name must be provided"
 msgid "LOADING_GENERATION_TEXT"
 msgstr "Generating..."
 
-#: gui/specieslistdialog.py:22
+#: gui/specieslistdialog.py:23
 msgid "LIST_SPECIES_DIALOG_TITLE"
 msgstr "World species"
 
-#: gui/specieslistdialog.py:37
+#: gui/specieslistdialog.py:39
 msgid "CLOSE_BUTTON"
 msgstr "Close"
 
-#: gui/specieslistdialog.py:57
+#: gui/specieslistdialog.py:68
 msgid "SPECIES_NAME_LABEL"
 msgstr "Name"
 
-#: gui/specieslistdialog.py:61
+#: gui/specieslistdialog.py:72
 msgid "SPECIES_INTERNAL_NAME_LABEL"
 msgstr "Internal name"
 
-#: gui/specieslistdialog.py:64
+#: gui/specieslistdialog.py:75
 msgid "SPECIES_DESCRIPTION_LABEL"
 msgstr "Description"
 
-#: gui/specieslistdialog.py:106
+#: gui/specieslistdialog.py:119
 msgid "ERROR_ALREADY_EXISTING_SPECIES"
 msgstr "A species already exists with this internal name"
