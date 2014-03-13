@@ -21,15 +21,24 @@ class itemDialog(QtGui.QDialog):
 	_cancelButton = None
 
 	itemAdded = QtCore.pyqtSignal(int, int)
+	itemUpdated = QtCore.pyqtSignal(int, int)
 
-	def __init__(self, parent, app, coordinates):
+	def __init__(self, parent, app, coordinates=None, row=None):
 		"""
 		Creates the window GUI and displays the window
 		"""
 		QtGui.QDialog.__init__(self, parent)
 		self._app = app
 		self._parent = parent
-		self._coordinates = coordinates
+		self._editedRow = None
+		if coordinates is None and row is None:
+			raise BaseException("At least a row or a tuple of coordinates is needed")
+		elif coordinates is None:
+			self._editedRow = row['internalName']
+			self._coordinates = (row['x'], row['y'])
+		else:
+			self._coordinates = coordinates
+		self._row = row
 		self.setFixedWidth(250)
 		self.initUI()
 		self.setWindowTitle(self._title)
@@ -46,9 +55,12 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel = QtGui.QLabel()
 		self._messageLabel.setWordWrap(True)
 
-		fieldsLayout = self.getFields()
+		fieldsLayout = self.getFields(self._row)
 
-		self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
+		if self._editedRow is not None:
+			self._saveButton = QtGui.QPushButton(_('EDIT_BUTTON'))
+		else:
+			self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
 		self._saveButton.clicked.connect(self.createItem)
 		self._cancelButton = QtGui.QPushButton(_('CANCEL_BUTTON'))
 		self._cancelButton.clicked.connect(self.close)
