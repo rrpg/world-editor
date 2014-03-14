@@ -33,8 +33,9 @@ class itemList(QtGui.QTableWidget):
 		This methods populates the table with the places list from self._app.map
 		"""
 		self.clearContents()
-		nbRowsToInsert = len(self.getData())
-		for index, row in enumerate(self.getData()):
+		data = self.getData()
+		nbRowsToInsert = len(data)
+		for index, row in enumerate(data):
 			if self.rowCount() < nbRowsToInsert:
 				self.insertRow(index)
 			itemsNumber = self.insertItem(index, row)

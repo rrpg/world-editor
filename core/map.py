@@ -26,9 +26,7 @@ class map:
 	cells = dict()
 	places = dict()
 	npc = dict()
-	species = {_('HUMANS_INTERNAL_NAME'):
-		{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
-	}
+	species = dict()
 
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
@@ -44,6 +42,9 @@ class map:
 		self.cells = dict()
 		self.places = dict()
 		self.npc = dict()
+		self.species = {_('HUMANS_INTERNAL_NAME'):
+			{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
+		}
 
 	def generate(self, name, width, height):
 		"""
