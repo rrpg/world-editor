@@ -38,6 +38,8 @@ class itemDialog(QtGui.QDialog):
 			self._coordinates = (row['x'], row['y'])
 		else:
 			self._coordinates = coordinates
+
+		self._parent.selectCell(self._coordinates[0], self._coordinates[1])
 		self._row = row
 		self.setFixedWidth(250)
 		self.initUI()
