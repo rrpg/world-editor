@@ -45,6 +45,8 @@ class map:
 		self.species = {_('HUMANS_INTERNAL_NAME'):
 			{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
 		}
+		self.width = None
+		self.height = None
 
 	def generate(self, name, width, height):
 		"""
@@ -65,6 +67,14 @@ class map:
 
 		self._file = name
 		self.loadCells()
+		self.setDimensions(width, height)
+
+	def setDimensions(self, width, height):
+		"""
+		Set the map dimensions
+		"""
+		self.width = width
+		self.height = height
 
 	def loadCells(self):
 		"""
