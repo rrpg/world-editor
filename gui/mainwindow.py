@@ -472,7 +472,8 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user double clicks on a place in the list.
 		"""
 		dialog = formPlaceDialog(self, self._app, row=self._placesWidget.getRowValues(place))
-		dialog.itemUpdated.connect(self.displayPlace)
+		dialog.itemUpdated.connect(self.unselectCell)
+		dialog.itemUpdated.connect(self.refreshPlaces)
 		dialog.itemUpdated.connect(self._placesWidget.setData)
 		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
 
@@ -498,7 +499,8 @@ class mainWindow(QtGui.QMainWindow):
 		Method called when the user double clicks on a npc in the list.
 		"""
 		dialog = formNpcDialog(self, self._app, row=self._npcWidget.getRowValues(npc))
-		dialog.itemUpdated.connect(self.displayNpc)
+		dialog.itemUpdated.connect(self.unselectCell)
+		dialog.itemUpdated.connect(self.refreshNpc)
 		dialog.itemUpdated.connect(self._npcWidget.setData)
 		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
 # End Methods to add elements on the map
@@ -523,7 +525,6 @@ class mainWindow(QtGui.QMainWindow):
 	def _cleanScene(self, pixmapsList):
 		for p in pixmapsList:
 			self._imageScene.removeItem(p)
-
 
 	def displayStartCell(self, x, y):
 		"""

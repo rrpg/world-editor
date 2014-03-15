@@ -45,6 +45,8 @@ class map:
 		self.species = {_('HUMANS_INTERNAL_NAME'):
 			{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
 		}
+		self.width = None
+		self.height = None
 
 	def generate(self, name, width, height):
 		"""
@@ -65,6 +67,14 @@ class map:
 
 		self._file = name
 		self.loadCells()
+		self.setDimensions(width, height)
+
+	def setDimensions(self, width, height):
+		"""
+		Set the map dimensions
+		"""
+		self.width = width
+		self.height = height
 
 	def loadCells(self):
 		"""
@@ -451,9 +461,13 @@ class map:
 
 		tar = tarfile.open(fileName, "w:gz")
 
-		nameFile = os.path.dirname(self._file) + '/__NAME__'
+		nameFile = os.path.dirname(self._file) + '/__INFOS__'
 		f = open(nameFile, 'w')
-		f.write(os.path.basename(self._file))
+		f.writelines((
+			os.path.basename(self._file), '\n',
+			str(self.width), '\n',
+			str(self.height)
+		))
 		f.close()
 		tar.add(nameFile, arcname=os.path.basename(nameFile))
 		os.remove(nameFile)
@@ -503,11 +517,13 @@ class map:
 		try:
 			for item in tar:
 				tar.extract(item, tmpDir)
-				if item.path == '__NAME__':
-					worldNameFile = open(tmpDir + item.path, "r")
-					worldName = worldNameFile.readline()
+				if item.path == '__INFOS__':
+					worldInfosFile = open(tmpDir + item.path, "r")
+					worldName = worldInfosFile.readline().strip()
+					# The width and height of the map are the 2 next lines
+					self.setDimensions(int(worldInfosFile.readline()), int(worldInfosFile.readline()))
 					self._file = tmpDir + worldName
-					worldNameFile.close()
+					worldInfosFile.close()
 				elif item.path[-15:] == '_start_cell.txt':
 					startCellFile = open(tmpDir + item.path, "r")
 					startCell = startCellFile.readline()

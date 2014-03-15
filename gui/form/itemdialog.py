@@ -57,6 +57,19 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel = QtGui.QLabel()
 		self._messageLabel.setWordWrap(True)
 
+		if self._editedRow is not None:
+			itemXLabel = QtGui.QLabel(_('ITEM_X_LABEL'))
+			self._itemXField = QtGui.QSpinBox()
+			self._itemXField.setMinimum(0)
+			self._itemXField.setMaximum(self._app.map.width)
+			self._itemXField.setValue(self._row['x'])
+
+			itemYLabel = QtGui.QLabel(_('ITEM_Y_LABEL'))
+			self._itemYField = QtGui.QSpinBox()
+			self._itemYField.setMinimum(0)
+			self._itemYField.setMaximum(self._app.map.height)
+			self._itemYField.setValue(self._row['y'])
+
 		fieldsLayout = self.getFields(self._row)
 
 		if self._editedRow is not None:
@@ -68,9 +81,16 @@ class itemDialog(QtGui.QDialog):
 		self._cancelButton.clicked.connect(self.close)
 
 		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
-		layout.addLayout(fieldsLayout, 1, 0, 1, 2)
-		layout.addWidget(self._saveButton, 2, 0)
-		layout.addWidget(self._cancelButton, 2, 1)
+		gridRow = 0
+		if self._editedRow is not None:
+			layout.addWidget(itemXLabel, 1, 0)
+			layout.addWidget(self._itemXField, 1, 1)
+			layout.addWidget(itemYLabel, 2, 0)
+			layout.addWidget(self._itemYField, 2, 1)
+			gridRow = 2
+		layout.addLayout(fieldsLayout, 1 + gridRow, 0, 1, 2)
+		layout.addWidget(self._saveButton, 2 + gridRow, 0)
+		layout.addWidget(self._cancelButton, 2 + gridRow, 1)
 
 		self.setLayout(layout)
 

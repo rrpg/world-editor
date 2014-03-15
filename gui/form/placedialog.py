@@ -79,20 +79,25 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 			valid = False
 
 		if valid:
+			x = self._coordinates[0]
+			y = self._coordinates[1]
 			if self._editedRow is not None:
 				self._app.deletePlace(self._editedRow)
+				x = int(self._itemXField.value())
+				y = int(self._itemYField.value())
+
 			self._app.addPlace(internalName, {
 				'name': name,
 				'type': self._placeTypeField.currentIndex(),
 				'size': self._placeSizeField.currentIndex(),
-				'x': self._coordinates[0],
-				'y': self._coordinates[1],
+				'x': x,
+				'y': y,
 				'internalName': internalName
 			})
 			if self._editedRow is not None:
 				self._editedRow = None
-				self.itemUpdated.emit(self._coordinates[0], self._coordinates[1])
+				self.itemUpdated.emit(x, y)
 			else:
-				self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
+				self.itemAdded.emit(x, y)
 			self.accept()
 			self.close()

@@ -86,20 +86,24 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 			valid = False
 
 		if valid:
+			x = self._coordinates[0]
+			y = self._coordinates[1]
 			if self._editedRow is not None:
 				self._app.deleteNpc(self._editedRow)
+				x = int(self._itemXField.value())
+				y = int(self._itemYField.value())
 			self._app.addNpc(internalName, {
 				'name': name,
 				'gender': self._npcGenderField.currentIndex(),
 				'species': self._npcSpeciesField.currentIndex(),
-				'x': self._coordinates[0],
-				'y': self._coordinates[1],
+				'x': x,
+				'y': y,
 				'internalName': internalName
 			})
 			if self._editedRow is not None:
 				self._editedRow = None
-				self.itemUpdated.emit(self._coordinates[0], self._coordinates[1])
+				self.itemUpdated.emit(x, y)
 			else:
-				self.itemAdded.emit(self._coordinates[0], self._coordinates[1])
+				self.itemAdded.emit(x, y)
 			self.accept()
 			self.close()
