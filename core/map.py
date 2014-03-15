@@ -461,7 +461,7 @@ class map:
 
 		tar = tarfile.open(fileName, "w:gz")
 
-		nameFile = os.path.dirname(self._file) + '/__NAME__'
+		nameFile = os.path.dirname(self._file) + '/__INFOS__'
 		f = open(nameFile, 'w')
 		f.write(os.path.basename(self._file))
 		f.close()
@@ -513,11 +513,11 @@ class map:
 		try:
 			for item in tar:
 				tar.extract(item, tmpDir)
-				if item.path == '__NAME__':
-					worldNameFile = open(tmpDir + item.path, "r")
-					worldName = worldNameFile.readline()
+				if item.path == '__INFOS__':
+					worldInfosFile = open(tmpDir + item.path, "r")
+					worldName = worldInfosFile.readline().strip()
 					self._file = tmpDir + worldName
-					worldNameFile.close()
+					worldInfosFile.close()
 				elif item.path[-15:] == '_start_cell.txt':
 					startCellFile = open(tmpDir + item.path, "r")
 					startCell = startCellFile.readline()
