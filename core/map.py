@@ -463,7 +463,11 @@ class map:
 
 		nameFile = os.path.dirname(self._file) + '/__INFOS__'
 		f = open(nameFile, 'w')
-		f.write(os.path.basename(self._file))
+		f.writelines((
+			os.path.basename(self._file), '\n',
+			str(self.width), '\n',
+			str(self.height)
+		))
 		f.close()
 		tar.add(nameFile, arcname=os.path.basename(nameFile))
 		os.remove(nameFile)
@@ -516,6 +520,8 @@ class map:
 				if item.path == '__INFOS__':
 					worldInfosFile = open(tmpDir + item.path, "r")
 					worldName = worldInfosFile.readline().strip()
+					# The width and height of the map are the 2 next lines
+					self.setDimensions(int(worldInfosFile.readline()), int(worldInfosFile.readline()))
 					self._file = tmpDir + worldName
 					worldInfosFile.close()
 				elif item.path[-15:] == '_start_cell.txt':
