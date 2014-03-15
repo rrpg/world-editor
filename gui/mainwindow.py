@@ -524,7 +524,6 @@ class mainWindow(QtGui.QMainWindow):
 		for p in pixmapsList:
 			self._imageScene.removeItem(p)
 
-
 	def displayStartCell(self, x, y):
 		"""
 		Here the start cell is displayed in the map, as a new pixmap
