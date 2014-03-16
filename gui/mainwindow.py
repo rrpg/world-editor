@@ -471,7 +471,9 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method called when the user double clicks on a place in the list.
 		"""
-		dialog = formPlaceDialog(self, self._app, row=self._placesWidget.getRowValues(place))
+		row = self._placesWidget.getRowValues(place)
+		self.selectCell(row['x'], row['y'])
+		dialog = formPlaceDialog(self, self._app, row=row)
 		dialog.itemUpdated.connect(self.unselectCell)
 		dialog.itemUpdated.connect(self.refreshEntity)
 		dialog.itemUpdated.connect(self._placesWidget.setData)
@@ -497,7 +499,9 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method called when the user double clicks on a npc in the list.
 		"""
-		dialog = formNpcDialog(self, self._app, row=self._npcWidget.getRowValues(npc))
+		row = self._npcWidget.getRowValues(npc)
+		self.selectCell(row['x'], row['y'])
+		dialog = formNpcDialog(self, self._app, row=row)
 		dialog.itemUpdated.connect(self.unselectCell)
 		dialog.itemUpdated.connect(self.refreshEntity)
 		dialog.itemUpdated.connect(self._npcWidget.setData)
