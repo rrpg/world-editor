@@ -22,6 +22,13 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 
 	_title = _('NEW_PLACE_DIALOG_TITLE')
 
+	def __init__(self, parent, app, coordinates=None, row=None):
+		"""
+		Creates the window GUI and displays the window
+		"""
+		gui.form.itemdialog.itemDialog.__init__(self, parent, app, coordinates, row)
+		self.entityType = 'places'
+
 	def getFields(self, place=None):
 		"""
 		Creates the UI
@@ -59,11 +66,7 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 
 		return layout
 
-	def createItem(self):
-		"""
-		Method called when the "Create" button is pressed.
-		The filled values are checked and if they are correct, a place is created
-		"""
+	def validateFormData(self):
 		valid = True
 		name = str(self._placeNameField.text()).strip()
 		internalName = str(self._placeInternalNameField.text()).strip()
@@ -71,33 +74,19 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		if internalName == "":
 			self.displayMessage(_('ERROR_EMPTY_PLACE_INTERNAL_NAME'))
 			valid = False
-		elif self._editedRow != internalName and self._app.hasPlaceWithName(internalName):
+		elif self._editedRow != internalName and self._app.hasEntityWithName(self.entityType, internalName):
 			self.displayMessage(_('ERROR_DUPLICATE_PLACE_INTERNAL_NAME'))
 			valid = False
 		if name == "":
 			self.displayMessage(_('ERROR_EMPTY_PLACE_NAME'))
 			valid = False
 
-		if valid:
-			x = self._coordinates[0]
-			y = self._coordinates[1]
-			if self._editedRow is not None:
-				self._app.deletePlace(self._editedRow)
-				x = int(self._itemXField.value())
-				y = int(self._itemYField.value())
+		if valid is False:
+			return False
 
-			self._app.addPlace(internalName, {
-				'name': name,
-				'type': self._placeTypeField.currentIndex(),
-				'size': self._placeSizeField.currentIndex(),
-				'x': x,
-				'y': y,
-				'internalName': internalName
-			})
-			if self._editedRow is not None:
-				self._editedRow = None
-				self.itemUpdated.emit(x, y)
-			else:
-				self.itemAdded.emit(x, y)
-			self.accept()
-			self.close()
+		return {
+			'name': name,
+			'type': self._placeTypeField.currentIndex(),
+			'size': self._placeSizeField.currentIndex(),
+			'internalName': internalName
+		}

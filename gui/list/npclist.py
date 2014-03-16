@@ -25,10 +25,10 @@ class npcList(gui.list.itemlist.itemList):
 		"""
 		Return a dict containing the values of the row at index
 		"""
-		return self._app.map.npc[str(self.item(index, 3).text())]
+		return self._app.getEntity('npc', str(self.item(index, 3).text()))
 
 	def getData(self):
-		return self._app.map.npc.values()
+		return self._app.getEntity('npc').values()
 
 	def getCoordinatesFromIndex(self, index):
 		"""
@@ -43,5 +43,5 @@ class npcList(gui.list.itemlist.itemList):
 		"""
 		Delete the selected item
 		"""
-		self._app.deleteNpc(str(self.item(index, 3).text()))
-		self.itemDeleted.emit()
+		self._app.deleteItem('npc', str(self.item(index, 3).text()))
+		self.itemDeleted.emit('npc')

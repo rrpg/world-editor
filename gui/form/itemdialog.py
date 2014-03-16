@@ -20,8 +20,8 @@ class itemDialog(QtGui.QDialog):
 	_saveButton = None
 	_cancelButton = None
 
-	itemAdded = QtCore.pyqtSignal(int, int)
-	itemUpdated = QtCore.pyqtSignal(int, int)
+	itemAdded = QtCore.pyqtSignal(str, int, int)
+	itemUpdated = QtCore.pyqtSignal(str, int, int)
 
 	def __init__(self, parent, app, coordinates=None, row=None):
 		"""
@@ -107,4 +107,38 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
+	def createItem(self):
+		"""
+		Method called when the "Create" button is pressed.
+		The filled values are checked and if they are correct, an entity is
+		created or updated
+		"""
+		x = self._coordinates[0]
+		y = self._coordinates[1]
+		if self._editedRow is not None:
+			x = int(self._itemXField.value())
+			y = int(self._itemYField.value())
+
+
+		if not self._app.map.isCellOnLand((x, y)):
+			self.displayMessage(_('ERROR_ITEM_IN_WATER'))
+			data = False
+		else:
+			data = self.validateFormData()
+
+		if data is not False:
+			if self._editedRow is not None:
+				self._app.deleteEntity(self.entityType, self._editedRow)
+
+			data['x'] = x
+			data['y'] = y
+			self._app.addEntity(self.entityType, data['internalName'], data)
+
+			if self._editedRow is not None:
+				self._editedRow = None
+				self.itemUpdated.emit(self.entityType, x, y)
+			else:
+				self.itemAdded.emit(self.entityType, x, y)
+			self.accept()
+			self.close()
 

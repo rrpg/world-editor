@@ -26,10 +26,10 @@ class placesList(gui.list.itemlist.itemList):
 		"""
 		Return a dict containing the values of the row at index
 		"""
-		return self._app.map.places[str(self.item(index, 4).text())]
+		return self._app.getEntity('places', str(self.item(index, 4).text()))
 
 	def getData(self):
-		return self._app.map.places.values()
+		return self._app.getEntity('places').values()
 
 	def getCoordinatesFromIndex(self, index):
 		"""
@@ -44,5 +44,5 @@ class placesList(gui.list.itemlist.itemList):
 		"""
 		Delete the selected item
 		"""
-		self._app.deletePlace(str(self.item(index, 4).text()))
-		self.itemDeleted.emit()
+		self._app.deleteItem('places', str(self.item(index, 4).text()))
+		self.itemDeleted.emit('places')

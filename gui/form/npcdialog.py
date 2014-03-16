@@ -21,6 +21,13 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 
 	_title = _('NEW_NPC_DIALOG_TITLE')
 
+	def __init__(self, parent, app, coordinates=None, row=None):
+		"""
+		Creates the window GUI and displays the window
+		"""
+		gui.form.itemdialog.itemDialog.__init__(self, parent, app, coordinates, row)
+		self.entityType = 'npc'
+
 	def getFields(self, npc=None):
 		"""
 		Creates the UI
@@ -58,11 +65,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 
 		return layout
 
-	def createItem(self):
-		"""
-		Method called when the "Create" button is pressed.
-		The filled values are checked and if they are correct, a npc is created
-		"""
+	def validateFormData(self):
 		valid = True
 		internalName = str(self._npcInternalNameField.text()).strip()
 		name = str(self._npcNameField.text()).strip()
@@ -72,7 +75,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		if internalName == "":
 			self.displayMessage(_('ERROR_EMPTY_NPC_INTERNAL_NAME'))
 			valid = False
-		elif self._editedRow != internalName and self._app.hasNpcWithName(internalName):
+		elif self._editedRow != internalName and self._app.hasEntityWithName(self.entityType, internalName):
 			self.displayMessage(_('ERROR_DUPLICATE_NPC_INTERNAL_NAME'))
 			valid = False
 		if name == "":
@@ -85,25 +88,12 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 			self.displayMessage(_('ERROR_INVALID_NPC_GENDER'))
 			valid = False
 
-		if valid:
-			x = self._coordinates[0]
-			y = self._coordinates[1]
-			if self._editedRow is not None:
-				self._app.deleteNpc(self._editedRow)
-				x = int(self._itemXField.value())
-				y = int(self._itemYField.value())
-			self._app.addNpc(internalName, {
-				'name': name,
-				'gender': self._npcGenderField.currentIndex(),
-				'species': self._npcSpeciesField.currentIndex(),
-				'x': x,
-				'y': y,
-				'internalName': internalName
-			})
-			if self._editedRow is not None:
-				self._editedRow = None
-				self.itemUpdated.emit(x, y)
-			else:
-				self.itemAdded.emit(x, y)
-			self.accept()
-			self.close()
+		if valid is False:
+			return False
+
+		return {
+			'name': name,
+			'gender': self._npcGenderField.currentIndex(),
+			'species': self._npcSpeciesField.currentIndex(),
+			'internalName': internalName
+		}

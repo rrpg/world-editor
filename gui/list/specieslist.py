@@ -37,4 +37,4 @@ class speciesList(gui.list.itemlist.itemList):
 		Delete the selected item
 		"""
 		self._app.deleteSpecies(str(self.item(index, 2).text()))
-		self.itemDeleted.emit()
+		self.itemDeleted.emit('species')
