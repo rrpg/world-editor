@@ -74,7 +74,7 @@ class itemDialog(QtGui.QDialog):
 			self._saveButton = QtGui.QPushButton(_('EDIT_BUTTON'))
 		else:
 			self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
-		self._saveButton.clicked.connect(self.createItem)
+		self._saveButton.clicked.connect(self.saveItem)
 		self._cancelButton = QtGui.QPushButton(_('CANCEL_BUTTON'))
 		self._cancelButton.clicked.connect(self.close)
 
@@ -105,7 +105,7 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
-	def createItem(self):
+	def saveItem(self):
 		"""
 		Method called when the "Create" button is pressed.
 		The filled values are checked and if they are correct, an entity is
