@@ -8,8 +8,7 @@ from core.localisation import _
 class itemDialog(QtGui.QDialog):
 	"""
 	Window to fill some informations to create an item
-	label npc gender	npc gender field
-	create button		cancel button
+	All items contains two fields for their coordinates if the item is edited
 	"""
 	_app = None
 	_parent = None
