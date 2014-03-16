@@ -79,6 +79,7 @@ class mainWindow(QtGui.QMainWindow):
 		is populated to list the existing places.
 		"""
 		self._app.mapOpened.connect(self._placesWidget.setData)
+		self._app.mapOpened.connect(self._npcWidget.setData)
 
 	def _create(self):
 		"""
