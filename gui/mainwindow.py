@@ -93,9 +93,11 @@ class mainWindow(QtGui.QMainWindow):
 
 		self._placesWidget = placesList(self, self._app)
 		self._placesWidget.entityDeleted.connect(self.refreshEntity)
+		self._placesWidget.entityDeleted.connect(self._app.flagAsUnsaved)
 		self._placesWidget.cellDoubleClicked.connect(self.editPlace)
 		self._npcWidget = npcList(self, self._app)
 		self._npcWidget.entityDeleted.connect(self.refreshEntity)
+		self._npcWidget.entityDeleted.connect(self._app.flagAsUnsaved)
 		self._npcWidget.cellDoubleClicked.connect(self.editNpc)
 
 		tabWidget = QtGui.QTabWidget()
