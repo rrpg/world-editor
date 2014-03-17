@@ -5,10 +5,10 @@ from core import map
 from core.localisation import _
 
 
-class itemDialog(QtGui.QDialog):
+class entityDialog(QtGui.QDialog):
 	"""
-	Window to fill some informations to create an item
-	All items contains two fields for their coordinates if the item is edited
+	Window to fill some informations to create an entity
+	All entities contain two fields for their coordinates if the entity is edited
 	"""
 	_app = None
 	_parent = None
@@ -19,8 +19,8 @@ class itemDialog(QtGui.QDialog):
 	_saveButton = None
 	_cancelButton = None
 
-	itemAdded = QtCore.pyqtSignal(str, int, int)
-	itemUpdated = QtCore.pyqtSignal(str, int, int)
+	entityAdded = QtCore.pyqtSignal(str, int, int)
+	entityUpdated = QtCore.pyqtSignal(str, int, int)
 
 	def __init__(self, parent, app, coordinates=None, row=None):
 		"""
@@ -56,17 +56,17 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel.setWordWrap(True)
 
 		if self._editedRow is not None:
-			itemXLabel = QtGui.QLabel(_('ITEM_X_LABEL'))
-			self._itemXField = QtGui.QSpinBox()
-			self._itemXField.setMinimum(0)
-			self._itemXField.setMaximum(self._app.map.width)
-			self._itemXField.setValue(self._row['x'])
+			entityXLabel = QtGui.QLabel(_('ENTITY_X_LABEL'))
+			self._entityXField = QtGui.QSpinBox()
+			self._entityXField.setMinimum(0)
+			self._entityXField.setMaximum(self._app.map.width)
+			self._entityXField.setValue(self._row['x'])
 
-			itemYLabel = QtGui.QLabel(_('ITEM_Y_LABEL'))
-			self._itemYField = QtGui.QSpinBox()
-			self._itemYField.setMinimum(0)
-			self._itemYField.setMaximum(self._app.map.height)
-			self._itemYField.setValue(self._row['y'])
+			entityYLabel = QtGui.QLabel(_('ENTITY_Y_LABEL'))
+			self._entityYField = QtGui.QSpinBox()
+			self._entityYField.setMinimum(0)
+			self._entityYField.setMaximum(self._app.map.height)
+			self._entityYField.setValue(self._row['y'])
 
 		fieldsLayout = self.getFields(self._row)
 
@@ -74,17 +74,17 @@ class itemDialog(QtGui.QDialog):
 			self._saveButton = QtGui.QPushButton(_('EDIT_BUTTON'))
 		else:
 			self._saveButton = QtGui.QPushButton(_('CREATE_BUTTON'))
-		self._saveButton.clicked.connect(self.saveItem)
+		self._saveButton.clicked.connect(self.saveEntity)
 		self._cancelButton = QtGui.QPushButton(_('CANCEL_BUTTON'))
 		self._cancelButton.clicked.connect(self.close)
 
 		layout.addWidget(self._messageLabel, 0, 0, 1, 2)
 		gridRow = 0
 		if self._editedRow is not None:
-			layout.addWidget(itemXLabel, 1, 0)
-			layout.addWidget(self._itemXField, 1, 1)
-			layout.addWidget(itemYLabel, 2, 0)
-			layout.addWidget(self._itemYField, 2, 1)
+			layout.addWidget(entityXLabel, 1, 0)
+			layout.addWidget(self._entityXField, 1, 1)
+			layout.addWidget(entityYLabel, 2, 0)
+			layout.addWidget(self._entityYField, 2, 1)
 			gridRow = 2
 		layout.addLayout(fieldsLayout, 1 + gridRow, 0, 1, 2)
 		layout.addWidget(self._saveButton, 2 + gridRow, 0)
@@ -105,7 +105,7 @@ class itemDialog(QtGui.QDialog):
 		self._messageLabel.setText(message)
 		self.adjustSize()
 
-	def saveItem(self):
+	def saveEntity(self):
 		"""
 		Method called when the "Create" button is pressed.
 		The filled values are checked and if they are correct, an entity is
@@ -114,12 +114,12 @@ class itemDialog(QtGui.QDialog):
 		x = self._coordinates[0]
 		y = self._coordinates[1]
 		if self._editedRow is not None:
-			x = int(self._itemXField.value())
-			y = int(self._itemYField.value())
+			x = int(self._entityXField.value())
+			y = int(self._entityYField.value())
 
 
 		if not self._app.map.isCellOnLand((x, y)):
-			self.displayMessage(_('ERROR_ITEM_IN_WATER'))
+			self.displayMessage(_('ERROR_ENTITY_IN_WATER'))
 			data = False
 		else:
 			data = self.validateFormData()
@@ -134,9 +134,9 @@ class itemDialog(QtGui.QDialog):
 
 			if self._editedRow is not None:
 				self._editedRow = None
-				self.itemUpdated.emit(self.entityType, x, y)
+				self.entityUpdated.emit(self.entityType, x, y)
 			else:
-				self.itemAdded.emit(self.entityType, x, y)
+				self.entityAdded.emit(self.entityType, x, y)
 			self.accept()
 			self.close()
 

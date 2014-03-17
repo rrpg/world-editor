@@ -92,10 +92,10 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
 		self._placesWidget = placesList(self, self._app)
-		self._placesWidget.itemDeleted.connect(self.refreshEntity)
+		self._placesWidget.entityDeleted.connect(self.refreshEntity)
 		self._placesWidget.cellDoubleClicked.connect(self.editPlace)
 		self._npcWidget = npcList(self, self._app)
-		self._npcWidget.itemDeleted.connect(self.refreshEntity)
+		self._npcWidget.entityDeleted.connect(self.refreshEntity)
 		self._npcWidget.cellDoubleClicked.connect(self.editNpc)
 
 		tabWidget = QtGui.QTabWidget()
@@ -460,10 +460,10 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = formPlaceDialog(self, self._app, coordinates=(x, y))
-		dialog.itemAdded.connect(self.unselectCell)
-		dialog.itemAdded.connect(self.displayEntity)
-		dialog.itemAdded.connect(self._placesWidget.setData)
-		dialog.itemAdded.connect(self._app.flagAsUnsaved)
+		dialog.entityAdded.connect(self.unselectCell)
+		dialog.entityAdded.connect(self.displayEntity)
+		dialog.entityAdded.connect(self._placesWidget.setData)
+		dialog.entityAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
 
@@ -474,10 +474,10 @@ class mainWindow(QtGui.QMainWindow):
 		row = self._placesWidget.getRowValues(place)
 		self.selectCell(row['x'], row['y'])
 		dialog = formPlaceDialog(self, self._app, row=row)
-		dialog.itemUpdated.connect(self.unselectCell)
-		dialog.itemUpdated.connect(self.refreshEntity)
-		dialog.itemUpdated.connect(self._placesWidget.setData)
-		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
+		dialog.entityUpdated.connect(self.unselectCell)
+		dialog.entityUpdated.connect(self.refreshEntity)
+		dialog.entityUpdated.connect(self._placesWidget.setData)
+		dialog.entityUpdated.connect(self._app.flagAsUnsaved)
 
 	def addNpc(self, x, y):
 		"""
@@ -488,10 +488,10 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = formNpcDialog(self, self._app, coordinates=(x, y))
-		dialog.itemAdded.connect(self.unselectCell)
-		dialog.itemAdded.connect(self.displayEntity)
-		dialog.itemAdded.connect(self._npcWidget.setData)
-		dialog.itemAdded.connect(self._app.flagAsUnsaved)
+		dialog.entityAdded.connect(self.unselectCell)
+		dialog.entityAdded.connect(self.displayEntity)
+		dialog.entityAdded.connect(self._npcWidget.setData)
+		dialog.entityAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
 
@@ -502,10 +502,10 @@ class mainWindow(QtGui.QMainWindow):
 		row = self._npcWidget.getRowValues(npc)
 		self.selectCell(row['x'], row['y'])
 		dialog = formNpcDialog(self, self._app, row=row)
-		dialog.itemUpdated.connect(self.unselectCell)
-		dialog.itemUpdated.connect(self.refreshEntity)
-		dialog.itemUpdated.connect(self._npcWidget.setData)
-		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
+		dialog.entityUpdated.connect(self.unselectCell)
+		dialog.entityUpdated.connect(self.refreshEntity)
+		dialog.entityUpdated.connect(self._npcWidget.setData)
+		dialog.entityUpdated.connect(self._app.flagAsUnsaved)
 # End Methods to add elements on the map
 
 # Methods to display an element on the map

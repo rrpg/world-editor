@@ -2,17 +2,17 @@
 
 from PyQt4 import QtGui
 from PyQt4 import QtCore
-import gui.list.itemlist
+import gui.list.entitylist
 from core.localisation import _
 
 
-class speciesList(gui.list.itemlist.itemList):
+class speciesList(gui.list.entitylist.entityList):
 
 	_columns = (_('NAME_COLUMN'), _('DESCRIPTION_COLUMN'), _('INTERNAL_NAME_COLUMN'))
 
 	confirmDeleteMessage = _('CONFIRMATION_DELETE_SPECIES')
 
-	def insertItem(self, index, row):
+	def insertEntity(self, index, row):
 		self.setItem(index, 0, QtGui.QTableWidgetItem(row['name']))
 		self.setItem(index, 1, QtGui.QTableWidgetItem(row['description']))
 		self.setItem(index, 2, QtGui.QTableWidgetItem(row['internalName']))
@@ -32,9 +32,9 @@ class speciesList(gui.list.itemlist.itemList):
 	def getData(self):
 		return self._app.map.species.values()
 
-	def deleteItem(self, index):
+	def deleteEntity(self, index):
 		"""
-		Delete the selected item
+		Delete the selected entity
 		"""
 		self._app.deleteSpecies(str(self.item(index, 2).text()))
-		self.itemDeleted.emit('species')
+		self.entityDeleted.emit('species')

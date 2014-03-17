@@ -2,11 +2,11 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
-import gui.form.itemdialog
+import gui.form.entitydialog
 from core.localisation import _
 
 
-class formNpcDialog(gui.form.itemdialog.itemDialog):
+class formNpcDialog(gui.form.entitydialog.entityDialog):
 	"""
 	Window to fill some informations to create a NPC
 	label npc name      npc name field
@@ -25,7 +25,7 @@ class formNpcDialog(gui.form.itemdialog.itemDialog):
 		"""
 		Creates the window GUI and displays the window
 		"""
-		gui.form.itemdialog.itemDialog.__init__(self, parent, app, coordinates, row)
+		gui.form.entitydialog.entityDialog.__init__(self, parent, app, coordinates, row)
 		self.entityType = 'npc'
 
 	def getFields(self, npc=None):

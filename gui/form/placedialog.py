@@ -2,11 +2,11 @@
 
 from PyQt4 import QtGui, QtCore
 from core import map
-import gui.form.itemdialog
+import gui.form.entitydialog
 from core.localisation import _
 
 
-class formPlaceDialog(gui.form.itemdialog.itemDialog):
+class formPlaceDialog(gui.form.entitydialog.entityDialog):
 	"""
 	Window to fill some informations to create a place
 	label place type	place type field
@@ -26,7 +26,7 @@ class formPlaceDialog(gui.form.itemdialog.itemDialog):
 		"""
 		Creates the window GUI and displays the window
 		"""
-		gui.form.itemdialog.itemDialog.__init__(self, parent, app, coordinates, row)
+		gui.form.entitydialog.entityDialog.__init__(self, parent, app, coordinates, row)
 		self.entityType = 'places'
 
 	def getFields(self, place=None):
