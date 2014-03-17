@@ -21,13 +21,6 @@ class map:
 	Class to interface with a map DB.
 	The generation and export are done here.
 	"""
-	_file = None
-	startCellPosition = None
-	cells = dict()
-	places = dict()
-	npc = dict()
-	species = dict()
-
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
 		'npc': (('internalName', 'str'), ('name', 'str'), ('gender', 'int'), ('species', 'int'), ('x', 'int'), ('y', 'int')),
