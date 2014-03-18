@@ -33,7 +33,7 @@ class speciesListDialog(QtGui.QDialog):
 		layout = QtGui.QVBoxLayout(self)
 
 		self._table = speciesList(self, self._app)
-		self._table.itemDeleted.connect(self._table.setData)
+		self._table.entityDeleted.connect(self._table.setData)
 		self._table.cellDoubleClicked.connect(self.editRow)
 
 		closeButton = QtGui.QPushButton(_('CLOSE_BUTTON'))

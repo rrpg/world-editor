@@ -79,6 +79,7 @@ class mainWindow(QtGui.QMainWindow):
 		is populated to list the existing places.
 		"""
 		self._app.mapOpened.connect(self._placesWidget.setData)
+		self._app.mapOpened.connect(self._npcWidget.setData)
 
 	def _create(self):
 		"""
@@ -91,10 +92,12 @@ class mainWindow(QtGui.QMainWindow):
 		splitter.setOrientation(QtCore.Qt.Orientation(QtCore.Qt.Horizontal))
 
 		self._placesWidget = placesList(self, self._app)
-		self._placesWidget.itemDeleted.connect(self.refreshPlaces)
+		self._placesWidget.entityDeleted.connect(self.refreshEntity)
+		self._placesWidget.entityDeleted.connect(self._app.flagAsUnsaved)
 		self._placesWidget.cellDoubleClicked.connect(self.editPlace)
 		self._npcWidget = npcList(self, self._app)
-		self._npcWidget.itemDeleted.connect(self.refreshNpc)
+		self._npcWidget.entityDeleted.connect(self.refreshEntity)
+		self._npcWidget.entityDeleted.connect(self._app.flagAsUnsaved)
 		self._npcWidget.cellDoubleClicked.connect(self.editNpc)
 
 		tabWidget = QtGui.QTabWidget()
@@ -371,8 +374,7 @@ class mainWindow(QtGui.QMainWindow):
 		self._pixmaps = dict()
 		self._pixmaps['map'] = mapPixmap
 
-		self.refreshPlaces()
-		self.refreshNpc()
+		self.refreshEntities()
 
 		if self._app.map.startCellPosition is not None:
 			self.displayStartCell(self._app.map.startCellPosition[0], self._app.map.startCellPosition[1])
@@ -460,10 +462,10 @@ class mainWindow(QtGui.QMainWindow):
 			return
 
 		dialog = formPlaceDialog(self, self._app, coordinates=(x, y))
-		dialog.itemAdded.connect(self.unselectCell)
-		dialog.itemAdded.connect(self.displayPlace)
-		dialog.itemAdded.connect(self._placesWidget.setData)
-		dialog.itemAdded.connect(self._app.flagAsUnsaved)
+		dialog.entityAdded.connect(self.unselectCell)
+		dialog.entityAdded.connect(self.displayEntity)
+		dialog.entityAdded.connect(self._placesWidget.setData)
+		dialog.entityAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
 
@@ -471,26 +473,27 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method called when the user double clicks on a place in the list.
 		"""
-		dialog = formPlaceDialog(self, self._app, row=self._placesWidget.getRowValues(place))
-		dialog.itemUpdated.connect(self.unselectCell)
-		dialog.itemUpdated.connect(self.refreshPlaces)
-		dialog.itemUpdated.connect(self._placesWidget.setData)
-		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
+		row = self._placesWidget.getRowValues(place)
+		self.selectCell(row['x'], row['y'])
+		dialog = formPlaceDialog(self, self._app, row=row)
+		dialog.entityUpdated.connect(self.unselectCell)
+		dialog.entityUpdated.connect(self.refreshEntity)
+		dialog.entityUpdated.connect(self._placesWidget.setData)
+		dialog.entityUpdated.connect(self._app.flagAsUnsaved)
 
 	def addNpc(self, x, y):
 		"""
 		Method called when the user click on a cell in the map to add a NPC.
 		"""
-
 		if not self._app.map.isCellOnLand((x, y)):
 			self.alert(_('ERROR_NPC_IN_WATER'))
 			return
 
 		dialog = formNpcDialog(self, self._app, coordinates=(x, y))
-		dialog.itemAdded.connect(self.unselectCell)
-		dialog.itemAdded.connect(self.displayNpc)
-		dialog.itemAdded.connect(self._npcWidget.setData)
-		dialog.itemAdded.connect(self._app.flagAsUnsaved)
+		dialog.entityAdded.connect(self.unselectCell)
+		dialog.entityAdded.connect(self.displayEntity)
+		dialog.entityAdded.connect(self._npcWidget.setData)
+		dialog.entityAdded.connect(self._app.flagAsUnsaved)
 
 		self.disableRecordingMode()
 
@@ -498,29 +501,40 @@ class mainWindow(QtGui.QMainWindow):
 		"""
 		Method called when the user double clicks on a npc in the list.
 		"""
-		dialog = formNpcDialog(self, self._app, row=self._npcWidget.getRowValues(npc))
-		dialog.itemUpdated.connect(self.unselectCell)
-		dialog.itemUpdated.connect(self.refreshNpc)
-		dialog.itemUpdated.connect(self._npcWidget.setData)
-		dialog.itemUpdated.connect(self._app.flagAsUnsaved)
+		row = self._npcWidget.getRowValues(npc)
+		self.selectCell(row['x'], row['y'])
+		dialog = formNpcDialog(self, self._app, row=row)
+		dialog.entityUpdated.connect(self.unselectCell)
+		dialog.entityUpdated.connect(self.refreshEntity)
+		dialog.entityUpdated.connect(self._npcWidget.setData)
+		dialog.entityUpdated.connect(self._app.flagAsUnsaved)
 # End Methods to add elements on the map
 
 # Methods to display an element on the map
-	def refreshPlaces(self):
-		self._placesWidget.setData()
-		if 'places' in self._pixmaps.keys():
-			self._cleanScene(self._pixmaps['places'])
-			del self._pixmaps['places']
-		for p in self._app.map.places.values():
-			self.displayPlace(p['x'], p['y'])
+	def refreshEntities(self):
+		for e in self._app.map.entities.keys():
+			self.refreshEntity(e)
 
-	def refreshNpc(self):
-		self._npcWidget.setData()
-		if 'npc' in self._pixmaps.keys():
-			self._cleanScene(self._pixmaps['npc'])
-			del self._pixmaps['npc']
-		for p in self._app.map.npc.values():
-			self.displayNpc(p['x'], p['y'])
+	def refreshEntity(self, entityType):
+		entityType = str(entityType)
+		if entityType in self._pixmaps.keys():
+			self._cleanScene(self._pixmaps[entityType])
+			del self._pixmaps[entityType]
+		for p in self._app.map.entities[entityType].values():
+			self.displayEntity(entityType, p['x'], p['y'])
+
+	def displayEntity(self, entityType, x, y):
+		"""
+		This method creates a pixmap in the map for each desired entity of the map.
+		"""
+		entityType = str(entityType)
+		if entityType not in self._pixmaps.keys():
+			self._pixmaps[entityType] = list()
+
+		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
+		rect.setBrush(QtGui.QBrush(color.getColorFromConfig(entityType, color.COLOR_BRUSH)))
+		rect.setPen(QtGui.QPen(color.getColorFromConfig(entityType, color.COLOR_PEN)))
+		self._pixmaps[entityType].append(rect)
 
 	def _cleanScene(self, pixmapsList):
 		for p in pixmapsList:
@@ -538,30 +552,6 @@ class mainWindow(QtGui.QMainWindow):
 		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('start-cell', color.COLOR_BRUSH)))
 		rect.setPen(QtGui.QPen(color.getColorFromConfig('start-cell', color.COLOR_PEN)))
 		self._pixmaps['start-cell'] = rect
-
-	def displayPlace(self, x, y):
-		"""
-		This method creates a pixmap in the map for each place of the map.
-		"""
-		if 'places' not in self._pixmaps.keys():
-			self._pixmaps['places'] = list()
-
-		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('places', color.COLOR_BRUSH)))
-		rect.setPen(QtGui.QPen(color.getColorFromConfig('places', color.COLOR_PEN)))
-		self._pixmaps['places'].append(rect)
-
-	def displayNpc(self, x, y):
-		"""
-		This method creates a pixmap in the map for each place of the map.
-		"""
-		if 'npc' not in self._pixmaps.keys():
-			self._pixmaps['npc'] = list()
-
-		rect = QtGui.QGraphicsRectItem(x, y, 1, 1, None, self._imageScene)
-		rect.setBrush(QtGui.QBrush(color.getColorFromConfig('npc', color.COLOR_BRUSH)))
-		rect.setPen(QtGui.QPen(color.getColorFromConfig('npc', color.COLOR_PEN)))
-		self._pixmaps['npc'].append(rect)
 # End Methods to display an element on the map
 
 	def exit(self):

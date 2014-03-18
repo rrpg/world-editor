@@ -5,13 +5,13 @@ from PyQt4 import QtCore
 from core.localisation import _
 
 
-class itemList(QtGui.QTableWidget):
+class entityList(QtGui.QTableWidget):
 
 	_app = None
 	_parent = None
 	_defaultColumns = (_('DELETE_COLUMN'),)
 
-	itemDeleted = QtCore.pyqtSignal()
+	entityDeleted = QtCore.pyqtSignal(str)
 
 	def __init__(self, parent, app):
 		"""
@@ -38,17 +38,17 @@ class itemList(QtGui.QTableWidget):
 		for index, row in enumerate(data):
 			if self.rowCount() < nbRowsToInsert:
 				self.insertRow(index)
-			itemsNumber = self.insertItem(index, row)
-			self.setCellWidget(index, itemsNumber, itemDeleteButton(self, index, _('DELETE_BUTTON')))
+			entitisNumber = self.insertEntity(index, row)
+			self.setCellWidget(index, entitisNumber, entityDeleteButton(self, index, _('DELETE_BUTTON')))
 
 		while self.rowCount() > nbRowsToInsert:
 			self.removeRow(self.rowCount() - 1)
 		self.resizeColumnsToContents()
 
 
-class itemLocatorButton(QtGui.QPushButton):
+class entityLocatorButton(QtGui.QPushButton):
 	"""
-	QPushButton extended to connect the action _locateItem when it is clicked.
+	QPushButton extended to connect the action _locateEntity when it is clicked.
 	"""
 	_table = None
 	_index = None
@@ -60,21 +60,21 @@ class itemLocatorButton(QtGui.QPushButton):
 		QtGui.QItemDelegate.__init__(self, *args)
 		self._table = table
 		self._index = index
-		self.clicked.connect(self._locateItem)
+		self.clicked.connect(self._locateEntity)
 
-	def _locateItem(self):
+	def _locateEntity(self):
 		"""
 		When a locate button is clicked, the map is centered on the
-		corresponding item.
+		corresponding entity.
 		"""
 		self._table._parent.centerMapOnCoordinates(
 			self._table.getCoordinatesFromIndex(self._index)
 		)
 
 
-class itemDeleteButton(QtGui.QPushButton):
+class entityDeleteButton(QtGui.QPushButton):
 	"""
-	QPushButton extended to connect the action _deleteItem when it is clicked.
+	QPushButton extended to connect the action _deleteEntity when it is clicked.
 	"""
 	_table = None
 	_index = None
@@ -86,12 +86,12 @@ class itemDeleteButton(QtGui.QPushButton):
 		QtGui.QItemDelegate.__init__(self, *args)
 		self._table = table
 		self._index = index
-		self.clicked.connect(self._deleteItem)
+		self.clicked.connect(self._deleteEntity)
 
-	def _deleteItem(self):
+	def _deleteEntity(self):
 		"""
 		When a delete button is clicked, a confirmation dialog is displayed and
-		then the item is deleted
+		then the entity is deleted
 		"""
 		msgBox = QtGui.QMessageBox()
 		msgBox.setWindowTitle(_('DELETE_CONFIRMATION'))
@@ -101,4 +101,4 @@ class itemDeleteButton(QtGui.QPushButton):
 		ret = msgBox.exec_()
 
 		if ret == QtGui.QMessageBox.AcceptRole:
-			self._table.deleteItem(self._index)
+			self._table.deleteEntity(self._index)

@@ -21,13 +21,6 @@ class map:
 	Class to interface with a map DB.
 	The generation and export are done here.
 	"""
-	_file = None
-	startCellPosition = None
-	cells = dict()
-	places = dict()
-	npc = dict()
-	species = dict()
-
 	_entitiesDesc = {
 		'places': (('internalName', 'str'), ('type', 'int'), ('name', 'str'), ('x', 'int'), ('y', 'int'), ('size', 'int')),
 		'npc': (('internalName', 'str'), ('name', 'str'), ('gender', 'int'), ('species', 'int'), ('x', 'int'), ('y', 'int')),
@@ -40,8 +33,10 @@ class map:
 		self._file = None
 		self.startCellPosition = None
 		self.cells = dict()
-		self.places = dict()
-		self.npc = dict()
+		self.entities = {
+			'npc': dict(),
+			'places': dict()
+		}
 		self.species = {_('HUMANS_INTERNAL_NAME'):
 			{'name': _('HUMANS_NAME'), 'description': '', 'internalName': _('HUMANS_INTERNAL_NAME')}
 		}
@@ -317,7 +312,7 @@ class map:
 		"""
 		Method to export the map's places in the DB.
 		"""
-		if len(self.places) == 0:
+		if len(self.entities['places']) == 0:
 			return
 
 		c = db.cursor()
@@ -335,9 +330,9 @@ class map:
 					?\
 				)")
 
-		placeTypePercent = 100 / len(self.places)
+		placeTypePercent = 100 / len(self.entities['places'])
 		placeTypesKeys = self._placesTypes.keys()
-		for i, p in enumerate(self.places.values()):
+		for i, p in enumerate(self.entities['places'].values()):
 			c.execute(
 				query,
 				[
@@ -383,7 +378,7 @@ class map:
 		"""
 		Method to export the NPCs in the DB.
 		"""
-		if len(self.npc) == 0:
+		if len(self.entities['npc']) == 0:
 			return
 		c = db.cursor()
 
@@ -399,10 +394,10 @@ class map:
 					(SELECT id_area FROM area WHERE x = ? and y = ?)\
 				)")
 
-		npcPercent = 100 / len(self.npc)
+		npcPercent = 100 / len(self.entities['npc'])
 		speciesNames = self.getSpeciesNames()
 		genders = map.getGenders()
-		for i, p in enumerate(self.npc.values()):
+		for i, p in enumerate(self.entities['npc'].values()):
 			c.execute(
 				query,
 				[
@@ -475,8 +470,8 @@ class map:
 		tar.add(self._file + '.bmp', arcname=os.path.basename(self._file) + '.bmp')
 		tar.add(self._file + '.txt', arcname=os.path.basename(self._file) + '.txt')
 
-		self.saveEntity(tar, 'places', self.places.values())
-		self.saveEntity(tar, 'npc', self.npc.values())
+		self.saveEntity(tar, 'places', self.entities['places'].values())
+		self.saveEntity(tar, 'npc', self.entities['npc'].values())
 		self.saveEntity(tar, 'species', self.species.values())
 
 		f = open(self._file + '_start_cell.txt', 'w')
@@ -534,8 +529,8 @@ class map:
 					startCellFile.close()
 
 			self.loadCells()
-			self.places = self.loadEntity('places')
-			self.npc = self.loadEntity('npc')
+			self.entities['places'] = self.loadEntity('places')
+			self.entities['npc'] = self.loadEntity('npc')
 			self.species = self.loadEntity('species')
 		except IOError:
 			raise exception(_('ERROR_OPENING_MAP_FILE'))

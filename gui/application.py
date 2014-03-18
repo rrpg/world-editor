@@ -114,6 +114,17 @@ class application(QtGui.QApplication):
 		self.flagAsSaved()
 # End Operations on the map files
 
+# Methods to get elements of the map
+	def getEntity(self, entityType, key=None):
+		"""
+		Add an entity in the map
+		"""
+		if key is None:
+			return self.map.entities[entityType]
+
+		return self.map.entities[entityType][key]
+# End Methods to add elements in the map
+
 # Methods to add elements in the map
 	def addSpecies(self, key, informations):
 		"""
@@ -121,17 +132,11 @@ class application(QtGui.QApplication):
 		"""
 		self.map.species[key] = informations
 
-	def addPlace(self, key, informations):
+	def addEntity(self, entityType, key, informations):
 		"""
-		Add a place to the map's places list
+		Add an entity in the map
 		"""
-		self.map.places[key] = informations
-
-	def addNpc(self, key, informations):
-		"""
-		Add a npc to the map's npc list
-		"""
-		self.map.npc[key] = informations
+		self.map.entities[entityType][key] = informations
 # End Methods to add elements in the map
 
 # Methods to delete elements from the map
@@ -141,17 +146,11 @@ class application(QtGui.QApplication):
 		"""
 		del self.map.species[key]
 
-	def deletePlace(self, key):
+	def deleteEntity(self, entityType, key):
 		"""
-		Add a place to the map's places list
+		Delete an entity from the map
 		"""
-		del self.map.places[key]
-
-	def deleteNpc(self, key):
-		"""
-		Add a npc to the map's npc list
-		"""
-		del self.map.npc[key]
+		del self.map.entities[entityType][key]
 # End Methods to delete elements from the map
 
 # Names operations (file names, map name...)
@@ -204,11 +203,8 @@ class application(QtGui.QApplication):
 		self._saveFileName = name
 # end Names operations (file names, map name...)
 
-	def hasPlaceWithName(self, name):
-		return name in self.map.places.keys()
-
-	def hasNpcWithName(self, name):
-		return name in self.map.npc.keys()
+	def hasEntityWithName(self, entityType, name):
+		return name in self.map.entities[entityType].keys()
 
 	def hasSpeciesWithName(self, name):
 		return name in self.map.species.keys()
