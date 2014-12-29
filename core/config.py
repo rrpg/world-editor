@@ -4,7 +4,7 @@ import os
 rootPath = os.path.dirname(__file__) + '/..'
 externalPath = rootPath + '/externals'
 exportPath = os.path.expanduser('~') + '/.rrpg/maps'
-databasePath = rootPath + '/database'
+databasePath = externalPath + '/engine/database'
 databaseStructure = databasePath + '/structure.sql'
 
 defaultMap =  exportPath + '/default.db'

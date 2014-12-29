@@ -1,3 +1,6 @@
 [submodule "externals/map-generator"]
 	path = externals/map-generator
 	url = https://github.com/rrpg/map-generator.git
+[submodule "externals/engine"]
+	path = externals/engine
+	url = https://github.com/rrpg/engine.git
